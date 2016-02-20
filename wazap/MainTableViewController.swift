@@ -30,11 +30,16 @@ class MainTableViewController: UITableViewController {
     let introArr:[String] = ["Blah Blah Blah Blah Blah Blah", "Blah Blah Blah Blah Blah Blah", "Blah Blah Blah Blah Blah Blah", "Blah Blah Blah Blah Blah Blah"] //방 소개
     let recruitNumberArr:[String] = ["12", "6", "8", "10"] //모집예정 인원
     let nowNumberArr:[String] = ["3", "2", "1", "4"] //현재 신청중인 인원
-    let nameListArr:[String] = ["최소담,홍길동,김미연", "이호형, 이상형", "오이담", "홍길동2,홍길동3,홍길동4,홍길동5"]
+    let nameListArr:[String] = ["최소담,홍길동,김미연", "이호형, 이상형", "오이담", "홍길동2,홍길동3,홍길동4,홍길동5"] //현재 참가자
+
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 2-25, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
+        button.backgroundColor = UIColor.blackColor()
+        self.navigationController?.view.addSubview(button)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
