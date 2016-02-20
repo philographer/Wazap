@@ -7,18 +7,25 @@
 //
 
 import UIKit
+import SidebarOverlay
+import FontAwesome
 
-class ViewController: UIViewController {
+class ViewController : SOContainerViewController {
+    @IBOutlet weak var mainLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+        self.leftViewController = self.storyboard?.instantiateViewControllerWithIdentifier("leftScreen")
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
 
 }

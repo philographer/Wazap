@@ -1,0 +1,4 @@
+github "Alamofire/Alamofire" "3.2.0"
+github "thii/FontAwesome.swift" "0.7.0"
+github "alexkrzyzanowski/SidebarOverlay" "2.1.2"
+github "SwiftyJSON/SwiftyJSON" "2.3.3"
