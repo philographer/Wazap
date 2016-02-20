@@ -10,6 +10,10 @@
 		BCA7AE111C7882A600555376 /* pen.png in Resources */ = {isa = PBXBuildFile; fileRef = BCA7AE101C7882A600555376 /* pen.png */; };
 		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
 		BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */; };
+		BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */; };
+		BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */; };
+		BCA7AE211C78AFCF00555376 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */; };
+		BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE221C78B32800555376 /* LoginViewController.swift */; };
 		BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B41C76CC490011B201 /* AppDelegate.swift */; };
 		BCB071B71C76CC490011B201 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B61C76CC490011B201 /* ViewController.swift */; };
 		BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB071B81C76CC490011B201 /* Main.storyboard */; };
@@ -57,6 +61,10 @@
 		BCA7AE101C7882A600555376 /* pen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pen.png; path = ../../Desktop/pen.png; sourceTree = "<group>"; };
 		BCA7AE121C7886D000555376 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Carthage/Build/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Carthage/Build/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Carthage/Build/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		BCA7AE221C78B32800555376 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BCB071B11C76CC490011B201 /* wazap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wazap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB071B41C76CC490011B201 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCB071B61C76CC490011B201 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +102,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */,
+				BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */,
+				BCA7AE211C78AFCF00555376 /* FBSDKShareKit.framework in Frameworks */,
 				BCC5299B1C77248600DE76B0 /* SwiftyJSON.framework in Frameworks */,
 				BCC5298B1C76DD7000DE76B0 /* FontAwesome.framework in Frameworks */,
 				BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */,
@@ -121,6 +132,9 @@
 		BCB071A81C76CC490011B201 = {
 			isa = PBXGroup;
 			children = (
+				BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */,
+				BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */,
+				BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */,
 				BCC5299A1C77248600DE76B0 /* SwiftyJSON.framework */,
 				BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */,
 				BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */,
@@ -155,8 +169,8 @@
 				BCB071C01C76CC490011B201 /* Info.plist */,
 				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCC529961C77239B00DE76B0 /* MainTableViewController.swift */,
-				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */,
+				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
 				BCE420A81C783486005B5DCE /* RecruitListViewController.swift */,
 				BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */,
@@ -164,6 +178,7 @@
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
 				BCE420AC1C784091005B5DCE /* NotificationViewController.swift */,
 				BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */,
+				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -356,6 +371,7 @@
 				BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */,
 				BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */,
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
+				BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
 				BCC529821C76D52E00DE76B0 /* LeftViewController.swift in Sources */,
 				BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */,
@@ -510,10 +526,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/facebook",
 				);
 				INFOPLIST_FILE = wazap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.timeros.wazap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -526,10 +543,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/facebook",
 				);
 				INFOPLIST_FILE = wazap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.timeros.wazap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
