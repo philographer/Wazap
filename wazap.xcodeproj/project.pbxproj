@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BCA7AE111C7882A600555376 /* pen.png in Resources */ = {isa = PBXBuildFile; fileRef = BCA7AE101C7882A600555376 /* pen.png */; };
+		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
 		BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B41C76CC490011B201 /* AppDelegate.swift */; };
 		BCB071B71C76CC490011B201 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B61C76CC490011B201 /* ViewController.swift */; };
 		BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB071B81C76CC490011B201 /* Main.storyboard */; };
@@ -51,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BCA7AE101C7882A600555376 /* pen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pen.png; path = ../../Desktop/pen.png; sourceTree = "<group>"; };
+		BCA7AE121C7886D000555376 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		BCB071B11C76CC490011B201 /* wazap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wazap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB071B41C76CC490011B201 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCB071B61C76CC490011B201 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -147,15 +151,16 @@
 				BCB071BB1C76CC490011B201 /* Assets.xcassets */,
 				BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */,
 				BCB071C01C76CC490011B201 /* Info.plist */,
-				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCC529961C77239B00DE76B0 /* MainTableViewController.swift */,
+				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
 				BCE420A81C783486005B5DCE /* RecruitListViewController.swift */,
 				BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */,
 				BCE420AC1C784091005B5DCE /* NotificationViewController.swift */,
 				BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */,
+				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 		BCC529831C76DA4100DE76B0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				BCA7AE101C7882A600555376 /* pen.png */,
 				BCC529881C76DB7F00DE76B0 /* default-user2.png */,
 				BCC529861C76DAF000DE76B0 /* blueLine.png */,
 				BCC529841C76DAA000DE76B0 /* default-user.png */,
@@ -295,6 +301,7 @@
 			files = (
 				BCC529891C76DB7F00DE76B0 /* default-user2.png in Resources */,
 				BCC529851C76DAA000DE76B0 /* default-user.png in Resources */,
+				BCA7AE111C7882A600555376 /* pen.png in Resources */,
 				BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */,
 				BCC529871C76DAF000DE76B0 /* blueLine.png in Resources */,
 				BCB071BC1C76CC490011B201 /* Assets.xcassets in Resources */,
@@ -348,6 +355,7 @@
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
 				BCC529821C76D52E00DE76B0 /* LeftViewController.swift in Sources */,
+				BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
 				BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */,
 				BCE420A71C783468005B5DCE /* ScrapListViewController.swift in Sources */,

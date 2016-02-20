@@ -12,9 +12,12 @@ class ApplyViewController: UIViewController {
     
     @IBAction func backButtonTouch(sender: AnyObject) {
         
+        /*
         if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = false
+            container.isLeftViewControllerPresented = true
         }
+        */
+        
         
         dispatch_async(dispatch_get_main_queue()) {
             self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
@@ -23,8 +26,11 @@ class ApplyViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
     }
 
     override func didReceiveMemoryWarning() {

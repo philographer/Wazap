@@ -12,16 +12,18 @@ class ScrapListViewController: UIViewController {
 
     @IBAction func backButtonTouch(sender: AnyObject) {
         
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = false
-        }
+        let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
         
         dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+            self.so_containerViewController?.topViewController = mainController
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
+
         
         
         // Do any additional setup after loading the view.

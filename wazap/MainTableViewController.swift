@@ -37,17 +37,24 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 2-25, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
-        button.backgroundColor = UIColor.blackColor()
-        self.navigationController?.view.addSubview(button)
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 5 * 4, y: self.view.frame.size.height / 5 * 4), size: CGSize(width: 50, height: 50)))
+        button.backgroundColor = UIColor.whiteColor()
+        button.setImage(UIImage(named: "pen.png"), forState: UIControlState.Normal)
+        button.addTarget(self, action: "writeButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(button)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func writeButton(sender:UIButton){
+        let writeController = self.storyboard?.instantiateViewControllerWithIdentifier("writeViewController")
         
-
+        self.presentViewController(writeController!, animated: true, completion: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {

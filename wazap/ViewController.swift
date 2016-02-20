@@ -11,10 +11,6 @@ import SidebarOverlay
 import FontAwesome
 
 class ViewController : SOContainerViewController {
-    @IBOutlet weak var mainLabel: UILabel!
-    @IBAction func returned(segue: UIStoryboard){
-        
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

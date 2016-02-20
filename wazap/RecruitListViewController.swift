@@ -11,11 +11,6 @@ import UIKit
 class RecruitListViewController: UIViewController {
     
     @IBAction func backButtonTouch(sender: AnyObject) {
-        
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = false
-        }
-        
         dispatch_async(dispatch_get_main_queue()) {
             self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
         }
