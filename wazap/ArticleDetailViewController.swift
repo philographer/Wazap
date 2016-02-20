@@ -30,6 +30,7 @@ class ArticleDetailViewController: UIViewController {
     var hostNameLabelText : String?
     var introLabelText : String?
     
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +47,31 @@ class ArticleDetailViewController: UIViewController {
         hostNameLabel.text = hostNameLabelText!
         introLabel.text = introLabelText!
 
+        
+
+        
+
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func moreTouch(sender: AnyObject) {
+        
+        let alertController = UIAlertController(title: "팀원모집", message: nil, preferredStyle: .ActionSheet)
+        let modifyAction = UIAlertAction(title: "수정하기", style: UIAlertActionStyle.Default){
+            UIAlertAction in print("modify")
+        }
+        let deleteAction = UIAlertAction(title: "삭제하기", style: UIAlertActionStyle.Destructive){
+            UIAlertAction in print("OK Pressed")
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: UIAlertActionStyle.Cancel){
+            UIAlertAction in print("cancel")
+        }
+        alertController.addAction(modifyAction)
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
