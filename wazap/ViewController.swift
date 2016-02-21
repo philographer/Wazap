@@ -19,40 +19,47 @@ class ViewController : SOContainerViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        var userNumber : String?
-        var userEmail : String?
-        var profilePicture : String?
-        var userName : String?
-        
-        
-        
-        
-        
-        
-        let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name,id,picture"], HTTPMethod: "GET")
+        let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name,id"], HTTPMethod: "GET")
         req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
             if(error == nil)
             {
-                //print(result)
                 let datas = result as! [String: AnyObject]
-                userNumber = datas["id"] as? String
-                userEmail = datas["email"] as? String
-                userName = datas["name"] as? String
-                profilePicture = datas["picture"]!["data"]!!["url"] as? String
+                let accessToken = FBSDKAccessToken.currentAccessToken().tokenString as String
+                let userNumber = datas["id"] as! String
+                let userName = datas["name"] as! String
+                let profilePicture = "http://graph.facebook.com/\(userNumber)/picture?type=large"
                 
-                print(userName!)
-                print(userEmail!)
-                print(userNumber!)
-                print(profilePicture!)
+                //print(profilePicture)
+                //print(accessToken)
+                //print(userNumber)
+                //print(userName)
+                //print(profilePicture)
                 
-                Alamofire.request(.POST, "http://come.n.get.us.to/facebook_oauth/users", parameters:["user_id" : userNumber!, "access_token" : FBSDKAccessToken.currentAccessToken(), "username":userName!, "profile_image":profilePicture!, "thumbnail_image":profilePicture!]).responseJSON{
+                Alamofire.request(.POST, "http://come.n.get.us.to/facebook_oauth/users", parameters:["users_id" : userNumber, "access_token" : accessToken, "username":userName, "profile_image":profilePicture, "thumbnail_image":profilePicture]).responseJSON{
                     response in
-                    if let JSON = response.result.value{
-                        print("JSON: \(JSON)")
-                        let msg = JSON["msg"]
-                        print(msg)
+                    if let JSON1 = response.result.value{
+                        let results = JSON1["result"] as! Bool
+                        if(results == true){ //회원가인 & 로그인성공
+                            
+                            //로그인 성공했을때 회원가입 정보를 요청하고 kakao톡 아이디가 없으면 등록시킴
+                            
+                            Alamofire.request(.GET, "http://come.n.get.us.to/users/\(userNumber)", parameters: nil).responseJSON{
+                                response in
+                                if let JSON2 = response.result.value{
+                                    if(JSON2["data"]!![0]["kakao_id"]!! is NSNull){ //kakao 아이디가 없으므로 회원가입시킴
+                                        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("registerScreen")
+                                    }
+                                    else //아니면 메인페이지로 넘어감
+                                    {
+                                        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+                                        self.leftViewController = self.storyboard?.instantiateViewControllerWithIdentifier("leftScreen")
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+                
             }
             else
             {
@@ -60,16 +67,9 @@ class ViewController : SOContainerViewController {
             }
         })
         
-        
-        
-        
 
-        
-
-        
-        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        self.leftViewController = self.storyboard?.instantiateViewControllerWithIdentifier("leftScreen")
     }
+
     
 
     override func didReceiveMemoryWarning() {

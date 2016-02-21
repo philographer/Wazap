@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BCA7AE111C7882A600555376 /* pen.png in Resources */ = {isa = PBXBuildFile; fileRef = BCA7AE101C7882A600555376 /* pen.png */; };
+		BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */; };
+		BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486E1C79DD7A008C559B /* LeftViewController.swift */; };
 		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
 		BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */; };
 		BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */; };
 		BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */; };
 		BCA7AE211C78AFCF00555376 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */; };
 		BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE221C78B32800555376 /* LoginViewController.swift */; };
+		BCA7AF5C1C797CDC00171CF0 /* RegisgerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AF5B1C797CDC00171CF0 /* RegisgerProfileViewController.swift */; };
 		BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B41C76CC490011B201 /* AppDelegate.swift */; };
 		BCB071B71C76CC490011B201 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071B61C76CC490011B201 /* ViewController.swift */; };
 		BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB071B81C76CC490011B201 /* Main.storyboard */; };
@@ -23,10 +25,6 @@
 		BCB071D51C76CC4A0011B201 /* wazapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071D41C76CC4A0011B201 /* wazapUITests.swift */; };
 		BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
 		BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */; };
-		BCC529821C76D52E00DE76B0 /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529801C76D52E00DE76B0 /* LeftViewController.swift */; };
-		BCC529851C76DAA000DE76B0 /* default-user.png in Resources */ = {isa = PBXBuildFile; fileRef = BCC529841C76DAA000DE76B0 /* default-user.png */; };
-		BCC529871C76DAF000DE76B0 /* blueLine.png in Resources */ = {isa = PBXBuildFile; fileRef = BCC529861C76DAF000DE76B0 /* blueLine.png */; };
-		BCC529891C76DB7F00DE76B0 /* default-user2.png in Resources */ = {isa = PBXBuildFile; fileRef = BCC529881C76DB7F00DE76B0 /* default-user2.png */; };
 		BCC5298B1C76DD7000DE76B0 /* FontAwesome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */; };
 		BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */; };
 		BCC529971C77239B00DE76B0 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529961C77239B00DE76B0 /* MainTableViewController.swift */; };
@@ -58,13 +56,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BCA7AE101C7882A600555376 /* pen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pen.png; path = ../../Desktop/pen.png; sourceTree = "<group>"; };
+		BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftTableViewCell.swift; sourceTree = "<group>"; };
+		BC3A486E1C79DD7A008C559B /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		BCA7AE121C7886D000555376 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Carthage/Build/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Carthage/Build/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Carthage/Build/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		BCA7AE221C78B32800555376 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BCA7AF5B1C797CDC00171CF0 /* RegisgerProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisgerProfileViewController.swift; sourceTree = "<group>"; };
 		BCB071B11C76CC490011B201 /* wazap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wazap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB071B41C76CC490011B201 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCB071B61C76CC490011B201 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,10 +80,6 @@
 		BCB071D61C76CC4A0011B201 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCC529781C76CF0200DE76B0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SidebarOverlay.framework; path = Carthage/Build/iOS/SidebarOverlay.framework; sourceTree = "<group>"; };
-		BCC529801C76D52E00DE76B0 /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LeftViewController.swift; path = ../../../../var/folders/jr/7468dk5j2yndr1m26pvzqtk00000gn/T/CocoaPods/Try/SidebarOverlay/SidebarOverlayExample/SidebarOverlayExample/LeftViewController.swift; sourceTree = "<group>"; };
-		BCC529841C76DAA000DE76B0 /* default-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "default-user.png"; path = "../../Desktop/default-user.png"; sourceTree = "<group>"; };
-		BCC529861C76DAF000DE76B0 /* blueLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueLine.png; path = ../../Desktop/blueLine.png; sourceTree = "<group>"; };
-		BCC529881C76DB7F00DE76B0 /* default-user2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "default-user2.png"; path = "../../Desktop/default-user2.png"; sourceTree = "<group>"; };
 		BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FontAwesome.framework; path = Carthage/Build/iOS/FontAwesome.framework; sourceTree = "<group>"; };
 		BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleDetailViewController.swift; sourceTree = "<group>"; };
 		BCC529961C77239B00DE76B0 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
@@ -159,9 +155,7 @@
 		BCB071B31C76CC490011B201 /* wazap */ = {
 			isa = PBXGroup;
 			children = (
-				BCC529831C76DA4100DE76B0 /* images */,
 				BCB071B41C76CC490011B201 /* AppDelegate.swift */,
-				BCC529801C76D52E00DE76B0 /* LeftViewController.swift */,
 				BCB071B61C76CC490011B201 /* ViewController.swift */,
 				BCB071B81C76CC490011B201 /* Main.storyboard */,
 				BCB071BB1C76CC490011B201 /* Assets.xcassets */,
@@ -179,6 +173,9 @@
 				BCE420AC1C784091005B5DCE /* NotificationViewController.swift */,
 				BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */,
 				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
+				BCA7AF5B1C797CDC00171CF0 /* RegisgerProfileViewController.swift */,
+				BC3A486E1C79DD7A008C559B /* LeftViewController.swift */,
+				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -199,17 +196,6 @@
 				BCB071D61C76CC4A0011B201 /* Info.plist */,
 			);
 			path = wazapUITests;
-			sourceTree = "<group>";
-		};
-		BCC529831C76DA4100DE76B0 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				BCA7AE101C7882A600555376 /* pen.png */,
-				BCC529881C76DB7F00DE76B0 /* default-user2.png */,
-				BCC529861C76DAF000DE76B0 /* blueLine.png */,
-				BCC529841C76DAA000DE76B0 /* default-user.png */,
-			);
-			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,11 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCC529891C76DB7F00DE76B0 /* default-user2.png in Resources */,
-				BCC529851C76DAA000DE76B0 /* default-user.png in Resources */,
-				BCA7AE111C7882A600555376 /* pen.png in Resources */,
 				BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */,
-				BCC529871C76DAF000DE76B0 /* blueLine.png in Resources */,
 				BCB071BC1C76CC490011B201 /* Assets.xcassets in Resources */,
 				BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */,
 			);
@@ -373,10 +355,12 @@
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
 				BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
-				BCC529821C76D52E00DE76B0 /* LeftViewController.swift in Sources */,
+				BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */,
+				BCA7AF5C1C797CDC00171CF0 /* RegisgerProfileViewController.swift in Sources */,
 				BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */,
 				BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
+				BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */,
 				BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */,
 				BCE420A71C783468005B5DCE /* ScrapListViewController.swift in Sources */,
 				BCE420A51C783426005B5DCE /* ApplyViewController.swift in Sources */,

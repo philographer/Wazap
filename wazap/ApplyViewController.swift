@@ -18,15 +18,20 @@ class ApplyViewController: UIViewController {
         }
         */
         
+        fadeOut()
         
-        dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        }
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+        
+        
+        
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -36,6 +41,19 @@ class ApplyViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func fadeIn() {
+        // Move our fade out code from earlier
+        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.view.alpha = 1.0 // Instead of a specific instance of, say, birdTypeLabel, we simply set [thisInstance] (ie, self)'s alpha
+            }, completion: nil)
+    }
+    
+    func fadeOut() {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.view.alpha = 0.0
+            }, completion: nil)
     }
     
 

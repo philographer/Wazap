@@ -15,7 +15,7 @@ class ScrapListViewController: UIViewController {
         let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
         
         dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController?.topViewController = mainController
+            self.so_containerViewController!.topViewController = mainController
         }
     }
     

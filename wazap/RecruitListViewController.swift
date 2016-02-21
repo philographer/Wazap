@@ -12,7 +12,7 @@ class RecruitListViewController: UIViewController {
     
     @IBAction func backButtonTouch(sender: AnyObject) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
         }
     }
 
