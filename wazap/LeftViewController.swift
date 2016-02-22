@@ -41,11 +41,12 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = indexPath.row
         
+        //사이드바 닫고
         if let container = self.so_containerViewController {
             container.isLeftViewControllerPresented = false
         }
         
-        
+        //사이드메뉴 클릭시 메인컨트롤러 이동
         switch row{
         case 0:
             self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("scrapScreen")

@@ -10,7 +10,7 @@ import UIKit
 
 class NotificationTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var profilePhoto: UIView!
+    @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var alarmLabel: UILabel!
     @IBOutlet weak var beforeLabel: UILabel!
     
@@ -18,6 +18,7 @@ class NotificationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

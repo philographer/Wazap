@@ -32,7 +32,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     /**
      @ Variables
     **/
-    var category_it_contents_check:Bool = false
+    var category_it_contents:Bool = false
     var category_market_ad: Bool = false
     var category_design: Bool = false
     var category_literature_scenario: Bool = false
@@ -67,12 +67,12 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @카테고리 체크박스
     */
     @IBAction func itContentButton(sender: AnyObject) {
-        if(self.category_it_contents_check == true){
-            self.category_it_contents_check = false
+        if(self.category_it_contents == true){
+            self.category_it_contents = false
             self.itContentButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_it_contents_check = true
+            self.category_it_contents = true
             self.itContentButton.tintColor = UIColor.redColor()
         }
     }
@@ -140,12 +140,28 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         print("제출버튼 클릭")
         
-        let categories = ["it": category_planning_idea,
-            "marketing": category_market_ad,
-            "design": category_design,
-            "literature": category_literature_scenario,
-            "photo": category_photo_video,
-            "planning": category_planning_idea] as AnyObject
+        var categories: [String] = []
+        
+        if(category_it_contents){
+            categories.append("IT/콘텐츠")
+        }
+        if(category_design){
+            categories.append("마케팅/광고")
+        }
+        if(category_literature_scenario){
+            categories.append("디자인")
+        }
+        if(category_market_ad){
+            categories.append("문학/시나리오")
+        }
+        if(category_photo_video){
+            categories.append("사진/영상")
+        }
+        if(category_planning_idea){
+            categories.append("기획/디자인")
+        }
+        
+
         
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let title = titleLabel.text! as String
@@ -155,7 +171,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         let cover = introTextView.text! as String
         let positions = "개발자/디자인/기획자" as String
         
-        let parameters = [
+        let parameters : [String: AnyObject] = [
             "access_token": access_token,
             "categories": categories,
             "title": title,
@@ -166,19 +182,17 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             "positions": positions
         ]
         
-        print(access_token)
-        /*
-        Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: parameters, encoding: .JSON).responseJSON{
+        print(parameters)
+        
+        
+        Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: parameters).responseJSON{
             response in
-            print(response)
             if let JSON = response.result.value{
                 print(JSON["msg"])
             }
         }
-        */
         
         
-        //self.dismissViewControllerAnimated(true, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,7 +207,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         /**
          @ Bool 변수 초기화
         */
-        category_it_contents_check = false
+        category_it_contents = false
         category_literature_scenario = false
         category_design = false
         category_market_ad = false
