@@ -9,9 +9,12 @@
 import UIKit
 import FBSDKLoginKit
 import Alamofire
+import SwiftyJSON
 
 class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
-    
+    /**
+     @ Outlet field, button
+    */
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var organizerLabel: UITextField!
@@ -19,46 +22,163 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBOutlet weak var dayPicker: UIDatePicker!
     @IBOutlet weak var introTextView: UITextView!
     
-    var pickerDataSource = ["2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명", "10명", "11명", "12명"]
-    var recruitValue : Int?
-    var periodDate : String = ""
+    @IBOutlet weak var itContentButton: UIButton!
+    @IBOutlet weak var marketingButton: UIButton!
+    @IBOutlet weak var designButton: UIButton!
+    @IBOutlet weak var literatureButton: UIButton!
+    @IBOutlet weak var photoButton: UIButton!
+    @IBOutlet weak var planningButton: UIButton!
     
     /**
-    @Picker, Button
+     @ Variables
+    **/
+    var category_it_contents_check:Bool = false
+    var category_market_ad: Bool = false
+    var category_design: Bool = false
+    var category_literature_scenario: Bool = false
+    var category_photo_video: Bool = false
+    var category_planning_idea: Bool = false
+    
+    
+    
+    
+    var pickerDataSource = ["2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명", "10명", "11명", "12명"]
+    
+    
+    var recruitValue : Int = 2
+    var periodDate : String = ""
+    
+    
+    /**
+     @ Picker, Button
     */
     @IBAction func backButtonTouch(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     @IBAction func datePickerChanged(sender: AnyObject) {
+        
         let deFormatter = NSDateFormatter()
         deFormatter.dateFormat = "yyyy-MM-dd"
         periodDate = deFormatter.stringFromDate(sender.date!!)
         print(periodDate)
     }
     
-    //만들기 버튼 클릭
-    @IBAction func createButtonTouch(sender: AnyObject) {
+    /**
+    @카테고리 체크박스
+    */
+    @IBAction func itContentButton(sender: AnyObject) {
+        if(self.category_it_contents_check == true){
+            self.category_it_contents_check = false
+            self.itContentButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_it_contents_check = true
+            self.itContentButton.tintColor = UIColor.redColor()
+        }
+    }
+    
+    @IBAction func marketingButton(sender: AnyObject) {
+        if(self.category_market_ad == true){
+            self.category_market_ad = false
+            self.marketingButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_market_ad = true
+            self.marketingButton.tintColor = UIColor.redColor()
+        }
+    }
+    
+    @IBAction func designButton(sender: AnyObject) {
+        if(self.category_design == true){
+            self.category_design = false
+            self.designButton.tintColor = UIColor.blueColor()
 
+        }
+        else{
+            self.category_design = true
+            self.designButton.tintColor = UIColor.redColor()
+        }
+    }
+
+    @IBAction func literatureButton(sender: AnyObject) {
+        if(self.category_literature_scenario == true){
+            self.category_literature_scenario = false
+            self.literatureButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_literature_scenario = true
+            self.literatureButton.tintColor = UIColor.redColor()
+        }
+    }
+    
+    @IBAction func photoButton(sender: AnyObject) {
+        if(self.category_photo_video == true){
+            self.category_photo_video = false
+            self.photoButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_photo_video = true
+            self.photoButton.tintColor = UIColor.redColor()
+        }
+    }
+    
+    @IBAction func planningButton(sender: AnyObject) {
+        if(self.category_planning_idea == true){
+            self.category_planning_idea = false
+            self.planningButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_planning_idea = true
+            self.planningButton.tintColor = UIColor.redColor()
+        }
+    }
+    
+    /**
+    @만들기 버튼 클릭
+    */
+    @IBAction func createButtonTouch(sender: AnyObject) {
+        
+        print("제출버튼 클릭")
+        
+        let categories = ["it": category_planning_idea,
+            "marketing": category_market_ad,
+            "design": category_design,
+            "literature": category_literature_scenario,
+            "photo": category_photo_video,
+            "planning": category_planning_idea] as AnyObject
+        
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let title = titleLabel.text! as String
-        let recruitment = recruitValue! as Int
+        let recruitment = recruitValue as Int
         let hosts = organizerLabel.text! as String
-        let categories = "{dev:true, design:false}"
         let period = periodDate as String
         let cover = introTextView.text! as String
-        let positions = "개발자/디자인/기획자"
+        let positions = "개발자/디자인/기획자" as String
         
+        let parameters = [
+            "access_token": access_token,
+            "categories": categories,
+            "title": title,
+            "recruitment": recruitment,
+            "hosts": hosts,
+            "period": period,
+            "cover": cover,
+            "positions": positions
+        ]
         
-        Alamofire.request(.POST, "http://come.n.get.us.to/contests" , parameters: ["access_token":access_token, "title":title, "recruitment": recruitment, "hosts": hosts, "categories":categories, "period":period, "cover":cover, "positions":positions]).responseJSON{
+        print(access_token)
+        /*
+        Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: parameters, encoding: .JSON).responseJSON{
             response in
-            if let JSON =  response.result.value{
-                let msg = JSON["msg"]
-                print(msg)
-                
+            print(response)
+            if let JSON = response.result.value{
+                print(JSON["msg"])
             }
         }
+        */
         
-
+        
+        //self.dismissViewControllerAnimated(true, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +187,36 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         self.pickerView.delegate = self
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        /**
+         @ Bool 변수 초기화
+        */
+        category_it_contents_check = false
+        category_literature_scenario = false
+        category_design = false
+        category_market_ad = false
+        category_photo_video = false
+        category_planning_idea = false
+        
+        /**
+         @ 오늘날짜, 모집인원 초기화
+        */
+        
+        //오늘날짜 String으로 형변환
+        let todayNSDate = NSDate()
+        let deFormatter = NSDateFormatter()
+        deFormatter.dateFormat = "yyyy-MM-dd"
+        let todayString = deFormatter.stringFromDate(todayNSDate)
+        
+        
+        //형변환한 날짜 집어넣고 모집인원 초기화
+        self.periodDate = todayString
+        self.recruitValue = 2
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

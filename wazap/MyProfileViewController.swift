@@ -21,10 +21,13 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var locateLabel: UILabel!
     @IBOutlet weak var introduceLabel: UITextView!
     @IBOutlet weak var expLabel: UITextView!
+    @IBOutlet weak var activityIND: UIActivityIndicatorView!
     
     @IBAction func closeModal(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    var overlay : UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +39,12 @@ class MyProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
+        
+        self.activityIND.hidden = false
+        activityIND.startAnimating()
+        
         let facebookId = FBSDKAccessToken.currentAccessToken().userID
-        
-        print(FBSDKAccessToken.currentAccessToken().userID)
-        
         //사진정보 가져와서 넣음
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
         
@@ -55,8 +59,6 @@ class MyProfileViewController: UIViewController {
             response in
             if let JSON = response.result.value{
                 
-                print(JSON)
-                
                 let age = JSON["data"]!![0]["age"] as! NSNumber
                 let ageString : String = "\(age)"
                 self.ageLabel.text = ageString
@@ -67,8 +69,18 @@ class MyProfileViewController: UIViewController {
                 self.majorLabel.text = JSON["data"]!![0]["major"] as? String
                 self.schoolLabel.text = JSON["data"]!![0]["school"] as? String
                 self.nameLabel.text = JSON["data"]!![0]["username"] as? String
+
             }
         }
+        
+        
+        
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.activityIND.stopAnimating()
+        self.activityIND.hidden = true
     }
     
     
@@ -85,3 +97,5 @@ class MyProfileViewController: UIViewController {
     */
 
 }
+
+
