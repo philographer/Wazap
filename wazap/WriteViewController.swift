@@ -22,6 +22,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBOutlet weak var dayPicker: UIDatePicker!
     @IBOutlet weak var introTextView: UITextView!
     
+    @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var itContentButton: UIButton!
     @IBOutlet weak var marketingButton: UIButton!
     @IBOutlet weak var designButton: UIButton!
@@ -199,6 +200,15 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         self.pickerView.dataSource = self
         self.pickerView.delegate = self
+        
+        //사진을가져와서 집어넣음
+        let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
+        let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
+        
+        if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
+        {
+            profilePhoto.image = UIImage(data: data)
+        }
 
         // Do any additional setup after loading the view.
     }

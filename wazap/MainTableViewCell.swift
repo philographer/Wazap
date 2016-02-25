@@ -16,6 +16,7 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var category: UILabel!
     @IBOutlet weak var tagList: UILabel!
     @IBOutlet weak var hostName: UILabel!
+    @IBOutlet weak var scrapButton: UIButton!
 
     
     override func awakeFromNib() {

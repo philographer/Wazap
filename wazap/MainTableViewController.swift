@@ -15,38 +15,71 @@ import FBSDKLoginKit
 class MainTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate {
     
     
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
     
+    
+    /**
+     @ SideButton
+    */
     @IBAction func showMeMyMenu () {
         if let container = self.so_containerViewController {
             container.isLeftViewControllerPresented = true
         }
     }
-    
+
+    /**
+     @ 검색 버튼
+    */
     @IBAction func searchButton(sender: AnyObject) {
 
     }
     
+    /**
+     @ 스크랩 버튼
+    */
+    @IBAction func scrapButton(sender: UIButton)
+    {
+        print("스크랩버튼")
+        
+        Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(sender.tag)", parameters: ["access_token": FBSDKAccessToken.currentAccessToken().tokenString as String]).responseJSON{
+            response in
+            if let JSON = response.result.value{
+                let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     var contestList:AnyObject? = []
+    var dueDays:[String]? = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //TableView 보여주기
-        //tableView.delegate = self
-        //tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
         tabBar.delegate = self
         
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 2 - 25, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
+        /**
+         @ 글쓰기 버튼 추가
+        */
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
         button.layer.zPosition = 2
         button.backgroundColor = UIColor.whiteColor()
         button.setImage(UIImage(named: "pen.png"), forState: UIControlState.Normal)
+        button.addTarget(self, action: "writeButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationController?.view.addSubview(button)
     }
     
     func writeButton(sender:UIButton){
-        print("WriteButton Touched")
         let writeController = self.storyboard?.instantiateViewControllerWithIdentifier("writeViewController")
         self.presentViewController(writeController!, animated: true, completion: nil)
     }
@@ -111,7 +144,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 else{
                     cell.dueDay.text = "마감"
                 }
-                print(toDate)
                 
             }
         }
@@ -122,12 +154,14 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         cell.articleTitle.text = self.contestList![row]["title"] as? String
         cell.hostName.text = self.contestList![row]["hosts"] as? String
         cell.category.text = self.contestList![row]["categories"] as? String
+        cell.scrapButton.tag = self.contestList![row]["contests_id"] as! Int
+        cell.scrapButton.addTarget(self, action: "scrapButton:", forControlEvents: .TouchUpInside)
+        
         
         return cell
     }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        print("tabBar Clicked")
         let index = item.tag
         
         switch index{
@@ -145,26 +179,13 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         if segue.identifier == "ShowArticleDetail"{
 
-            //let detailViewController = segue.destinationViewController as! ArticleDetailViewController
-            //let myIndexPath = self.tableView.indexPathForSelectedRow
-            //let row:Int = myIndexPath!.row
-            
-            //print(row)
-            //print(articleTitleArr[row])
-            
-            /*
-            detailViewController.articleTitleLabelText = self.contestList![row]["title"] as? String
-            detailViewController.dueDayLabelText = self.contestList![row]["title"] as? String
-            detailViewController.organizerLabelText = self.contestList![row]["title"] as? String
-            detailViewController.categoryLabelText = self.contestList![row]["title"] as? String
-            detailViewController.recruitNumberLabelText = self.contestList![row]["title"] as? String
-            detailViewController.nameListLabelText = self.contestList![row]["title"] as? String
-            detailViewController.nowNumberLabelText = self.contestList![row]["title"] as? String
-            detailViewController.hostNameLabelText = self.contestList![row]["title"] as? String
-            detailViewController.introLabelText = self.contestList![row]["title"] as? String
-            */
+            let detailViewController = segue.destinationViewController as! ArticleDetailViewController
+            let myIndexPath = self.tableView.indexPathForSelectedRow
+            let row:Int = myIndexPath!.row
+            detailViewController.contests_id = self.contestList![row]["contests_id"] as? Int
             
             
+            //write 버튼 숨기기
         }
     }
 

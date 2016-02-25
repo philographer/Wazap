@@ -7,9 +7,17 @@
 //
 
 import UIKit
+import Alamofire
+import FBSDKLoginKit
+import SwiftyJSON
 
-class ScrapListViewController: UIViewController {
+class ScrapListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
 
+    var scrapList:AnyObject? = ""
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     @IBAction func backButtonTouch(sender: AnyObject) {
         
         let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
@@ -21,14 +29,49 @@ class ScrapListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        let start_id:Int = 30
+        let amount:Int = 20
+        print(access_token)
+        Alamofire.request(.GET, "http://come.n.get.us.to/clips", parameters: ["access_token": access_token, "start_id": start_id, "amount": amount]).responseJSON{
+            response in
+            print(response)
+            if let JSON = response.result.value{
+                print(JSON)
+                self.scrapList = JSON["msg"]
+                print(self.scrapList)
+            }
+        }
         
         // Do any additional setup after loading the view.
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return scrapList!.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("scrapCell", forIndexPath: indexPath) as! ScrapTableViewCell
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    
     
 
     /*

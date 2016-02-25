@@ -27,18 +27,15 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         
-        /*
+        
         Alamofire.request(.GET, "http://come.n.get.us.to/alrams", parameters: ["access_token": access_token, "start_id": 0, "amount": 10]).responseJSON{
             response in
             if let JSON = response.result.value{
                 print(JSON["msg"]!)
             }
         }
-        */
         
         //파라미터로 start_id , amount가 있음
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
