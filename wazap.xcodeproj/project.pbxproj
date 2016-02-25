@@ -10,6 +10,7 @@
 		BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */; };
 		BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486E1C79DD7A008C559B /* LeftViewController.swift */; };
 		BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */; };
+		BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */; };
 		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
 		BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */; };
 		BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */; };
@@ -60,6 +61,7 @@
 		BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftTableViewCell.swift; sourceTree = "<group>"; };
 		BC3A486E1C79DD7A008C559B /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContestsListViewController.swift; sourceTree = "<group>"; };
 		BCA7AE121C7886D000555376 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Carthage/Build/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				BC3A486E1C79DD7A008C559B /* LeftViewController.swift */,
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
 				BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */,
+				BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */,
 				BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */,
 				BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */,
 				BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */,
