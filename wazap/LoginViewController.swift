@@ -11,9 +11,13 @@ import FBSDKLoginKit
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate{
 
+    /**
+     @ 뷰 로드
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+        //페이스북 토큰이 없으면 로그인시킴
         if(FBSDKAccessToken.currentAccessToken() == nil)
         {
             print("Not logged in..")
@@ -23,7 +27,11 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate{
             self.performSelector("loadNextViewController", withObject: nil, afterDelay: 0)
         }
         
+        //페이스북 로그인 버튼 중앙에 생성
         let loginButton = FBSDKLoginButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 2 - 100, y: self.view.frame.size.height / 2), size: CGSize(width: 200, height: 50)))
+        /**
+         @!! 페이스북 퍼미션 !!
+        */
         loginButton.readPermissions = ["public_profile", "email", "user_friends"]
         loginButton.delegate = self
         

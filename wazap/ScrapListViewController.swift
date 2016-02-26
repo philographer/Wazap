@@ -14,19 +14,13 @@ import SwiftyJSON
 class ScrapListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
-    var scrapList:AnyObject? = ""
+    var scrapList:AnyObject? = "" //스크랩 리스트
     
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var tableView: UITableView!
-    
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        
-        let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController!.topViewController = mainController
-        }
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
@@ -47,11 +41,14 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    /**
+     @ Table
+    */
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -69,6 +66,19 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
+    }
+    
+    
+    /**
+     @ BackButton Action
+     */
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        
+        let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.so_containerViewController!.topViewController = mainController
+        }
     }
     
     

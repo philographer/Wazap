@@ -14,11 +14,13 @@ import FBSDKLoginKit
 
 
 class ViewController : SOContainerViewController {
-
+    /**
+     @ 뷰 로드
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
+        //Facebook SDK에서 이메일, 이름, id를 요청
         let req = FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"email,name,id"], HTTPMethod: "GET")
         req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
             if(error == nil)
@@ -29,12 +31,7 @@ class ViewController : SOContainerViewController {
                 let userName = datas["name"] as! String
                 let profilePicture = "http://graph.facebook.com/\(userNumber)/picture?type=large"
                 
-                //print(profilePicture)
-                //print(accessToken)
-                //print(userNumber)
-                //print(userName)
-                //print(profilePicture)
-                
+                //API 회원가입 로직
                 Alamofire.request(.POST, "http://come.n.get.us.to/facebook_oauth/users", parameters:["users_id" : userNumber, "access_token" : accessToken, "username":userName, "profile_image":profilePicture, "thumbnail_image":profilePicture]).responseJSON{
                     response in
                     if let JSON1 = response.result.value{
@@ -42,7 +39,6 @@ class ViewController : SOContainerViewController {
                         if(results == true){ //회원가인 & 로그인성공
                             
                             //로그인 성공했을때 회원가입 정보를 요청하고 kakao톡 아이디가 없으면 등록시킴
-                            
                             Alamofire.request(.GET, "http://come.n.get.us.to/users/\(userNumber)", parameters: nil).responseJSON{
                                 response in
                                 if let JSON2 = response.result.value{

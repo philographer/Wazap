@@ -10,29 +10,9 @@ import UIKit
 
 class ApplyViewController: UIViewController {
     
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        
-        /*
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = true
-        }
-        */
-        
-        fadeOut()
-        
-        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        
-        
-        
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -44,6 +24,21 @@ class ApplyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        
+        /*
+        if let container = self.so_containerViewController {
+        container.isLeftViewControllerPresented = true
+        }
+        */
+        
+        fadeOut()
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+    }
+    
+    /**
+     @ FadeIn FadeOut Function
+     */
     func fadeIn() {
         // Move our fade out code from earlier
         UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: {

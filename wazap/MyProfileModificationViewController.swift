@@ -23,60 +23,20 @@ class MyProfileModificationViewController: UIViewController {
     @IBOutlet weak var expField: UITextView!
     @IBOutlet weak var profilePhoto: UIImageView!
     
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func saveButtonTouch(sender: AnyObject) {
-        
-
-        
-        let param =  [
-            "access_token" : FBSDKAccessToken.currentAccessToken().tokenString as String,
-            "kakao_id" : kakaoField.text! as String,
-            "username" : nameField.text! as String,
-            "school" : schoolField.text! as String,
-            "age" : ageField.text! as String,
-            "major" : majorField.text! as String,
-            "locate" : locateField.text! as String,
-            "introduce" : introduceField.text! as String,
-            "exp" : expField.text! as String
-        ] as [String:AnyObject]
-        
-        Alamofire.request(.POST, "http://come.n.get.us.to/users/reg", parameters: param).responseJSON{
-            response in
-                if let JSON = response.result.value{
-                    print(JSON["result"] as! Bool)
-                }
-            
-        }
-        
-        
-        
-        let alertController = UIAlertController(title: "저장하기", message: "성공적으로 저장했습니다.", preferredStyle: .Alert)
-        //Alert창에서 OK 누르면 종료
-        let okButton = UIAlertAction(title: "OK", style: .Default, handler: {action in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
-        alertController.addAction(okButton)
-        self.presentViewController(alertController, animated: true, completion: nil)
-
-        
-        
-    }
+    /**
+     @ 뷰 로드
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //페이스북 프로필, 이름정보
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
-        
-        print("http://come.n.get.us.to/users/\(facebookId)")
-        
-        
         if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url){
             profilePhoto.image = UIImage(data: data)
         }
         
+        //내 정보 불러움
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{
             response in
             print(response)
@@ -98,14 +58,53 @@ class MyProfileModificationViewController: UIViewController {
                 
             }
         }
-        
-
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+     @ 뒤로가기 버튼
+    */
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    /**
+     @ 저장하기 버튼
+     */
+    @IBAction func saveButtonTouch(sender: AnyObject) {
+        let param =  [
+            "access_token" : FBSDKAccessToken.currentAccessToken().tokenString as String,
+            "kakao_id" : kakaoField.text! as String,
+            "username" : nameField.text! as String,
+            "school" : schoolField.text! as String,
+            "age" : ageField.text! as String,
+            "major" : majorField.text! as String,
+            "locate" : locateField.text! as String,
+            "introduce" : introduceField.text! as String,
+            "exp" : expField.text! as String
+            ] as [String:AnyObject]
+        
+        Alamofire.request(.POST, "http://come.n.get.us.to/users/reg", parameters: param).responseJSON{
+            response in
+            if let JSON = response.result.value{
+                print(JSON["result"] as! Bool)
+            }
+            
+        }
+        
+        //Alert창
+        let alertController = UIAlertController(title: "저장하기", message: "성공적으로 저장했습니다.", preferredStyle: .Alert)
+        //Alert창에서 OK 누르면 종료
+        let okButton = UIAlertAction(title: "OK", style: .Default, handler: {action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        alertController.addAction(okButton)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
 

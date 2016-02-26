@@ -9,10 +9,7 @@
 import UIKit
 
 class SettingViewController: UIViewController {
-    @IBAction func backButtonTouch(sender: AnyObject) {
-                self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +19,13 @@ class SettingViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+     @ 뒤로가기버튼 Action
+     */
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 

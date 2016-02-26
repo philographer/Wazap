@@ -10,6 +10,7 @@
 		BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */; };
 		BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486E1C79DD7A008C559B /* LeftViewController.swift */; };
 		BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */; };
+		BC446C421C7FC00800B40641 /* FontAwesome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */; };
 		BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */; };
 		BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */; };
 		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
@@ -28,7 +29,6 @@
 		BCB071D51C76CC4A0011B201 /* wazapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071D41C76CC4A0011B201 /* wazapUITests.swift */; };
 		BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
 		BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */; };
-		BCC5298B1C76DD7000DE76B0 /* FontAwesome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */; };
 		BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */; };
 		BCC529971C77239B00DE76B0 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529961C77239B00DE76B0 /* MainTableViewController.swift */; };
 		BCC5299B1C77248600DE76B0 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5299A1C77248600DE76B0 /* SwiftyJSON.framework */; };
@@ -104,11 +104,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC446C421C7FC00800B40641 /* FontAwesome.framework in Frameworks */,
 				BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */,
 				BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */,
 				BCA7AE211C78AFCF00555376 /* FBSDKShareKit.framework in Frameworks */,
 				BCC5299B1C77248600DE76B0 /* SwiftyJSON.framework in Frameworks */,
-				BCC5298B1C76DD7000DE76B0 /* FontAwesome.framework in Frameworks */,
 				BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */,
 				BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */,
 			);
@@ -162,13 +162,14 @@
 			isa = PBXGroup;
 			children = (
 				BCB071B41C76CC490011B201 /* AppDelegate.swift */,
+				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
 				BCB071B61C76CC490011B201 /* ViewController.swift */,
 				BCB071B81C76CC490011B201 /* Main.storyboard */,
 				BCB071BB1C76CC490011B201 /* Assets.xcassets */,
 				BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */,
 				BCB071C01C76CC490011B201 /* Info.plist */,
-				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCC529961C77239B00DE76B0 /* MainTableViewController.swift */,
+				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */,
 				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
@@ -178,7 +179,6 @@
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
 				BCE420AC1C784091005B5DCE /* NotificationViewController.swift */,
 				BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */,
-				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
 				BCA7AF5B1C797CDC00171CF0 /* RegisgerProfileViewController.swift */,
 				BC3A486E1C79DD7A008C559B /* LeftViewController.swift */,
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
@@ -343,8 +343,8 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SidebarOverlay.framework",
-				"$(SRCROOT)/Carthage/Build/IOS/FontAwesome.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SwiftyJSON.framework",
+				"$(SRCROOT)/Carthage/Build/IOS/FontAwesome.framework",
 			);
 			outputPaths = (
 			);

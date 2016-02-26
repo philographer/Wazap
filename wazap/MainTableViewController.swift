@@ -14,84 +14,32 @@ import FBSDKLoginKit
 
 class MainTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate {
     
-    
     /**
-     @ Outlet
+     @ Outlet, Variables
     */
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
-    
-    
-    /**
-     @ SideButton
-    */
-    @IBAction func showMeMyMenu () {
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = true
-        }
-    }
-
-    /**
-     @ 검색 버튼
-    */
-    @IBAction func searchButton(sender: AnyObject) {
-
-    }
+    var contestList:AnyObject? = [] //API에서 불러온 공모전 리스트
+    var dueDays:[String]? = [] //D-Day 계산을 위한 배열
     
     /**
-     @ 스크랩 버튼
+     @ 뷰 로드
     */
-    @IBAction func scrapButton(sender: UIButton)
-    {
-        print("스크랩버튼")
-        
-        Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(sender.tag)", parameters: ["access_token": FBSDKAccessToken.currentAccessToken().tokenString as String]).responseJSON{
-            response in
-            if let JSON = response.result.value{
-                let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(okAction)
-                self.presentViewController(alertController, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    var contestList:AnyObject? = []
-    var dueDays:[String]? = []
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TableView 보여주기
+        //TableView 소스
         tableView.delegate = self
         tableView.dataSource = self
+        //TabBar 소스
         tabBar.delegate = self
-        
-        /**
-         @ 글쓰기 버튼 추가
-        */
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
-        button.layer.zPosition = 2
-        button.backgroundColor = UIColor.whiteColor()
-        button.setImage(UIImage(named: "pen.png"), forState: UIControlState.Normal)
-        button.addTarget(self, action: "writeButton:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.navigationController?.view.addSubview(button)
     }
     
-    func writeButton(sender:UIButton){
-        let writeController = self.storyboard?.instantiateViewControllerWithIdentifier("writeViewController")
-        self.presentViewController(writeController!, animated: true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    /**
+     @ View Appear
+     */
     override func viewWillAppear(animated: Bool) {
-        
-        //Facebook Id 얻어오기
+        //Contest ReLoad
         Alamofire.request(.GET, "http://come.n.get.us.to/contests", parameters: ["amount": 30]).responseJSON{
             response in
             if let JSON = response.result.value{
@@ -101,8 +49,39 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 })
             }
         }
+        
+        //글쓰기 버튼 추가
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
+        button.layer.zPosition = 2
+        button.backgroundColor = UIColor.whiteColor()
+        button.setImage(UIImage(named: "pen.png"), forState: UIControlState.Normal)
+        button.tag = 1000
+        button.addTarget(self, action: "writeButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationController?.view.addSubview(button)
     }
     
+    /**
+     @ 뷰 사라짐
+     */
+    override func viewWillDisappear(animated: Bool) {
+        //Tag == 1000인 SubView를 찾아서 제거( 글쓰기 버튼 제거)
+        let subViews = self.navigationController?.view.subviews
+        for subview in subViews!{
+            if subview.tag == 1000{
+                subview.removeFromSuperview()
+            }
+        }
+        print("뷰 disappear")
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+     @ Table, TabBar
+    */
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -113,9 +92,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         return self.contestList!.count
     }
     
-    
-    
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell =
         self.tableView.dequeueReusableCellWithIdentifier(
@@ -123,8 +99,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             as! MainTableViewCell
    
         let row = indexPath.row
-        
-        //var formattedDay : String?
         
         //날짜 String으로 변환
         if let dayString:String = self.contestList![row]["period"] as? String{
@@ -148,8 +122,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
-        //cell.day.text = formattedDay
-        
         cell.dueTime.text = "X 분전"
         cell.articleTitle.text = self.contestList![row]["title"] as? String
         cell.hostName.text = self.contestList![row]["hosts"] as? String
@@ -157,10 +129,12 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         cell.scrapButton.tag = self.contestList![row]["contests_id"] as! Int
         cell.scrapButton.addTarget(self, action: "scrapButton:", forControlEvents: .TouchUpInside)
         
-        
         return cell
     }
     
+    /**
+     @ TabBar
+    */
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         let index = item.tag
         
@@ -175,18 +149,62 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    /**
+     @ PrepareForSegue
+    */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "ShowArticleDetail"{
-
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
             let myIndexPath = self.tableView.indexPathForSelectedRow
             let row:Int = myIndexPath!.row
             detailViewController.contests_id = self.contestList![row]["contests_id"] as? Int
-            
-            
-            //write 버튼 숨기기
         }
+    }
+    
+    /**
+     @ SideButton Action
+    */
+    @IBAction func showMeMyMenu () {
+        if let container = self.so_containerViewController {
+            container.isLeftViewControllerPresented = true
+        }
+    }
+    
+    /**
+     @ 스크랩 버튼 Action
+    */
+    @IBAction func scrapButton(sender: UIButton)
+    {
+        print("스크랩버튼")
+        
+        Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(sender.tag)", parameters: ["access_token": FBSDKAccessToken.currentAccessToken().tokenString as String]).responseJSON{
+            response in
+            if let JSON = response.result.value{
+                let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    /**
+     @ 글쓰기 버튼 Function
+     */
+    func writeButton(sender:UIButton){
+        let writeController = self.storyboard?.instantiateViewControllerWithIdentifier("writeViewController")
+        self.presentViewController(writeController!, animated: true, completion: nil)
+    }
+    
+    /**
+     @ 검색 버튼 Function
+    */
+    @IBAction func searchButton(sender: AnyObject) {
+        
     }
 
 }
+
+
+

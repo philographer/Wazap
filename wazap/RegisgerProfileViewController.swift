@@ -37,7 +37,9 @@ class RegisgerProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    /**
+     @ 제출하기 버튼 Action
+    */
     @IBAction func submitButtonTouch(sender: AnyObject) {
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let kakao_id = kakaoTextField.text! as String

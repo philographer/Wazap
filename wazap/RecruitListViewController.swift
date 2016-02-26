@@ -10,12 +10,6 @@ import UIKit
 
 class RecruitListViewController: UIViewController {
     
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +19,15 @@ class RecruitListViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /**
+     @ BackButton Action
+     */
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+        }
     }
     
 

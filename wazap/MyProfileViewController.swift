@@ -12,6 +12,9 @@ import FBSDKLoginKit
 
 class MyProfileViewController: UIViewController {
     
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var kakaoLabel: UILabel!
@@ -23,12 +26,14 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var expLabel: UITextView!
     @IBOutlet weak var activityIND: UIActivityIndicatorView!
     
-    @IBAction func closeModal(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+    /**
+     @ Variables
+    */
     var overlay : UIView?
     
+    /**
+     @ 뷰 로드
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -39,6 +44,9 @@ class MyProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     @ 뷰 나타남
+    */
     override func viewWillAppear(animated: Bool) {
         
         self.activityIND.hidden = false
@@ -72,15 +80,21 @@ class MyProfileViewController: UIViewController {
 
             }
         }
-        
-        
-        
-
     }
     
+    /**
+     @ 뷰 나타난 뒤
+    */
     override func viewDidAppear(animated: Bool) {
         self.activityIND.stopAnimating()
         self.activityIND.hidden = true
+    }
+    
+    /**
+     @ 모달 닫기 Action
+    */
+    @IBAction func closeModal(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     

@@ -9,14 +9,15 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-    @IBOutlet weak var articleTitle: UILabel!
-    @IBOutlet weak var day: UILabel!
-    @IBOutlet weak var dueDay: UILabel!
-    @IBOutlet weak var dueTime: UILabel!
-    @IBOutlet weak var category: UILabel!
-    @IBOutlet weak var tagList: UILabel!
-    @IBOutlet weak var hostName: UILabel!
-    @IBOutlet weak var scrapButton: UIButton!
+    
+    @IBOutlet weak var articleTitle: UILabel! //제목
+    @IBOutlet weak var day: UILabel! //마감일
+    @IBOutlet weak var dueDay: UILabel! //D-Day
+    @IBOutlet weak var dueTime: UILabel! //남은 시간
+    @IBOutlet weak var category: UILabel! //카테고리
+    @IBOutlet weak var tagList: UILabel! //태그 리스트
+    @IBOutlet weak var hostName: UILabel! //주최자
+    @IBOutlet weak var scrapButton: UIButton! //스크랩버튼
 
     
     override func awakeFromNib() {

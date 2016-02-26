@@ -13,10 +13,16 @@ import Alamofire
 
 class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
+    /**
+     @ Variables
+    */
     let leftMenu : [String] = ["스크랩", "신청목록", "내가 쓴 글 목록"]
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -66,7 +72,6 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
         print(leftMenu.count)
         tableView.delegate = self
         tableView.dataSource = self
-        
         
         //페이스북 정보 가져와서 사진을 넣는 로직
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String

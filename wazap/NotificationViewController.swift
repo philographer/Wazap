@@ -11,12 +11,16 @@ import Alamofire
 import FBSDKLoginKit
 
 class NotificationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var tableView: UITableView!
     
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+    /**
+     @ Variables
+    */
+    //더미데이터
     let leftMenu : [String] = ["알림1", "알림2", "알림3"]
     let leftMenu2 : [String] = ["알림3", "알림2", "알림1"]
 
@@ -66,6 +70,13 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
             cell.profilePhoto.image = UIImage(named: "default-user2")
         }
         return cell
+    }
+    
+    /**
+     @ 뒤로가기버튼 Action
+     */
+    @IBAction func backButtonTouch(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
