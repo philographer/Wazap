@@ -12,6 +12,9 @@ import FBSDKLoginKit
 
 class ArticleDetailViewController: UIViewController {
     
+    /**
+     @ Outlet
+    */
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dueDayLabel: UILabel!
     @IBOutlet weak var hostsLabel: UILabel!
