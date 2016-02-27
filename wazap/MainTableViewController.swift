@@ -14,6 +14,7 @@ import FBSDKLoginKit
 
 class MainTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate {
     
+    
     /**
      @ Outlet, Variables
     */
@@ -27,12 +28,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //TableView 소스
-        tableView.delegate = self
-        tableView.dataSource = self
-        //TabBar 소스
-        tabBar.delegate = self
+        print(self.navigationController)
     }
     
     /**
@@ -40,13 +36,19 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
      */
     override func viewWillAppear(animated: Bool) {
         //Contest ReLoad
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests", parameters: ["amount": 30]).responseJSON{
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests", parameters: ["amount": 30, "access_token": access_token]).responseJSON{
             response in
             if let JSON = response.result.value{
+                print(JSON["msg"])
                 self.contestList = JSON["data"]!!
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.tableView.reloadData()
-                })
+                //TableView 소스
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                //TabBar 소스
+                self.tabBar.delegate = self
+                
+                self.tableView.reloadData()
             }
         }
         

@@ -15,34 +15,39 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     /**
      @ Outlet field, button
     */
+    
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var organizerLabel: UITextField!
     @IBOutlet weak var recruitNumberPicker: UIPickerView!
     @IBOutlet weak var dayPicker: UIDatePicker!
     @IBOutlet weak var introTextView: UITextView!
-    
     @IBOutlet weak var profilePhoto: UIImageView!
-    @IBOutlet weak var itContentButton: UIButton!
-    @IBOutlet weak var marketingButton: UIButton!
-    @IBOutlet weak var designButton: UIButton!
-    @IBOutlet weak var literatureButton: UIButton!
-    @IBOutlet weak var photoButton: UIButton!
-    @IBOutlet weak var planningButton: UIButton!
+    
+    @IBOutlet weak var designUccButton: UIButton!
+    @IBOutlet weak var itDevButton: UIButton!
+    @IBOutlet weak var marketAdButton: UIButton!
+    @IBOutlet weak var paperLiteratureButton: UIButton!
+    @IBOutlet weak var gameButton: UIButton!
+    @IBOutlet weak var etcButton: UIButton!
     
     /**
      @ Variables
     */
-    var category_it_contents:Bool = false
+    var category_design_ucc:Bool = false
+    var category_paper_literature: Bool = false
+    var category_it_dev: Bool = false
     var category_market_ad: Bool = false
-    var category_design: Bool = false
-    var category_literature_scenario: Bool = false
-    var category_photo_video: Bool = false
-    var category_planning_idea: Bool = false
+    var category_game: Bool = false
+    var category_etc: Bool = false
     
     var pickerDataSource = ["2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명", "10명", "11명", "12명"]
+    var itemAtDefaultPosition: String?
     var recruitValue : Int = 2 //Default 2
     var periodDate : String = ""
+    
+    var isModify: Bool = false //modify인지 수정인지 검사
+    var contest_id: Int?
     
     /**
      @ Variables
@@ -61,6 +66,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         {
             profilePhoto.image = UIImage(data: data)
         }
+        
 
         // Do any additional setup after loading the view.
     }
@@ -69,12 +75,12 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         /**
          @ Bool 변수 초기화
         */
-        category_it_contents = false
-        category_literature_scenario = false
-        category_design = false
-        category_market_ad = false
-        category_photo_video = false
-        category_planning_idea = false
+        category_design_ucc = false // 디자인/UCC
+        category_it_dev = false // IT/개발
+        category_market_ad = false // 마케팅/광고
+        category_paper_literature = false // 논문/문학
+        category_game = false // 게임
+        category_etc = false // ETC
         
         /**
          @ 오늘날짜, 모집인원 초기화
@@ -139,70 +145,70 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     /**
      @ Category Action Todo: 카테고리 체크박스 하드코딩 ㅠ_ㅠ
      */
-    @IBAction func itContentButton(sender: AnyObject) {
-        if(self.category_it_contents == true){
-            self.category_it_contents = false
-            self.itContentButton.tintColor = UIColor.blueColor()
+    @IBAction func designUccButton(sender: AnyObject) {
+        if(self.category_design_ucc == true){
+            self.category_design_ucc = false
+            self.designUccButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_it_contents = true
-            self.itContentButton.tintColor = UIColor.redColor()
+            self.category_design_ucc = true
+            self.designUccButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func marketingButton(sender: AnyObject) {
-        if(self.category_market_ad == true){
-            self.category_market_ad = false
-            self.marketingButton.tintColor = UIColor.blueColor()
+    @IBAction func itDevButton(sender: AnyObject) {
+        if(self.category_paper_literature == true){
+            self.category_paper_literature = false
+            self.itDevButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_market_ad = true
-            self.marketingButton.tintColor = UIColor.redColor()
+            self.category_paper_literature = true
+            self.itDevButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func designButton(sender: AnyObject) {
-        if(self.category_design == true){
-            self.category_design = false
-            self.designButton.tintColor = UIColor.blueColor()
+    @IBAction func marketAdButton(sender: AnyObject) {
+        if(self.category_it_dev == true){
+            self.category_it_dev = false
+            self.marketAdButton.tintColor = UIColor.blueColor()
             
         }
         else{
-            self.category_design = true
-            self.designButton.tintColor = UIColor.redColor()
+            self.category_it_dev = true
+            self.marketAdButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func literatureButton(sender: AnyObject) {
-        if(self.category_literature_scenario == true){
-            self.category_literature_scenario = false
-            self.literatureButton.tintColor = UIColor.blueColor()
+    @IBAction func paperLiteratureButton(sender: AnyObject) {
+        if(self.category_market_ad == true){
+            self.category_market_ad = false
+            self.paperLiteratureButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_literature_scenario = true
-            self.literatureButton.tintColor = UIColor.redColor()
+            self.category_market_ad = true
+            self.paperLiteratureButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func photoButton(sender: AnyObject) {
-        if(self.category_photo_video == true){
-            self.category_photo_video = false
-            self.photoButton.tintColor = UIColor.blueColor()
+    @IBAction func gameButton(sender: AnyObject) {
+        if(self.category_game == true){
+            self.category_game = false
+            self.gameButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_photo_video = true
-            self.photoButton.tintColor = UIColor.redColor()
+            self.category_game = true
+            self.gameButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func planningButton(sender: AnyObject) {
-        if(self.category_planning_idea == true){
-            self.category_planning_idea = false
-            self.planningButton.tintColor = UIColor.blueColor()
+    @IBAction func etcButton(sender: AnyObject) {
+        if(self.category_etc == true){
+            self.category_etc = false
+            self.etcButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_planning_idea = true
-            self.planningButton.tintColor = UIColor.redColor()
+            self.category_etc = true
+            self.etcButton.tintColor = UIColor.redColor()
         }
     }
     
@@ -215,26 +221,33 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         var categories: [String] = []
         
-        if(category_it_contents){
-            categories.append("IT/콘텐츠")
+        if(category_design_ucc){
+            categories.append("디자인/UCC")
         }
-        if(category_design){
-            categories.append("마케팅/광고")
-        }
-        if(category_literature_scenario){
-            categories.append("디자인")
+        if(category_it_dev){
+            categories.append("IT/개발")
         }
         if(category_market_ad){
-            categories.append("문학/시나리오")
+            categories.append("마케팅/광고")
         }
-        if(category_photo_video){
-            categories.append("사진/영상")
+        if(category_paper_literature){
+            categories.append("논문/문학")
         }
-        if(category_planning_idea){
-            categories.append("기획/디자인")
+        if(category_game){
+            categories.append("게임")
+        }
+        if(category_etc){
+            categories.append("기타")
         }
         
-        
+        /*
+        디자인/UCC category_design_ucc
+        IT/개발 category_it_dev
+        마케팅/광고 category_market_ad
+        논문/문학 category_paper_literature
+        게임 category_game
+        ETC category_etc
+        */
         
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let title = titleLabel.text! as String
@@ -246,25 +259,94 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         let parameters : [String: AnyObject] = [
             "access_token": access_token,
-            "categories": categories,
             "title": title,
             "recruitment": recruitment,
             "hosts": hosts,
+            "categories": categories,
             "period": period,
             "cover": cover,
             "positions": positions
         ]
         
-        print(parameters)
+    
+        
+        //print(parameters["categories"]!)
+        //print(access_token)
+        //print(title)
+        //print(recruitment)
+        //print(hosts)
+        //print(period)
+        //print(cover)
+        //print(positions)
         
         
-        Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: parameters).responseJSON{
-            response in
-            if let JSON = response.result.value{
-                print(JSON["msg"])
+        
+        if(!self.isModify){ //글작성
+            
+            //print("access_token: \(access_token)")
+            //print("title: \(title)")
+            //print("recruitment: \(recruitment)")
+            //print("hosts: \(hosts)")
+            //print("categories: \(categories)")
+            //print("period: \(period)")
+            //print("cover: \(cover)")
+            //print("positions: \(positions)")
+            
+            Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: [
+                "access_token": access_token,
+                "title": title,
+                "recruitment": recruitment,
+                "hosts": hosts,
+                "categories": categories,
+                "period": period,
+                "cover": cover,
+                "positions": positions], encoding: .JSON).responseJSON{
+                    response in
+                    if let JSON = response.result.value{
+                        print(JSON["result"]!!)
+                        let alerltController = UIAlertController(title: "작성하기", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
+                        let okAction = UIAlertAction(title: "ok", style: .Default, handler: {(action) in
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                        alerltController.addAction(okAction)
+                        self.presentViewController(alerltController, animated: true, completion: nil)
+                        
+                    }
             }
         }
+        else{ //수정
+            //print("access_token: \(access_token)")
+            //print("title: \(title)")
+            //print("recruitment: \(recruitment)")
+            //print("hosts: \(hosts)")
+            //print("categories: \(categories)")
+            //print("period: \(period)")
+            //print("cover: \(cover)")
+            //print("positions: \(positions)")
+            
+            Alamofire.request(.PUT, "http://come.n.get.us.to/contests/\(contest_id!)", parameters: [
+                "access_token": access_token,
+                "title": title,
+                "recruitment": recruitment,
+                "hosts": hosts,
+                "categories": categories,
+                "period": period,
+                "cover": cover,
+                "positions": positions], encoding: .JSON).responseJSON{
+                response in
+                if let JSON = response.result.value{
+                    let alertController = UIAlertController(title: "결과", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
+                    let alertOkAction = UIAlertAction(title: "Ok", style: .Default, handler: { (action) in
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                    alertController.addAction(alertOkAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
+            }
+            
+        }
         
+
         
     }
     

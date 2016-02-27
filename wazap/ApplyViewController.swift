@@ -7,12 +7,40 @@
 //
 
 import UIKit
+import FBSDKLoginKit
+import Alamofire
+import SwiftyJSON
 
-class ApplyViewController: UIViewController {
+class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    /**
+     @ Outlet
+    */
+    @IBOutlet weak var tableView: UITableView!
+    
+    /**
+     @ Variables
+    */
+    
+    var applyList : JSON?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications", parameters: ["access_token": access_token, "start_id": 0, "amount": 30]).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                self.applyList = JSON(responseVal["data"]!!)
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+            }
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -25,16 +53,59 @@ class ApplyViewController: UIViewController {
     }
     
     @IBAction func backButtonTouch(sender: AnyObject) {
-        
-        /*
-        if let container = self.so_containerViewController {
-        container.isLeftViewControllerPresented = true
-        }
-        */
-        
         fadeOut()
         self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
     }
+    
+    /**
+     @ Table
+    */
+     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.applyList!.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("applyCell") as! ApplyTableViewCell
+        let row = indexPath.row
+        
+        //cell.dueDay.text = self.applyList![row]["title"]
+        cell.titleLabel.text = String(self.applyList![row]["title"])
+        cell.recruitLabel.text = String(self.applyList![row]["recruitment"])
+        cell.applierLabel.text = String(self.applyList![row]["appliers"])
+        cell.confirmLabel.text = String(self.applyList![row]["members"])
+        
+        if let dayString:String = self.applyList![row]["period"].stringValue {
+            //String을 NSDate로 변환
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+            if let formattedDate = formatter.dateFromString(dayString){
+                //앞의 자리수로 자르고 day라벨에 집어넣기
+                formatter.dateFormat = "yyyy-MM-dd"
+                cell.dueDayLabel.text = formatter.stringFromDate(formattedDate)
+                
+                //D-day 표시
+                let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
+                if (toDate > 0){
+                    cell.dueDayLabel.text = "D-" + String(Int(toDate))
+                }
+                else{
+                    cell.dueDayLabel.text = "마감"
+                }
+            }
+        }
+        
+        cell.detailButton.tag = self.applyList![row]["contests_id"].intValue
+        cell.detailButton.addTarget(self, action: "detailModal:", forControlEvents: .TouchUpInside)
+        
+
+        return cell
+    }
+    
     
     /**
      @ FadeIn FadeOut Function
@@ -51,6 +122,19 @@ class ApplyViewController: UIViewController {
             self.view.alpha = 0.0
             }, completion: nil)
     }
+    
+    func detailModal(sender:UIButton){
+        //상세보기 모달
+        
+        let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController
+        detailViewController.contests_id = sender.tag
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+        
+    }
+    
+    
+    
+    
     
 
     /*
