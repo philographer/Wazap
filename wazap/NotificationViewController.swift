@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FBSDKLoginKit
+import SwiftyJSON
 
 class NotificationViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -21,25 +22,26 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
      @ Variables
     */
     //더미데이터
-    let leftMenu : [String] = ["알림1", "알림2", "알림3"]
-    let leftMenu2 : [String] = ["알림3", "알림2", "알림1"]
+    var alamList:JSON?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
-        
-        
-        Alamofire.request(.GET, "http://come.n.get.us.to/alrams", parameters: ["access_token": access_token, "start_id": 0, "amount": 10]).responseJSON{
-            response in
-            if let JSON = response.result.value{
-                print(JSON["msg"]!)
-            }
-        }
         
         //파라미터로 start_id , amount가 있음
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
+        Alamofire.request(.GET, "http://come.n.get.us.to/alrams", parameters: ["access_token": access_token, "start_id": 0, "amount": 10]).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                let json = JSON(responseVal)
+                print(json)
+                self.alamList = json["data"]
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,26 +51,20 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return alamList!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("notiCell") as! NotificationTableViewCell
         let row = indexPath.row
         
-        if(indexPath.section == 0){
-            cell.alarmLabel.text = leftMenu[row]
+            cell.alarmLabel.text = alamList![row]["msg"].stringValue
             cell.profilePhoto.image = UIImage(named: "default-user2")
-        }
-        else
-        {
-            cell.alarmLabel.text = leftMenu2[row]
-            cell.profilePhoto.image = UIImage(named: "default-user2")
-        }
+
         return cell
     }
     

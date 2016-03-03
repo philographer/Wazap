@@ -15,6 +15,8 @@ class ScrapTableViewCell: UITableViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var recruitLabel: UILabel!
     @IBOutlet weak var applyButton: UIButton!
+    @IBOutlet weak var detailButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

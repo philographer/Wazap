@@ -24,8 +24,10 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var applyList : JSON?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Do any additional setup after loading the view.
     }
@@ -99,9 +101,9 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
         
-        cell.detailButton.tag = self.applyList![row]["contests_id"].intValue
+        cell.detailButton.tag = row as Int
         cell.detailButton.addTarget(self, action: "detailModal:", forControlEvents: .TouchUpInside)
-        
+        //appliers_id 를 어찌 넘길까
 
         return cell
     }
@@ -127,7 +129,17 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //상세보기 모달
         
         let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController
-        detailViewController.contests_id = sender.tag
+        let row = sender.tag
+        let contests_id = self.applyList![row]["contests_id"].intValue
+        let applies_id = self.applyList![row]["applies_id"].stringValue
+        
+        print("contest_id: \(contests_id)")
+        print("applies_id: \(applies_id)")
+        
+        detailViewController.contests_id = contests_id
+        detailViewController.applies_id = applies_id
+        
+        //self.applyList![row]["contests_id"].intValue 여기서 받자
         self.navigationController?.pushViewController(detailViewController, animated: true)
         
     }

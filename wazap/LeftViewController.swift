@@ -99,6 +99,15 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "myProfileSegue"){
+            let destinationController = segue.destinationViewController as! MyProfileViewController
+            
+            destinationController.facebookId = FBSDKAccessToken.currentAccessToken().userID!
+            
+            print(destinationController.facebookId)
+        }
+    }
     
     
     

@@ -27,6 +27,8 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var coverLabel: UITextView!
     @IBOutlet weak var moreButton: UIBarButtonItem!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var kakaoLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     /** Variables
      
@@ -49,23 +51,41 @@ class ArticleDetailViewController: UIViewController {
     var contests_id: Int?
     var contests: AnyObject?
     var categoryArr: [String] = []
+    var applies_id: String?
     
     /**
      @ 뷰 로드
      */
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print(contests_id)
+        print("contests_id: \(contests_id!)")
+        print("applies_id: \(applies_id!) ")
+    }
+
+    
+    override func viewWillLayoutSubviews() {
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.activityIndicator.hidden = false
+        self.activityIndicator.startAnimating()
+        
+
         //상세정보 받아옴
         var content_writer: Int?
+        var isApllier = false
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
+        
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id!)", parameters: ["access_token":access_token]).responseJSON{
             response in
             if let responseVal = response.result.value{
-                //print(responseVal["data"])
                 //받아온 정보 contests에 할당
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidden = true
+                
                 self.contests = responseVal["data"]!!
                 let stringJSON:JSON = JSON(responseVal["data"]!!["categories"]!!)
                 if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
@@ -73,8 +93,6 @@ class ArticleDetailViewController: UIViewController {
                         self.categoryArr.append(String(words.characters.dropFirst().dropLast()))
                     }
                 }
-                
-                
                 
                 // 받아온 상세정보 라벨에 집어넣음
                 self.titleLabel.text = responseVal["data"]!!["title"] as? String
@@ -84,28 +102,83 @@ class ArticleDetailViewController: UIViewController {
                 self.writerLabel.text = String(responseVal["data"]!!["cont_writer"] as! Int)
                 self.coverLabel.text = responseVal["data"]!!["cover"] as? String
                 self.appliersLabel.text = responseVal["data"]!!["appliers"]!?.stringValue
+                self.kakaoLabel.text = responseVal["data"]!!["kakao_id"] as? String
                 
                 
                 //content_writer 값 할당
                 content_writer = responseVal["data"]!!["cont_writer"]!! as? Int
                 
-                //!! 글쓴이가 아니면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
-                if (content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
-                    
-                    //신청하기 버튼 추가
-                    let button = UIButton(type: UIButtonType.System) as UIButton
-                    button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                    button.setTitle("신청하기", forState: .Normal)
-                    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                    button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                    button.addTarget(self, action: "applyTouch:", forControlEvents: .TouchUpInside)
-                    self.view.addSubview(button)
-                    
-                    //더보기, 마감하기 버튼 없애기
-                    self.moreButton.title = ""
-                    self.moreButton.enabled = false
-                    self.closeButton.hidden = true
+                
+                
+                //!! 신청자인지 검사 !!
+                request(.GET, "http://come.n.get.us.to/contests/applications", parameters: ["access_token": access_token]).responseJSON{
+                    response in
+                    if let responseValue = response.result.value{
+                        let json = JSON(responseValue)
+                        let jsonData = json["data"]
+                        for var i = 0; i < jsonData.count; i++ {
+                            //신청자이면
+                            if(jsonData[i]["contests_id"].intValue == self.contests_id!){
+                                isApllier = true
+                            }
+                        }
+                        /*
+                        if(isApllier){
+                            print("신청자입니다")
+                        }else{
+                            print("신청자가 아닙니다")
+                        }
+                        */
+                        
+                        //!! 글쓴이가 아니고 신청릉 안 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
+                        if ((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (!isApllier)){
+                            //신청하기 버튼 추가
+                            print("신청버튼 추가할래요")
+                            let button = UIButton(type: UIButtonType.System) as UIButton
+                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                            button.setTitle("신청하기", forState: .Normal)
+                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                            button.addTarget(self, action: "applyTouch:", forControlEvents: .TouchUpInside)
+                            self.view.addSubview(button)
+                            
+                            //더보기, 마감하기 버튼 없애기
+                            self.moreButton.title = ""
+                            self.moreButton.enabled = false
+                            self.closeButton.hidden = true
+                        }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
+                        else if((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (isApllier))
+                        {
+                            print("신청취소버튼 추가할래요")
+                            print("현재 글번호는 \(self.contests_id)")
+                            print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
+                            //신청 취소버튼 추가
+                            let button = UIButton(type: UIButtonType.System) as UIButton
+                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                            button.setTitle("신청 취소", forState: .Normal)
+                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                            button.addTarget(self, action: "cancelTouch:", forControlEvents: .TouchUpInside)
+                            self.view.addSubview(button)
+                            
+   
+                            //더보기, 마감하기 버튼 없애기
+                            self.moreButton.title = ""
+                            self.moreButton.enabled = false
+                            self.closeButton.hidden = true
+                            
+                            //신청하기 버튼 없애기
+                            for subview in self.view.subviews
+                            {
+                                if subview.tag == 1004{
+                                    subview.removeFromSuperview()
+                                }
+                            }
+                            
+                        }
+                    }
                 }
                 
                 //D-day 변환 로직
@@ -128,16 +201,13 @@ class ArticleDetailViewController: UIViewController {
                         
                     }
                 }
+                
             }
         }
-        /*
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id)/applies", parameters: ["access_token": access_token]).responseJSON{
-            response in
-            if let responseValue = response.result.value{
-                print(responseValue["msg"])
-            }
-        }
-        */
+        
+        
+        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -147,13 +217,28 @@ class ArticleDetailViewController: UIViewController {
     
     func applyTouch(sender: UIButton!)
     {
-        print("신청하기")
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id!)/join", parameters: ["access_token": access_token]).responseJSON{
             response in
-            print(response)
             if let JSON = response.result.value{
                 let alertController = UIAlertController(title: "팀원모집", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "ok", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func cancelTouch(sender: UIButton!){
+        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
+        print(FBSDKAccessToken.currentAccessToken().userID)
+        print(access_token)
+        // /contests/:contest_id/:applies_id
+        print("http://come.n.get.us.to/contests/\(contests_id!)/applies")
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id!)/applies", parameters: ["access_token": access_token]).responseJSON{
+            response in
+            if let JSON = response.result.value{
+                let alertController = UIAlertController(title: "신청 취소", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
                 let okAction = UIAlertAction(title: "ok", style: .Default, handler: nil)
                 alertController.addAction(okAction)
                 self.presentViewController(alertController, animated: true, completion: nil)
@@ -175,10 +260,8 @@ class ArticleDetailViewController: UIViewController {
         let deleteOkAction = UIAlertAction(title: "삭제", style: .Default){
             UIAlertAction in
             let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-            print("http://come.n.get.us.to/contests/\(self.contests_id!)")
             Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(self.contests_id!)", parameters: ["access_token": access_token]).responseJSON{
                 response in
-                print(response)
                 if let JSON = response.result.value{
                     
                     let alertController = UIAlertController(title: "삭제하기", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
@@ -267,12 +350,55 @@ class ArticleDetailViewController: UIViewController {
      @ 마감하기 버튼
     */
     @IBAction func closeTouch(sender: AnyObject) {
-        print("마감하기 버튼")
         
         
+        print("마감하기")
+        print("현재 글번호는 \(self.contests_id!)")
+        print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
+        print("\(FBSDKAccessToken.currentAccessToken().tokenString)")
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
         
+        Alamofire.request(.PUT, "http://come.n.get.us.to/contests/finish/\(self.contests_id!)", parameters: ["access_token": access_token], encoding: .JSON).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                let json = JSON(responseVal)
+                print(json["msg"])
+                let alertController = UIAlertController(title: "마감", message: json["msg"].stringValue, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(okAction)
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+        
+        /*
+        print("마감하기버튼 크릭")
+        print("현재 글번호는 \(self.contests_id)")
+        print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
+        print("\(FBSDKAccessToken.currentAccessToken().tokenString)")
+        
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        print(access_token)
+        Alamofire.request(.PUT, "http://come.n.get.us.to/contests/finish/\(self.contests_id)", parameters: ["access_token": access_token], encoding: .JSON).responseJSON{
+                response in
+                if let responseVal = response.result.value{
+                    let json = JSON(responseVal)
+                    let msg = json["msg"]
+                    let data = json["data"]
+                    
+                    print(msg)
+            }
+        }
+        */
     }
     
+    @IBAction func detailProfile(sender: AnyObject) {
+        let profileController = self.storyboard?.instantiateViewControllerWithIdentifier("profileViewController") as! MyProfileViewController
+        
+        profileController.facebookId = String(self.contests!["cont_writer"]!!)
+
+        self.navigationController?.pushViewController(profileController, animated: true)
+    }
     
     
     

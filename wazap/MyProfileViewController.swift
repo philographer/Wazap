@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FBSDKLoginKit
+import SwiftyJSON
 
 class MyProfileViewController: UIViewController {
     
@@ -25,11 +26,16 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var introduceLabel: UITextView!
     @IBOutlet weak var expLabel: UITextView!
     @IBOutlet weak var activityIND: UIActivityIndicatorView!
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    
+    
     
     /**
      @ Variables
     */
     var overlay : UIView?
+    var facebookId:String?
+    
     
     /**
      @ 뷰 로드
@@ -52,9 +58,15 @@ class MyProfileViewController: UIViewController {
         self.activityIND.hidden = false
         activityIND.startAnimating()
         
-        let facebookId = FBSDKAccessToken.currentAccessToken().userID
+        
+        //로그인한 사람이 현재 보여주는 사람이 아니면 Back버튼 숨김
+        if (FBSDKAccessToken.currentAccessToken().userID != facebookId){
+            self.backButton.enabled = false
+            self.backButton.title = ""
+        }
+        
         //사진정보 가져와서 넣음
-        let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
+        let photoUrl = "https://graph.facebook.com/\(facebookId!)/picture?type=large"
         
         if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
         {
@@ -62,22 +74,20 @@ class MyProfileViewController: UIViewController {
         }
         
         //사용자 정보 집어넣음
-        
-        Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId!)", parameters: nil).responseJSON{
             response in
-            if let JSON = response.result.value{
+            if let responseVal = response.result.value{
                 
-                let age = JSON["data"]!![0]["age"] as! NSNumber
-                let ageString : String = "\(age)"
-                self.ageLabel.text = ageString
-                self.expLabel.text = JSON["data"]!![0]["exp"] as? String
-                self.introduceLabel.text = JSON["data"]!![0]["introduce"] as? String
-                self.kakaoLabel.text = JSON["data"]!![0]["kakao_id"] as? String
-                self.locateLabel.text = JSON["data"]!![0]["locate"] as? String
-                self.majorLabel.text = JSON["data"]!![0]["major"] as? String
-                self.schoolLabel.text = JSON["data"]!![0]["school"] as? String
-                self.nameLabel.text = JSON["data"]!![0]["username"] as? String
-
+                let json = JSON(responseVal)
+                self.ageLabel.text = json["data"][0]["age"].stringValue
+                self.expLabel.text = json["data"][0]["exp"].stringValue
+                self.introduceLabel.text = json["data"][0]["introduce"].stringValue
+                self.kakaoLabel.text = json["data"][0]["kakao_id"].stringValue
+                self.locateLabel.text = json["data"][0]["locate"].stringValue
+                self.majorLabel.text = json["data"][0]["major"].stringValue
+                self.schoolLabel.text = json["data"][0]["school"].stringValue
+                self.nameLabel.text = json["data"][0]["username"].stringValue
+                
             }
         }
     }

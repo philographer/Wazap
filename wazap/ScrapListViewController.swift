@@ -28,17 +28,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-        let amount:Int = 20
-        Alamofire.request(.GET, "http://come.n.get.us.to/clips", parameters: ["access_token": access_token, "amount": amount]).responseJSON{
-            response in
-            if let responseVal = response.result.value{
-                self.scrapList = JSON(responseVal["data"]!!)
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
-            }
-        }
+        self.loadData()
     }
     
     
@@ -99,6 +89,19 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
         
+        //신청버튼
+        cell.applyButton.addTarget(self, action: "applyAction:", forControlEvents: .TouchUpInside)
+        cell.applyButton.tag = self.scrapList![row]["contests_id"].intValue
+        
+        //자세히보기 버튼
+        cell.detailButton.addTarget(self, action: "detailAction:", forControlEvents: .TouchUpInside)
+        cell.detailButton.tag = self.scrapList![row]["contests_id"].intValue
+        
+        //삭제하기 버튼
+        cell.deleteButton.addTarget(self, action: "deleteAction:", forControlEvents: .TouchUpInside)
+        cell.deleteButton.tag = self.scrapList![row]["contests_id"].intValue
+
+
         
         
         
@@ -120,6 +123,81 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         dispatch_async(dispatch_get_main_queue()) {
             self.so_containerViewController!.topViewController = mainController
+        }
+    }
+    
+    func detailAction(sender: UIButton){
+        let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController
+        detailViewController.contests_id = sender.tag
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func applyAction(sender: UIButton){
+        
+        let contests_id:Int = sender.tag
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        print(contests_id)
+        let alertController = UIAlertController(title: "신청하기", message: "신청하시겠습니까?", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .Destructive, handler: nil)
+        let okAction = UIAlertAction(title: "신청", style: .Default, handler: {(action)
+            in
+            Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id)/join", parameters: ["access_token": access_token]).responseJSON{
+                response in
+                if let responseVal = response.result.value{
+                    let alertController2 = UIAlertController(title: "신청결과", message: responseVal["msg"]!! as? String, preferredStyle: .Alert)
+                    let okAction2 = UIAlertAction(title: "완료", style: .Default, handler: { (action)
+                        in
+                        self.tableView.reloadData()
+                    })
+                    alertController2.addAction(okAction2)
+                    self.presentViewController(alertController2, animated: true, completion: nil)
+                }
+            }
+            
+        })
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func deleteAction(sender: UIButton) {
+        let contests_id:Int = sender.tag
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/clips/\(contests_id)", parameters: ["access_token": access_token]).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                let responseJSON = JSON(responseVal)
+        
+                let msg:String = responseJSON["msg"].stringValue
+                let alertController = UIAlertController(title: "찜삭제", message: msg, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "Ok", style: .Default, handler: {
+                (action) in
+                    self.loadData()
+                    self.tableView.reloadData()
+                })
+                
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
+            }
+        }
+        
+        
+    }
+    
+    func loadData(){
+        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
+        let amount:Int = 20
+        Alamofire.request(.GET, "http://come.n.get.us.to/clips", parameters: ["access_token": access_token, "amount": amount]).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                let json = JSON(responseVal)
+                self.scrapList = json["data"]
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+            }
         }
     }
     

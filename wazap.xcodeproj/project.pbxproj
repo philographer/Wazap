@@ -187,11 +187,11 @@
 				BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */,
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
 				BCE420AC1C784091005B5DCE /* NotificationViewController.swift */,
+				BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */,
 				BCA7AE1A1C789F4C00555376 /* SettingViewController.swift */,
 				BCA7AF5B1C797CDC00171CF0 /* RegisgerProfileViewController.swift */,
 				BC3A486E1C79DD7A008C559B /* LeftViewController.swift */,
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
-				BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */,
 				BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */,
 				BC446C451C8001AF00B40641 /* ModifyViewController.swift */,
 			);
