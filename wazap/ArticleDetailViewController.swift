@@ -60,7 +60,7 @@ class ArticleDetailViewController: UIViewController {
         super.viewDidLoad()
         //print(contests_id)
         print("contests_id: \(contests_id!)")
-        print("applies_id: \(applies_id!) ")
+        //print("applies_id: \(applies_id!) ")
     }
 
     
@@ -120,6 +120,7 @@ class ArticleDetailViewController: UIViewController {
                             //신청자이면
                             if(jsonData[i]["contests_id"].intValue == self.contests_id!){
                                 isApllier = true
+                                self.applies_id = jsonData[i]["applies_id"].stringValue
                             }
                         }
                         /*
@@ -221,25 +222,32 @@ class ArticleDetailViewController: UIViewController {
         Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id!)/join", parameters: ["access_token": access_token]).responseJSON{
             response in
             if let JSON = response.result.value{
-                let alertController = UIAlertController(title: "팀원모집", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "ok", style: .Default, handler: nil)
+                let alertController = UIAlertController(title: "신청결과", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "ok", style: .Default, handler: {(action) in
+                    self.navigationController?.popViewControllerAnimated(true)
+                })
                 alertController.addAction(okAction)
                 self.presentViewController(alertController, animated: true, completion: nil)
             }
         }
     }
     
+    /**
+     @ 신청 취소 버튼 Function
+    */
     func cancelTouch(sender: UIButton!){
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
-        print(FBSDKAccessToken.currentAccessToken().userID)
+        //print(FBSDKAccessToken.currentAccessToken().userID)
         print(access_token)
         // /contests/:contest_id/:applies_id
-        print("http://come.n.get.us.to/contests/\(contests_id!)/applies")
-        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id!)/applies", parameters: ["access_token": access_token]).responseJSON{
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id!)/join", parameters: ["access_token": access_token]).responseJSON{
             response in
+            print(response)
             if let JSON = response.result.value{
                 let alertController = UIAlertController(title: "신청 취소", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "ok", style: .Default, handler: nil)
+                let okAction = UIAlertAction(title: "ok", style: .Default, handler: {(action) in
+                    self.navigationController?.popViewControllerAnimated(true)
+                })
                 alertController.addAction(okAction)
                 self.presentViewController(alertController, animated: true, completion: nil)
             }
@@ -364,9 +372,10 @@ class ArticleDetailViewController: UIViewController {
                 let json = JSON(responseVal)
                 print(json["msg"])
                 let alertController = UIAlertController(title: "마감", message: json["msg"].stringValue, preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                let okAction = UIAlertAction(title: "OK", style: .Default, handler: {(action) in
+                    self.navigationController?.popViewControllerAnimated(true)
+                })
                 alertController.addAction(okAction)
-                
                 self.presentViewController(alertController, animated: true, completion: nil)
             }
         }

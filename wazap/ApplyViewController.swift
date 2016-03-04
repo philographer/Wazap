@@ -37,7 +37,8 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications", parameters: ["access_token": access_token, "start_id": 0, "amount": 30]).responseJSON{
             response in
             if let responseVal = response.result.value{
-                self.applyList = JSON(responseVal["data"]!!)
+                let json = JSON(responseVal)
+                self.applyList = json["data"]
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 self.tableView.reloadData()

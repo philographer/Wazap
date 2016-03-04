@@ -111,7 +111,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEN-ul-e3h">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="11" width="352" height="21"/>
@@ -834,7 +834,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D-Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDf-PZ-1W6">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="8" width="343" height="21"/>
@@ -843,7 +843,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[제목]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iC4-op-nfS">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="37" width="321" height="21"/>
@@ -852,7 +852,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="모집인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SsJ-Gu-hcC">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="66" width="64" height="21"/>
@@ -861,7 +861,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgZ-MT-XN4">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="80" y="66" width="37" height="21"/>
@@ -870,7 +870,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="신청인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2H-jD-rIP">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="130" y="66" width="60" height="21"/>
@@ -879,7 +879,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="확정인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGQ-zE-OmT">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="242" y="66" width="71" height="21"/>
@@ -888,7 +888,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUB-hk-Hrb">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="309" y="66" width="42" height="21"/>
@@ -912,7 +912,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sn4-zh-r4d">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="198" y="66" width="36" height="21"/>
@@ -1401,56 +1401,42 @@
                                 <exclude reference="vMp-ZC-nyw"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="5L3-XJ-TcI"/>
-                                <exclude reference="Ik6-jy-0jT"/>
-                                <exclude reference="fnW-yc-hn7"/>
-                                <exclude reference="hbx-ue-tZC"/>
-                                <exclude reference="ElN-0G-hu9"/>
-                                <exclude reference="Krm-pZ-rzh"/>
-                                <exclude reference="QNI-er-0ma"/>
-                                <exclude reference="2X1-xs-5Rq"/>
-                                <exclude reference="Dwl-hj-PDW"/>
-                                <exclude reference="YwZ-kQ-bcS"/>
-                                <exclude reference="lMU-8g-u8X"/>
-                                <exclude reference="qDU-dm-ZGH"/>
-                                <exclude reference="QKj-91-XUK"/>
-                                <exclude reference="SVu-Gt-2db"/>
-                                <exclude reference="d0Q-MW-jlA"/>
-                                <exclude reference="mem-1U-lKC"/>
-                                <exclude reference="z0s-DS-RFp"/>
-                                <exclude reference="5bM-Dd-m18"/>
-                                <exclude reference="eU2-xX-eSY"/>
-                                <exclude reference="nhK-0f-CmI"/>
-                                <exclude reference="xK9-ZL-8Lk"/>
-                                <exclude reference="YqN-tx-OZN"/>
-                                <exclude reference="uGM-Bc-eOR"/>
+                                <exclude reference="81F-lM-hKc"/>
+                                <exclude reference="OfU-nT-fSM"/>
+                                <exclude reference="gBF-5Q-6L1"/>
+                                <exclude reference="zzS-7w-O36"/>
+                                <exclude reference="FGB-el-VpR"/>
+                                <exclude reference="aog-0S-JeQ"/>
                                 <exclude reference="7Rh-gS-vXU"/>
                                 <exclude reference="RV7-z2-vWy"/>
                                 <exclude reference="T8t-Ps-Juh"/>
                                 <exclude reference="bSk-r8-tdL"/>
                                 <exclude reference="nSF-SK-sEe"/>
-                                <exclude reference="9Ai-Uu-OxB"/>
-                                <exclude reference="kdq-Ch-czD"/>
-                                <exclude reference="njN-Ax-OrE"/>
-                                <exclude reference="5kC-tE-47Q"/>
-                                <exclude reference="a2y-82-hId"/>
-                                <exclude reference="qVN-YK-YTN"/>
-                                <exclude reference="MH7-Hh-1dt"/>
-                                <exclude reference="Z3d-HU-PML"/>
+                                <exclude reference="Dp5-K5-99v"/>
+                                <exclude reference="yaF-7z-9F4"/>
+                                <exclude reference="6X7-r2-bgT"/>
+                                <exclude reference="UBN-mK-qXB"/>
+                                <exclude reference="XXp-1k-1zf"/>
+                                <exclude reference="g1E-6K-w8z"/>
                                 <exclude reference="MlN-T6-GSa"/>
                                 <exclude reference="NJD-4S-mHe"/>
                                 <exclude reference="PIw-xk-xTa"/>
                                 <exclude reference="SM1-9v-S7E"/>
                                 <exclude reference="fiR-lS-R0A"/>
                                 <exclude reference="oQf-yU-zbh"/>
-                                <exclude reference="6X7-r2-bgT"/>
-                                <exclude reference="UBN-mK-qXB"/>
-                                <exclude reference="XXp-1k-1zf"/>
-                                <exclude reference="g1E-6K-w8z"/>
-                                <exclude reference="FGB-el-VpR"/>
-                                <exclude reference="aog-0S-JeQ"/>
-                                <exclude reference="Dp5-K5-99v"/>
-                                <exclude reference="yaF-7z-9F4"/>
+                                <exclude reference="YqN-tx-OZN"/>
+                                <exclude reference="uGM-Bc-eOR"/>
+                                <exclude reference="QKj-91-XUK"/>
+                                <exclude reference="SVu-Gt-2db"/>
+                                <exclude reference="d0Q-MW-jlA"/>
+                                <exclude reference="mem-1U-lKC"/>
+                                <exclude reference="z0s-DS-RFp"/>
+                                <exclude reference="9Ai-Uu-OxB"/>
+                                <exclude reference="kdq-Ch-czD"/>
+                                <exclude reference="njN-Ax-OrE"/>
+                                <exclude reference="5kC-tE-47Q"/>
+                                <exclude reference="a2y-82-hId"/>
+                                <exclude reference="qVN-YK-YTN"/>
                                 <exclude reference="7k1-jl-fiy"/>
                                 <exclude reference="Bao-dL-K4i"/>
                                 <exclude reference="dsu-S9-ywK"/>
@@ -1458,13 +1444,27 @@
                                 <exclude reference="pRJ-XQ-zYl"/>
                                 <exclude reference="ifT-Vc-Y8G"/>
                                 <exclude reference="o8v-fk-DUB"/>
+                                <exclude reference="2X1-xs-5Rq"/>
+                                <exclude reference="Dwl-hj-PDW"/>
+                                <exclude reference="YwZ-kQ-bcS"/>
+                                <exclude reference="lMU-8g-u8X"/>
+                                <exclude reference="qDU-dm-ZGH"/>
+                                <exclude reference="5L3-XJ-TcI"/>
+                                <exclude reference="Ik6-jy-0jT"/>
+                                <exclude reference="fnW-yc-hn7"/>
+                                <exclude reference="hbx-ue-tZC"/>
                                 <exclude reference="Md0-Py-Pvi"/>
+                                <exclude reference="5bM-Dd-m18"/>
+                                <exclude reference="eU2-xX-eSY"/>
+                                <exclude reference="nhK-0f-CmI"/>
+                                <exclude reference="xK9-ZL-8Lk"/>
+                                <exclude reference="MH7-Hh-1dt"/>
+                                <exclude reference="Z3d-HU-PML"/>
                                 <exclude reference="1WT-Z2-7hl"/>
                                 <exclude reference="gQm-t0-PC9"/>
-                                <exclude reference="81F-lM-hKc"/>
-                                <exclude reference="OfU-nT-fSM"/>
-                                <exclude reference="gBF-5Q-6L1"/>
-                                <exclude reference="zzS-7w-O36"/>
+                                <exclude reference="ElN-0G-hu9"/>
+                                <exclude reference="Krm-pZ-rzh"/>
+                                <exclude reference="QNI-er-0ma"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1491,56 +1491,42 @@
                                 <include reference="vMp-ZC-nyw"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="5L3-XJ-TcI"/>
-                                <include reference="Ik6-jy-0jT"/>
-                                <include reference="fnW-yc-hn7"/>
-                                <include reference="hbx-ue-tZC"/>
-                                <include reference="ElN-0G-hu9"/>
-                                <include reference="Krm-pZ-rzh"/>
-                                <include reference="QNI-er-0ma"/>
-                                <include reference="2X1-xs-5Rq"/>
-                                <include reference="Dwl-hj-PDW"/>
-                                <include reference="YwZ-kQ-bcS"/>
-                                <include reference="lMU-8g-u8X"/>
-                                <include reference="qDU-dm-ZGH"/>
-                                <include reference="QKj-91-XUK"/>
-                                <include reference="SVu-Gt-2db"/>
-                                <include reference="d0Q-MW-jlA"/>
-                                <include reference="mem-1U-lKC"/>
-                                <include reference="z0s-DS-RFp"/>
-                                <include reference="5bM-Dd-m18"/>
-                                <include reference="eU2-xX-eSY"/>
-                                <include reference="nhK-0f-CmI"/>
-                                <include reference="xK9-ZL-8Lk"/>
-                                <include reference="YqN-tx-OZN"/>
-                                <include reference="uGM-Bc-eOR"/>
+                                <include reference="81F-lM-hKc"/>
+                                <include reference="OfU-nT-fSM"/>
+                                <include reference="gBF-5Q-6L1"/>
+                                <include reference="zzS-7w-O36"/>
+                                <include reference="FGB-el-VpR"/>
+                                <include reference="aog-0S-JeQ"/>
                                 <include reference="7Rh-gS-vXU"/>
                                 <include reference="RV7-z2-vWy"/>
                                 <include reference="T8t-Ps-Juh"/>
                                 <include reference="bSk-r8-tdL"/>
                                 <include reference="nSF-SK-sEe"/>
-                                <include reference="9Ai-Uu-OxB"/>
-                                <include reference="kdq-Ch-czD"/>
-                                <include reference="njN-Ax-OrE"/>
-                                <include reference="5kC-tE-47Q"/>
-                                <include reference="a2y-82-hId"/>
-                                <include reference="qVN-YK-YTN"/>
-                                <include reference="MH7-Hh-1dt"/>
-                                <include reference="Z3d-HU-PML"/>
+                                <include reference="Dp5-K5-99v"/>
+                                <include reference="yaF-7z-9F4"/>
+                                <include reference="6X7-r2-bgT"/>
+                                <include reference="UBN-mK-qXB"/>
+                                <include reference="XXp-1k-1zf"/>
+                                <include reference="g1E-6K-w8z"/>
                                 <include reference="MlN-T6-GSa"/>
                                 <include reference="NJD-4S-mHe"/>
                                 <include reference="PIw-xk-xTa"/>
                                 <include reference="SM1-9v-S7E"/>
                                 <include reference="fiR-lS-R0A"/>
                                 <include reference="oQf-yU-zbh"/>
-                                <include reference="6X7-r2-bgT"/>
-                                <include reference="UBN-mK-qXB"/>
-                                <include reference="XXp-1k-1zf"/>
-                                <include reference="g1E-6K-w8z"/>
-                                <include reference="FGB-el-VpR"/>
-                                <include reference="aog-0S-JeQ"/>
-                                <include reference="Dp5-K5-99v"/>
-                                <include reference="yaF-7z-9F4"/>
+                                <include reference="YqN-tx-OZN"/>
+                                <include reference="uGM-Bc-eOR"/>
+                                <include reference="QKj-91-XUK"/>
+                                <include reference="SVu-Gt-2db"/>
+                                <include reference="d0Q-MW-jlA"/>
+                                <include reference="mem-1U-lKC"/>
+                                <include reference="z0s-DS-RFp"/>
+                                <include reference="9Ai-Uu-OxB"/>
+                                <include reference="kdq-Ch-czD"/>
+                                <include reference="njN-Ax-OrE"/>
+                                <include reference="5kC-tE-47Q"/>
+                                <include reference="a2y-82-hId"/>
+                                <include reference="qVN-YK-YTN"/>
                                 <include reference="7k1-jl-fiy"/>
                                 <include reference="Bao-dL-K4i"/>
                                 <include reference="dsu-S9-ywK"/>
@@ -1548,13 +1534,27 @@
                                 <include reference="pRJ-XQ-zYl"/>
                                 <include reference="ifT-Vc-Y8G"/>
                                 <include reference="o8v-fk-DUB"/>
+                                <include reference="2X1-xs-5Rq"/>
+                                <include reference="Dwl-hj-PDW"/>
+                                <include reference="YwZ-kQ-bcS"/>
+                                <include reference="lMU-8g-u8X"/>
+                                <include reference="qDU-dm-ZGH"/>
+                                <include reference="5L3-XJ-TcI"/>
+                                <include reference="Ik6-jy-0jT"/>
+                                <include reference="fnW-yc-hn7"/>
+                                <include reference="hbx-ue-tZC"/>
                                 <include reference="Md0-Py-Pvi"/>
+                                <include reference="5bM-Dd-m18"/>
+                                <include reference="eU2-xX-eSY"/>
+                                <include reference="nhK-0f-CmI"/>
+                                <include reference="xK9-ZL-8Lk"/>
+                                <include reference="MH7-Hh-1dt"/>
+                                <include reference="Z3d-HU-PML"/>
                                 <include reference="1WT-Z2-7hl"/>
                                 <include reference="gQm-t0-PC9"/>
-                                <include reference="81F-lM-hKc"/>
-                                <include reference="OfU-nT-fSM"/>
-                                <include reference="gBF-5Q-6L1"/>
-                                <include reference="zzS-7w-O36"/>
+                                <include reference="ElN-0G-hu9"/>
+                                <include reference="Krm-pZ-rzh"/>
+                                <include reference="QNI-er-0ma"/>
                             </mask>
                         </variation>
                     </view>
@@ -1641,7 +1641,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[타이틀]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFW-Gj-KXI">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="37" width="346" height="21"/>
@@ -1650,7 +1650,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[D-day]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YG4-Os-rM7">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="8" width="59" height="21"/>
@@ -1659,7 +1659,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[카테고리]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bw-9j-3RO">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="66" width="244" height="21"/>
@@ -1675,7 +1675,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="모집인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pq-um-tiW">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="233" y="66" width="59" height="21"/>
@@ -1684,7 +1684,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bnu-5H-U7S">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="300" y="66" width="27" height="21"/>
@@ -1859,7 +1859,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="D-Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zlf-Xp-Hse">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="0.0" width="50" height="21"/>
@@ -1868,7 +1868,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[서울] 한화생명 보험 아이디어 공모전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecV-AG-PiX">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="29" width="301" height="21"/>
@@ -1877,7 +1877,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="모집인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txd-mH-7NZ">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="8" y="58" width="59" height="21"/>
@@ -1886,7 +1886,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I9G-b5-R0c">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="75" y="58" width="25" height="21"/>
@@ -1895,7 +1895,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="신청인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxB-Bs-kc4">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="108" y="58" width="59" height="21"/>
@@ -1904,7 +1904,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="확정인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlK-j9-1Fp">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="216" y="58" width="59" height="21"/>
@@ -1913,7 +1913,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lv7-YV-Ojm">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="283" y="58" width="25" height="21"/>
@@ -1929,7 +1929,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byE-yp-QAq">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="175" y="58" width="33" height="21"/>
@@ -2057,7 +2057,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="누구누구님이 [ㅇㅇㅇ공모전]을 신청" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ow-PU-Ir6">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="97" y="8" width="295" height="54"/>
@@ -2066,7 +2066,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="몇분전" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AwO-W1-7x5">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                                         <rect key="frame" x="97" y="70" width="45" height="21"/>
@@ -2245,7 +2245,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mQ0-mF-vI5">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="71" y="332" width="309" height="21"/>
@@ -2254,7 +2254,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdG-gP-xty">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="71" y="303" width="309" height="21"/>
@@ -2263,7 +2263,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jag-5U-Cjt">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="71" y="390" width="309" height="21"/>
@@ -2272,7 +2272,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dv-bZ-FSM">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="71" y="361" width="309" height="21"/>
@@ -2558,7 +2558,7 @@
                                     <constraint firstAttribute="height" constant="21" id="0Ta-gM-FOV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -3505,7 +3505,7 @@
                                     <constraint firstAttribute="height" constant="21" id="pzd-7X-7zp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">

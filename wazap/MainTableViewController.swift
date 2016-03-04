@@ -159,7 +159,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             let myIndexPath = self.tableView.indexPathForSelectedRow
             let row:Int = myIndexPath!.row
             detailViewController.contests_id = self.contestList![row]["contests_id"] as? Int
-            detailViewController.applies_id = self.contestList![row]["applies_id"] as? String
+            //print("prepare for segue: applies_id: \(detailViewController.applies_id)")
             
             //상세정보 받아옴
             
