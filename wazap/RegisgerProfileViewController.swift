@@ -22,6 +22,8 @@ class RegisgerProfileViewController: UIViewController {
     @IBOutlet weak var introduceTextField: UITextView!
     @IBOutlet weak var expTextField: UITextView!
     
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +44,6 @@ class RegisgerProfileViewController: UIViewController {
      @ 제출하기 버튼 Action
     */
     @IBAction func submitButtonTouch(sender: AnyObject) {
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let kakao_id = kakaoTextField.text! as String
         let username = nameTextField.text! as String
         let skill = skillTextField.text! as String
@@ -53,7 +54,7 @@ class RegisgerProfileViewController: UIViewController {
         let exp = expTextField.text! as String
         
         
-        Alamofire.request(.POST,"http://come.n.get.us.to/users/reg" , parameters: ["access_token":access_token, "kakao_id": kakao_id, "username": username, "skill": skill, "school":school, "major":major, "locate":locate, "introduce":introduce, "exp":exp]).responseJSON{
+        Alamofire.request(.POST,"http://come.n.get.us.to/users/reg" ,headers: header ,parameters: ["kakao_id": kakao_id, "username": username, "skill": skill, "school":school, "major":major, "locate":locate, "introduce":introduce, "exp":exp]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
