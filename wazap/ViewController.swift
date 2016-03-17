@@ -17,6 +17,8 @@ class ViewController : SOContainerViewController {
     /**
      @ 뷰 로드
     */
+    
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,13 +28,12 @@ class ViewController : SOContainerViewController {
             if(error == nil)
             {
                 let datas = result as! [String: AnyObject]
-                let accessToken = FBSDKAccessToken.currentAccessToken().tokenString as String
                 let userNumber = datas["id"] as! String
                 let userName = datas["name"] as! String
                 let profilePicture = "http://graph.facebook.com/\(userNumber)/picture?type=large"
                 
                 //API 회원가입 로직
-                Alamofire.request(.POST, "http://come.n.get.us.to/facebook_oauth/users", parameters:["users_id" : userNumber, "access_token" : accessToken, "username":userName, "profile_image":profilePicture, "thumbnail_image":profilePicture]).responseJSON{
+                Alamofire.request(.POST, "http://come.n.get.us.to/facebook_oauth/users", headers: self.header, parameters:["users_id" : userNumber, "username":userName, "profile_image":profilePicture, "thumbnail_image":profilePicture]).responseJSON{
                     response in
                     if let JSON1 = response.result.value{
                         let results = JSON1["result"] as! Bool
@@ -42,6 +43,7 @@ class ViewController : SOContainerViewController {
                             Alamofire.request(.GET, "http://come.n.get.us.to/users/\(userNumber)", parameters: nil).responseJSON{
                                 response in
                                 if let JSON2 = response.result.value{
+                                    print(JSON2["msg"])
                                     if(JSON2["data"]!![0]["kakao_id"]!! is NSNull){ //kakao 아이디가 없으므로 회원가입시킴
                                         self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("registerScreen")
                                     }

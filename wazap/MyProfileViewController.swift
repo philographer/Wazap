@@ -20,9 +20,9 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var kakaoLabel: UILabel!
     @IBOutlet weak var schoolLabel: UILabel!
-    @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var majorLabel: UILabel!
     @IBOutlet weak var locateLabel: UILabel!
+    @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var introduceLabel: UITextView!
     @IBOutlet weak var expLabel: UITextView!
     @IBOutlet weak var activityIND: UIActivityIndicatorView!
@@ -35,6 +35,7 @@ class MyProfileViewController: UIViewController {
     */
     var overlay : UIView?
     var facebookId:String?
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     
     /**
@@ -79,7 +80,7 @@ class MyProfileViewController: UIViewController {
             if let responseVal = response.result.value{
                 
                 let json = JSON(responseVal)
-                self.ageLabel.text = json["data"][0]["age"].stringValue
+                self.skillLabel.text = json["data"][0]["skill"].stringValue
                 self.expLabel.text = json["data"][0]["exp"].stringValue
                 self.introduceLabel.text = json["data"][0]["introduce"].stringValue
                 self.kakaoLabel.text = json["data"][0]["kakao_id"].stringValue

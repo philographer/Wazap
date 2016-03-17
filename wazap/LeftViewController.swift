@@ -10,6 +10,7 @@ import UIKit
 import SidebarOverlay
 import FBSDKLoginKit
 import Alamofire
+import SwiftyJSON
 
 class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -60,6 +61,7 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("applyScreen")
         case 2:
             self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("recruitScreen")
+            //여기서 값을 못 넘기나?
         default:
             self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("mainScreen")
         }
@@ -102,11 +104,12 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "myProfileSegue"){
             let destinationController = segue.destinationViewController as! MyProfileViewController
-            
+
             destinationController.facebookId = FBSDKAccessToken.currentAccessToken().userID!
             
             print(destinationController.facebookId)
         }
+        
     }
     
     

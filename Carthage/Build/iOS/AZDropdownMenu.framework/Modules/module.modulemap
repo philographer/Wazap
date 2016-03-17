@@ -1,0 +1,10 @@
+framework module AZDropdownMenu {
+  umbrella header "AZDropdownMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module AZDropdownMenu.Swift {
+    header "AZDropdownMenu-Swift.h"
+}

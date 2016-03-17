@@ -49,27 +49,30 @@ class ArticleDetailViewController: UIViewController {
     */
     
     var contests_id: Int?
-    var contests: AnyObject?
+    var contests: JSON = JSON.null
     var categoryArr: [String] = []
     var applies_id: String?
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     /**
      @ 뷰 로드
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print(contests_id)
         print("contests_id: \(contests_id!)")
-        //print("applies_id: \(applies_id!) ")
-    }
-
-    
-    override func viewWillLayoutSubviews() {
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
+        
+        //타이틀을 이미지로 변경
+        var titleView : UIImageView
+        // set the dimensions you want here
+        titleView = UIImageView(frame:CGRectMake(0, 0, 50, 70))
+        // Set how do you want to maintain the aspect
+        titleView.contentMode = .ScaleAspectFit
+        titleView.image = UIImage(named: "detail_title_banner-1")
+        self.navigationItem.titleView = titleView
+        
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
         
@@ -77,17 +80,18 @@ class ArticleDetailViewController: UIViewController {
         //상세정보 받아옴
         var content_writer: Int?
         var isApllier = false
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id!)", parameters: ["access_token":access_token]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id!)", headers: header).responseJSON{
             response in
             if let responseVal = response.result.value{
                 //받아온 정보 contests에 할당
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.hidden = true
                 
-                self.contests = responseVal["data"]!!
-                let stringJSON:JSON = JSON(responseVal["data"]!!["categories"]!!)
+                let json = JSON(responseVal)
+                self.contests = json["data"]
+                
+                let stringJSON:JSON = self.contests["categories"]
                 if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
                     for words in wordsInclude{
                         self.categoryArr.append(String(words.characters.dropFirst().dropLast()))
@@ -95,23 +99,23 @@ class ArticleDetailViewController: UIViewController {
                 }
                 
                 // 받아온 상세정보 라벨에 집어넣음
-                self.titleLabel.text = responseVal["data"]!!["title"] as? String
-                self.hostsLabel.text = responseVal["data"]!!["hosts"] as? String
+                self.titleLabel.text = self.contests["title"].stringValue
+                self.hostsLabel.text = self.contests["hosts"].stringValue
                 self.categoryLabel.text = String(self.categoryArr)
-                self.recruitmentLabel.text = String(responseVal["data"]!!["recruitment"] as! Int)
-                self.writerLabel.text = String(responseVal["data"]!!["cont_writer"] as! Int)
-                self.coverLabel.text = responseVal["data"]!!["cover"] as? String
-                self.appliersLabel.text = responseVal["data"]!!["appliers"]!?.stringValue
-                self.kakaoLabel.text = responseVal["data"]!!["kakao_id"] as? String
+                self.recruitmentLabel.text = self.contests["recruitment"].stringValue
+                self.writerLabel.text = self.contests["cont_writer"].stringValue
+                self.coverLabel.text = self.contests["cover"].stringValue
+                self.appliersLabel.text = self.contests["appliers"].stringValue
+                self.kakaoLabel.text = self.contests["kakao_id"].stringValue
                 
                 
                 //content_writer 값 할당
-                content_writer = responseVal["data"]!!["cont_writer"]!! as? Int
+                content_writer = self.contests["cont_writer"].intValue
                 
                 
                 
                 //!! 신청자인지 검사 !!
-                request(.GET, "http://come.n.get.us.to/contests/applications", parameters: ["access_token": access_token]).responseJSON{
+                request(.GET, "http://come.n.get.us.to/contests/applications", headers: self.header).responseJSON{
                     response in
                     if let responseValue = response.result.value{
                         let json = JSON(responseValue)
@@ -131,6 +135,31 @@ class ArticleDetailViewController: UIViewController {
                         }
                         */
                         
+                        
+                        //!! 글쓴이가 아니면 scrap버튼 추가
+                        if(content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
+                            //스크랩 버튼 추가
+                            let scrapButton: UIButton = UIButton()
+                            var ui_image:UIImage;
+                            if (self.contests["is_clip"] == 0)
+                            {
+                                ui_image = UIImage(named: "heart1")!
+                            }
+                            else{
+                                ui_image = UIImage(named: "heart2")!
+                            }
+                            scrapButton.setImage(ui_image, forState: .Normal)
+                            scrapButton.frame = CGRectMake(0, 0, 25, 25)
+                            scrapButton.addTarget(self, action: "scrapAction:", forControlEvents: .TouchUpInside)
+                            self.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
+                        }
+                        else{
+                            //더보기, 마감하기 버튼 없애기
+                            self.moreButton.title = ""
+                            self.moreButton.enabled = false
+                        }
+                        
+                        
                         //!! 글쓴이가 아니고 신청릉 안 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
                         if ((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (!isApllier)){
                             //신청하기 버튼 추가
@@ -144,9 +173,8 @@ class ArticleDetailViewController: UIViewController {
                             button.addTarget(self, action: "applyTouch:", forControlEvents: .TouchUpInside)
                             self.view.addSubview(button)
                             
-                            //더보기, 마감하기 버튼 없애기
-                            self.moreButton.title = ""
-                            self.moreButton.enabled = false
+                            
+                            
                             self.closeButton.hidden = true
                         }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
                         else if((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (isApllier))
@@ -183,7 +211,7 @@ class ArticleDetailViewController: UIViewController {
                 }
                 
                 //D-day 변환 로직
-                if let dayString:String = responseVal["data"]!!["period"] as? String{
+                if let dayString:String = json["data"]["period"].stringValue{
                     //String을 NSDate로 변환
                     let formatter = NSDateFormatter()
                     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
@@ -216,10 +244,52 @@ class ArticleDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    
+    /**
+     @ 스크랩 버튼
+    */
+    
+    func scrapAction(sender: UIButton)
+    {
+        let is_clip:Bool = self.contests["is_clip"].boolValue
+        if(is_clip){
+            //찜 삭제
+            Alamofire.request(.DELETE, "http://come.n.get.us.to/clips/\(self.contests["contests_id"].stringValue)", headers: header).responseJSON{
+                response in
+                if let JSON = response.result.value{
+                    let alertController = UIAlertController(title: "찜삭제", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: {(action) in
+                        self.contests["is_clip"].boolValue = !self.contests["is_clip"].boolValue
+                    })
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    sender.setImage(UIImage(named: "heart1"), forState: .Normal)
+                }
+            }
+        }
+        else{
+            //찜하기
+            Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(self.contests["contests_id"].stringValue)", headers: header).responseJSON{
+                response in
+                if let JSON = response.result.value{
+                    let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: {(action) in
+                        self.contests["is_clip"].boolValue = !self.contests["is_clip"].boolValue
+                    })
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    sender.setImage(UIImage(named: "heart2"), forState: .Normal)
+                }
+            }
+        }
+    }
+    
+    
     func applyTouch(sender: UIButton!)
     {
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
-        Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id!)/join", parameters: ["access_token": access_token]).responseJSON{
+        Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id!)/join", headers: header).responseJSON{
             response in
             if let JSON = response.result.value{
                 let alertController = UIAlertController(title: "신청결과", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
@@ -236,11 +306,9 @@ class ArticleDetailViewController: UIViewController {
      @ 신청 취소 버튼 Function
     */
     func cancelTouch(sender: UIButton!){
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         //print(FBSDKAccessToken.currentAccessToken().userID)
-        print(access_token)
         // /contests/:contest_id/:applies_id
-        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id!)/join", parameters: ["access_token": access_token]).responseJSON{
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id!)/join", headers: header).responseJSON{
             response in
             print(response)
             if let JSON = response.result.value{
@@ -267,8 +335,7 @@ class ArticleDetailViewController: UIViewController {
         
         let deleteOkAction = UIAlertAction(title: "삭제", style: .Default){
             UIAlertAction in
-            let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-            Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(self.contests_id!)", parameters: ["access_token": access_token]).responseJSON{
+            Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(self.contests_id!)", headers: self.header).responseJSON{
                 response in
                 if let JSON = response.result.value{
                     
@@ -292,9 +359,9 @@ class ArticleDetailViewController: UIViewController {
             
             viewController.titleLabel.text = self.titleLabel.text
             viewController.introTextView.text = self.coverLabel.text
-            viewController.recruitValue = self.contests!["recruitment"] as! Int
-            viewController.organizerLabel.text = self.contests!["hosts"] as? String
-            viewController.periodDate = self.contests!["period"] as! String
+            viewController.recruitValue = self.contests["recruitment"].intValue
+            viewController.organizerLabel.text = self.contests["hosts"].stringValue
+            viewController.periodDate = self.contests["period"].stringValue
             viewController.contest_id = self.contests_id
             viewController.isModify = true
             
@@ -327,10 +394,10 @@ class ArticleDetailViewController: UIViewController {
             //날짜 바꿔줌
             let formatter = NSDateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            viewController.dayPicker.setDate(formatter.dateFromString(viewController.periodDate)!, animated: true)
+            //viewController.dayPicker.setDate(formatter.dateFromString(viewController.periodDate)!, animated: true)
             
             //모집인원 바꿔줌
-            viewController.recruitNumberPicker.selectRow(viewController.recruitValue-2, inComponent: 0, animated: true)
+            //viewController.recruitNumberPicker.selectRow(viewController.recruitValue-2, inComponent: 0, animated: true)
             
         }
         
@@ -364,9 +431,8 @@ class ArticleDetailViewController: UIViewController {
         print("현재 글번호는 \(self.contests_id!)")
         print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
         print("\(FBSDKAccessToken.currentAccessToken().tokenString)")
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
         
-        Alamofire.request(.PUT, "http://come.n.get.us.to/contests/finish/\(self.contests_id!)", parameters: ["access_token": access_token], encoding: .JSON).responseJSON{
+        Alamofire.request(.PUT, "http://come.n.get.us.to/contests/finish/\(self.contests_id!)", headers: header, encoding: .JSON).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
@@ -404,7 +470,7 @@ class ArticleDetailViewController: UIViewController {
     @IBAction func detailProfile(sender: AnyObject) {
         let profileController = self.storyboard?.instantiateViewControllerWithIdentifier("profileViewController") as! MyProfileViewController
         
-        profileController.facebookId = String(self.contests!["cont_writer"]!!)
+        profileController.facebookId = String(self.contests["cont_writer"].stringValue)
 
         self.navigationController?.pushViewController(profileController, animated: true)
     }

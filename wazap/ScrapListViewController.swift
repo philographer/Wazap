@@ -15,6 +15,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
 
     var scrapList:JSON? //스크랩 리스트
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     /**
      @ Outlet
@@ -135,13 +136,12 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     func applyAction(sender: UIButton){
         
         let contests_id:Int = sender.tag
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
         print(contests_id)
         let alertController = UIAlertController(title: "신청하기", message: "신청하시겠습니까?", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "취소", style: .Destructive, handler: nil)
         let okAction = UIAlertAction(title: "신청", style: .Default, handler: {(action)
             in
-            Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id)/join", parameters: ["access_token": access_token]).responseJSON{
+            Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id)/join", headers: self.header).responseJSON{
                 response in
                 if let responseVal = response.result.value{
                     let alertController2 = UIAlertController(title: "신청결과", message: responseVal["msg"]!! as? String, preferredStyle: .Alert)
@@ -163,8 +163,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func deleteAction(sender: UIButton) {
         let contests_id:Int = sender.tag
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-        Alamofire.request(.DELETE, "http://come.n.get.us.to/clips/\(contests_id)", parameters: ["access_token": access_token]).responseJSON{
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/clips/\(contests_id)", headers: header).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let responseJSON = JSON(responseVal)
@@ -187,9 +186,8 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func loadData(){
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
         let amount:Int = 20
-        Alamofire.request(.GET, "http://come.n.get.us.to/clips", parameters: ["access_token": access_token, "amount": amount]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/clips",headers: header ,parameters: ["amount": amount]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)

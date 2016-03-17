@@ -18,6 +18,8 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var tagList: UILabel! //태그 리스트
     @IBOutlet weak var hostName: UILabel! //주최자
     @IBOutlet weak var scrapButton: UIButton! //스크랩버튼
+    @IBOutlet weak var nowNumber: UILabel!
+    @IBOutlet weak var maxNumber: UILabel!
 
     
     override func awakeFromNib() {

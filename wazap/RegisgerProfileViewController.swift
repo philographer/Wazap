@@ -14,7 +14,7 @@ class RegisgerProfileViewController: UIViewController {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var kakaoTextField: UITextField!
-    @IBOutlet weak var ageTextField: UITextField!
+    @IBOutlet weak var skillTextField: UITextField!
     @IBOutlet weak var schoolTextField: UITextField!
     @IBOutlet weak var majorTextField: UITextField!
     @IBOutlet weak var locateTextField: UITextField!
@@ -44,7 +44,7 @@ class RegisgerProfileViewController: UIViewController {
         let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
         let kakao_id = kakaoTextField.text! as String
         let username = nameTextField.text! as String
-        let age = ageTextField.text! as String
+        let skill = skillTextField.text! as String
         let school = schoolTextField.text! as String
         let major = majorTextField.text! as String
         let locate = locateTextField.text! as String
@@ -52,7 +52,7 @@ class RegisgerProfileViewController: UIViewController {
         let exp = expTextField.text! as String
         
         
-        Alamofire.request(.POST,"http://come.n.get.us.to/users/reg" , parameters: ["access_token":access_token, "kakao_id": kakao_id, "username": username, "age": age, "school":school, "major":major, "locate":locate, "introduce":introduce, "exp":exp]).responseJSON{
+        Alamofire.request(.POST,"http://come.n.get.us.to/users/reg" , parameters: ["access_token":access_token, "kakao_id": kakao_id, "username": username, "skill": skill, "school":school, "major":major, "locate":locate, "introduce":introduce, "exp":exp]).responseJSON{
             response in
             if let JSON = response.result.value{
                 let results = JSON["result"] as! String

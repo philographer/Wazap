@@ -10,51 +10,68 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import FBSDKLoginKit
+import AZDropdownMenu
 
 
 class MainTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarDelegate {
     
     
+    
     /**
      @ Outlet, Variables
     */
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    @IBOutlet weak var sideBarButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
-    var contestList:AnyObject? = [] //API에서 불러온 공모전 리스트
+    var contestList:JSON = [] //API에서 불러온 공모전 리스트
     var dueDays:[String]? = [] //D-Day 계산을 위한 배열
+    let categoryMenu = AZDropdownMenu(titles: ["디자인·UCC", "IT·개발", "마케팅·광고", "논문·문학", "게임", "ETC"])
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     /**
      @ 뷰 로드
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        var titleView : UIImageView
+        // set the dimensions you want here
+        titleView = UIImageView(frame:CGRectMake(0, 0, 50, 70))
+        // Set how do you want to maintain the aspect
+        titleView.contentMode = .ScaleAspectFit
+        titleView.image = UIImage(named: "detail_title_banner-1")
+        self.navigationItem.titleView = titleView
     }
     
     /**
      @ View Appear
      */
     override func viewWillAppear(animated: Bool) {
+        
         //Contest ReLoad
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests", parameters: ["amount": 30, "access_token": access_token]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests",headers: header ,parameters: ["amount": 30]).responseJSON{
             response in
-            if let JSON = response.result.value{
-                self.contestList = JSON["data"]!!
+            if let responseVal = response.result.value{
+                
+                let jsonList:JSON = JSON(responseVal)
+                
+                self.contestList = jsonList["data"]
                 //TableView 소스
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 //TabBar 소스
                 self.tabBar.delegate = self
-                
                 self.tableView.reloadData()
             }
         }
         
         //글쓰기 버튼 추가
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 70, y: self.view.frame.size.height - 70), size: CGSize(width: 50, height: 50)))
+
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
         button.layer.zPosition = 2
+        button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.backgroundColor = UIColor.whiteColor()
-        button.setImage(UIImage(named: "pen.png"), forState: UIControlState.Normal)
+        button.setImage(UIImage(named: "writing_icon"), forState: UIControlState.Normal)
         button.tag = 1000
         button.addTarget(self, action: "writeButton:", forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationController?.view.addSubview(button)
@@ -89,7 +106,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.contestList!.count
+        return self.contestList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -101,14 +118,17 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         let row = indexPath.row
         
         //날짜 String으로 변환
-        if let dayString:String = self.contestList![row]["period"] as? String{
+        if let dayString:String = self.contestList[row]["period"].stringValue{
             //String을 NSDate로 변환
             let formatter = NSDateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
             if let formattedDate = formatter.dateFromString(dayString){
                 //앞의 자리수로 자르고 day라벨에 집어넣기
                 formatter.dateFormat = "yyyy-MM-dd"
-                cell.day.text = formatter.stringFromDate(formattedDate)
+                
+                //cell.day.text = formatter.stringFromDate(formattedDate)
+                
+                
                 
                 //D-day 표시
                 let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
@@ -122,12 +142,22 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
+        cell.nowNumber.text = self.contestList[row]["appliers"].stringValue
+        cell.maxNumber.text = self.contestList[row]["recruitment"].stringValue
+        
         cell.dueTime.text = "X 분전"
-        cell.articleTitle.text = self.contestList![row]["title"] as? String
-        cell.hostName.text = self.contestList![row]["hosts"] as? String
-        cell.category.text = self.contestList![row]["categories"] as? String
-        cell.scrapButton.tag = self.contestList![row]["contests_id"] as! Int
+        cell.articleTitle.text = self.contestList[row]["title"].stringValue
+        cell.hostName.text = self.contestList[row]["hosts"].stringValue
+        cell.category.text = self.contestList[row]["categories"].stringValue
+        cell.scrapButton.tag = self.contestList[row]["contests_id"].intValue
         cell.scrapButton.addTarget(self, action: "scrapButton:", forControlEvents: .TouchUpInside)
+        
+        let is_clip = self.contestList[row]["is_clip"].boolValue
+        
+        if(is_clip == true){
+            cell.scrapButton.setImage(UIImage(named: "heart2"), forState: .Normal)
+            (UIImage(named: "writing_icon"), forState: UIControlState.Normal)
+        }
         
         return cell
     }
@@ -158,20 +188,21 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
             let myIndexPath = self.tableView.indexPathForSelectedRow
             let row:Int = myIndexPath!.row
-            detailViewController.contests_id = self.contestList![row]["contests_id"] as? Int
+            detailViewController.contests_id = self.contestList[row]["contests_id"].intValue
             //print("prepare for segue: applies_id: \(detailViewController.applies_id)")
             
             //상세정보 받아옴
             
             var content_writer: Int?
-            let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
-            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", parameters: ["access_token":access_token]).responseJSON{
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
                 response in
                 if let responseVal = response.result.value{
                     //print(responseVal["data"])
                     //받아온 정보 contests에 할당
-                    detailViewController.contests = responseVal["data"]!!
-                    let stringJSON:JSON = JSON(responseVal["data"]!!["categories"]!!)
+                    let json = JSON(responseVal)
+                    
+                    detailViewController.contests = json["data"]
+                    let stringJSON:JSON = json["data"]["categories"]
                     if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
                         for words in wordsInclude{
                             detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
@@ -208,6 +239,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                         detailViewController.moreButton.title = ""
                         detailViewController.moreButton.enabled = false
                         detailViewController.closeButton.hidden = true
+                        
                     }
                     
                     //D-day 변환 로직
@@ -244,6 +276,9 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
     }
+    @IBAction func categoryTouch(sender: AnyObject) {
+        self.showDropdown();
+    }
     
     /**
      @ SideButton Action
@@ -259,15 +294,60 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     */
     @IBAction func scrapButton(sender: UIButton)
     {
-        print("스크랩버튼")
         
-        Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(sender.tag)", parameters: ["access_token": FBSDKAccessToken.currentAccessToken().tokenString as String]).responseJSON{
-            response in
-            if let JSON = response.result.value{
-                let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(okAction)
-                self.presentViewController(alertController, animated: true, completion: nil)
+        print("스크랩버튼")
+        print(sender.tag)
+        
+        var is_clip:Bool = false
+        
+        //찜인지 아닌지 찾음
+        for (_,subJson):(String, JSON) in self.contestList {
+            
+            if(subJson["contests_id"].intValue == sender.tag){
+                is_clip = subJson["is_clip"].boolValue
+            }
+        }
+        print(is_clip)
+        
+        if(is_clip){
+            //찜 삭제
+            Alamofire.request(.DELETE, "http://come.n.get.us.to/clips/\(sender.tag)", headers: header).responseJSON{
+                response in
+                if let JSON = response.result.value{
+                    let alertController = UIAlertController(title: "찜삭제", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: {(action) in
+                        for var i = 0 ; i < self.contestList.count; i++ {
+                            if(self.contestList[i]["contests_id"].intValue == sender.tag){
+                                self.contestList[i]["is_clip"].boolValue = !self.contestList[i]["is_clip"].boolValue
+                            }
+                        }
+
+                    })
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    sender.setImage(UIImage(named: "heart1"), forState: .Normal)
+                }
+            }
+            
+            
+        }
+        else{
+            //찜하기
+            Alamofire.request(.POST, "http://come.n.get.us.to/clips/\(sender.tag)", headers: header).responseJSON{
+                response in
+                if let JSON = response.result.value{
+                    let alertController = UIAlertController(title: "찜하기", message: JSON["msg"] as? String, preferredStyle: .Alert)
+                    let okAction = UIAlertAction(title: "OK", style: .Default, handler: {(action) in
+                        for var i = 0 ; i < self.contestList.count; i++ {
+                            if(self.contestList[i]["contests_id"].intValue == sender.tag){
+                                self.contestList[i]["is_clip"].boolValue = !self.contestList[i]["is_clip"].boolValue
+                            }
+                        }
+                    })
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    sender.setImage(UIImage(named: "heart2"), forState: .Normal)
+                }
             }
         }
     }
@@ -285,6 +365,17 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     */
     @IBAction func searchButton(sender: AnyObject) {
         
+    }
+    
+    /**
+     @ 카테고리 선택버튼
+    */
+    func showDropdown() {
+        if (self.categoryMenu.isDescendantOfView(self.view) == true) {
+            self.categoryMenu.hideMenu()
+        } else {
+            self.categoryMenu.showMenuFromView(self.view)
+        }
     }
 
 }

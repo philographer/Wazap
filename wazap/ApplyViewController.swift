@@ -23,6 +23,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     */
     
     var applyList : JSON?
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     
     override func viewDidLoad() {
@@ -33,8 +34,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewWillAppear(animated: Bool) {
-        let access_token:String = FBSDKAccessToken.currentAccessToken().tokenString as String
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications", parameters: ["access_token": access_token, "start_id": 0, "amount": 30]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications",headers: header ,parameters: ["start_id": 0, "amount": 30]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)

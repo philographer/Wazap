@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecruitTableViewCell" customModule="wazap" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RecruitTableViewCell" rowHeight="200" id="f4c-z0-U9n" customClass="RecruitTableViewCell" customModule="wazap" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f4c-z0-U9n" id="dIr-n4-X8C">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jRQ-Bk-Zsx" customClass="HeaderView" customModule="wazap" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FzS-Gk-2Oj" customClass="DetailView" customModule="wazap" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="99" width="600" height="101"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="jRQ-Bk-Zsx" firstAttribute="top" secondItem="dIr-n4-X8C" secondAttribute="top" id="NWe-dy-h0c"/>
+                    <constraint firstItem="FzS-Gk-2Oj" firstAttribute="leading" secondItem="jRQ-Bk-Zsx" secondAttribute="leading" id="Uls-UO-F5y"/>
+                    <constraint firstItem="jRQ-Bk-Zsx" firstAttribute="leading" secondItem="dIr-n4-X8C" secondAttribute="leading" id="enr-c9-TtP"/>
+                    <constraint firstAttribute="trailing" secondItem="jRQ-Bk-Zsx" secondAttribute="trailing" id="hDB-oz-rRd"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="FzS-Gk-2Oj" secondAttribute="bottom" constant="-8.5" id="kkb-0s-PzZ"/>
+                    <constraint firstItem="FzS-Gk-2Oj" firstAttribute="trailing" secondItem="jRQ-Bk-Zsx" secondAttribute="trailing" id="lAh-BX-etG"/>
+                    <constraint firstItem="FzS-Gk-2Oj" firstAttribute="top" secondItem="jRQ-Bk-Zsx" secondAttribute="bottom" id="lvy-7L-6QQ"/>
+                    <constraint firstItem="FzS-Gk-2Oj" firstAttribute="top" secondItem="dIr-n4-X8C" secondAttribute="top" constant="99" id="zqb-Rk-XVX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+            <connections>
+                <outlet property="detailView" destination="FzS-Gk-2Oj" id="nRe-ZJ-ADk"/>
+                <outlet property="headerView" destination="jRQ-Bk-Zsx" id="Wsm-Da-cpP"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

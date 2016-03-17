@@ -16,12 +16,14 @@ class MyProfileModificationViewController: UIViewController {
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var kakaoField: UITextField!
     @IBOutlet weak var schoolField: UITextField!
-    @IBOutlet weak var ageField: UITextField!
     @IBOutlet weak var majorField: UITextField!
+    @IBOutlet weak var skillField: UITextField!
     @IBOutlet weak var locateField: UITextField!
     @IBOutlet weak var introduceField: UITextView!
     @IBOutlet weak var expField: UITextView!
     @IBOutlet weak var profilePhoto: UIImageView!
+    
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     /**
      @ 뷰 로드
@@ -39,21 +41,18 @@ class MyProfileModificationViewController: UIViewController {
         //내 정보 불러움
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{
             response in
-            print(response)
-            if let JSON = response.result.value{
-                print(JSON)
+            if let resultValue = response.result.value{
+                let json = JSON(resultValue)
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    let age = JSON["data"]!![0]["age"] as! NSNumber
-                    let ageString : String = "\(age)"
-                    self.nameField.text = JSON["data"]!![0]["username"] as? String
-                    self.kakaoField.text = JSON["data"]!![0]["kakao_id"] as? String
-                    self.schoolField.text = JSON["data"]!![0]["school"] as? String
-                    self.ageField.text = ageString
-                    self.majorField.text = JSON["data"]!![0]["major"] as? String
-                    self.locateField.text = JSON["data"]!![0]["locate"] as? String
-                    self.introduceField.text = JSON["data"]!![0]["introduce"] as? String
-                    self.expField.text = JSON["data"]!![0]["exp"] as? String
+                    self.nameField.text = json["data"][0]["username"].stringValue
+                    self.kakaoField.text = json["data"][0]["kakao_id"].stringValue
+                    self.schoolField.text = json["data"][0]["school"].stringValue
+                    self.skillField.text = json["data"][0]["skill"].stringValue
+                    self.majorField.text = json["data"][0]["major"].stringValue
+                    self.locateField.text = json["data"][0]["locate"].stringValue
+                    self.introduceField.text = json["data"][0]["introduce"].stringValue
+                    self.expField.text = json["data"][0]["exp"].stringValue
                 })
                 
             }
@@ -78,21 +77,20 @@ class MyProfileModificationViewController: UIViewController {
     */
     @IBAction func saveButtonTouch(sender: AnyObject) {
         let param =  [
-            "access_token" : FBSDKAccessToken.currentAccessToken().tokenString as String,
             "kakao_id" : kakaoField.text! as String,
             "username" : nameField.text! as String,
             "school" : schoolField.text! as String,
-            "age" : ageField.text! as String,
+            "skill" : skillField.text! as String,
             "major" : majorField.text! as String,
             "locate" : locateField.text! as String,
             "introduce" : introduceField.text! as String,
             "exp" : expField.text! as String
             ] as [String:AnyObject]
         
-        Alamofire.request(.POST, "http://come.n.get.us.to/users/reg", parameters: param).responseJSON{
+        Alamofire.request(.POST, "http://come.n.get.us.to/users/reg", headers: header,parameters: param).responseJSON{
             response in
             if let JSON = response.result.value{
-                print(JSON["result"] as! Bool)
+                print(JSON["msg"])
             }
             
         }

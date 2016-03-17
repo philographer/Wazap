@@ -30,6 +30,15 @@
 		BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */; };
 		BCB071CA1C76CC490011B201 /* wazapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071C91C76CC490011B201 /* wazapTests.swift */; };
 		BCB071D51C76CC4A0011B201 /* wazapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071D41C76CC4A0011B201 /* wazapUITests.swift */; };
+		BCBC1E7A1C8F4390006B107C /* AZDropdownMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */; };
+		BCC517BB1C896EB100278E97 /* AEAccordionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */; };
+		BCC517BD1C896EC500278E97 /* AEAccordionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */; };
+		BCC517BF1C8970A200278E97 /* RecruitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */; };
+		BCC517C11C89712200278E97 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517C01C89712200278E97 /* DetailView.xib */; };
+		BCC517C31C89716C00278E97 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517C21C89716C00278E97 /* HeaderView.xib */; };
+		BCC517C51C8971C600278E97 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C41C8971C600278E97 /* HeaderView.swift */; };
+		BCC517C81C8971FC00278E97 /* AEXibceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */; };
+		BCC517CA1C89721200278E97 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C91C89721200278E97 /* DetailView.swift */; };
 		BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
 		BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */; };
 		BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */; };
@@ -90,6 +99,15 @@
 		BCB071D01C76CC490011B201 /* wazapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wazapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB071D41C76CC4A0011B201 /* wazapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wazapUITests.swift; sourceTree = "<group>"; };
 		BCB071D61C76CC4A0011B201 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AZDropdownMenu.framework; path = Carthage/Build/iOS/AZDropdownMenu.framework; sourceTree = "<group>"; };
+		BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEAccordionTableViewCell.swift; sourceTree = "<group>"; };
+		BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEAccordionTableViewController.swift; sourceTree = "<group>"; };
+		BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecruitTableViewCell.xib; sourceTree = "<group>"; };
+		BCC517C01C89712200278E97 /* DetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
+		BCC517C21C89716C00278E97 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
+		BCC517C41C8971C600278E97 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AEXibceptionView.swift; path = ../AEXibceptionView.swift; sourceTree = "<group>"; };
+		BCC517C91C89721200278E97 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		BCC529781C76CF0200DE76B0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SidebarOverlay.framework; path = Carthage/Build/iOS/SidebarOverlay.framework; sourceTree = "<group>"; };
 		BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FontAwesome.framework; path = Carthage/Build/iOS/FontAwesome.framework; sourceTree = "<group>"; };
@@ -110,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCBC1E7A1C8F4390006B107C /* AZDropdownMenu.framework in Frameworks */,
 				BC446C421C7FC00800B40641 /* FontAwesome.framework in Frameworks */,
 				BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */,
 				BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */,
@@ -140,6 +159,8 @@
 		BCB071A81C76CC490011B201 = {
 			isa = PBXGroup;
 			children = (
+				BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */,
+				BCC517C61C8971E800278E97 /* AEXibceptionView */,
 				BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */,
 				BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */,
 				BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */,
@@ -175,8 +196,8 @@
 				BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */,
 				BCB071C01C76CC490011B201 /* Info.plist */,
 				BCC529961C77239B00DE76B0 /* MainTableViewController.swift */,
-				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */,
+				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
@@ -194,6 +215,14 @@
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
 				BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */,
 				BC446C451C8001AF00B40641 /* ModifyViewController.swift */,
+				BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */,
+				BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */,
+				BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */,
+				BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */,
+				BCC517C01C89712200278E97 /* DetailView.xib */,
+				BCC517C21C89716C00278E97 /* HeaderView.xib */,
+				BCC517C41C8971C600278E97 /* HeaderView.swift */,
+				BCC517C91C89721200278E97 /* DetailView.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -214,6 +243,13 @@
 				BCB071D61C76CC4A0011B201 /* Info.plist */,
 			);
 			path = wazapUITests;
+			sourceTree = "<group>";
+		};
+		BCC517C61C8971E800278E97 /* AEXibceptionView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = AEXibceptionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,9 +357,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCC517BF1C8970A200278E97 /* RecruitTableViewCell.xib in Resources */,
 				BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */,
 				BCB071BC1C76CC490011B201 /* Assets.xcassets in Resources */,
+				BCC517C31C89716C00278E97 /* HeaderView.xib in Resources */,
 				BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */,
+				BCC517C11C89712200278E97 /* DetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +393,7 @@
 				"$(SRCROOT)/Carthage/Build/IOS/SidebarOverlay.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/FontAwesome.framework",
+				"$(SRCROOT)/Carthage/Build/IOS/AZDropdownMenu.framework",
 			);
 			outputPaths = (
 			);
@@ -370,16 +410,20 @@
 			files = (
 				BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */,
 				BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */,
+				BCC517C81C8971FC00278E97 /* AEXibceptionView.swift in Sources */,
+				BCC517BD1C896EC500278E97 /* AEAccordionTableViewController.swift in Sources */,
 				BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */,
 				BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */,
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
 				BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
+				BCC517CA1C89721200278E97 /* DetailView.swift in Sources */,
 				BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */,
 				BCA7AF5C1C797CDC00171CF0 /* RegisgerProfileViewController.swift in Sources */,
 				BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */,
 				BC446C441C7FF02900B40641 /* ApplyTableViewCell.swift in Sources */,
 				BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */,
+				BCC517BB1C896EB100278E97 /* AEAccordionTableViewCell.swift in Sources */,
 				BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
 				BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */,
@@ -391,6 +435,7 @@
 				BC446C461C8001AF00B40641 /* ModifyViewController.swift in Sources */,
 				BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */,
 				BC446C481C809B3A00B40641 /* RecruitTableViewCell.swift in Sources */,
+				BCC517C51C8971C600278E97 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

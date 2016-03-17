@@ -16,14 +16,14 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
      @ Outlet field, button
     */
     
+    @IBOutlet weak var contentTitleLabel: UITextField!
     @IBOutlet weak var titleLabel: UITextField!
-    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var organizerLabel: UITextField!
-    @IBOutlet weak var recruitNumberPicker: UIPickerView!
-    @IBOutlet weak var dayPicker: UIDatePicker!
     @IBOutlet weak var introTextView: UITextView!
     @IBOutlet weak var profilePhoto: UIImageView!
     
+    @IBOutlet weak var recruitLabel: UITextField!
+    @IBOutlet weak var dateTextLabel: UITextField!
     @IBOutlet weak var designUccButton: UIButton!
     @IBOutlet weak var itDevButton: UIButton!
     @IBOutlet weak var marketAdButton: UIButton!
@@ -48,15 +48,20 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     
     var isModify: Bool = false //modify인지 수정인지 검사
     var contest_id: Int?
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    //날짜 선택
+    var datePicker:UIDatePicker!
+    var recruitPicker:UIPickerView!
+    let customView:UIView = UIView (frame: CGRectMake(0, 100, UIScreen.mainScreen().bounds.width, 160)) //모집기간 설정
+    let customView2:UIView = UIView (frame: CGRectMake(0, 100, UIScreen.mainScreen().bounds.width, 160)) //모집인원 설정
+    
     
     /**
      @ Variables
     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.pickerView.dataSource = self
-        self.pickerView.delegate = self
+        print(FBSDKAccessToken.currentAccessToken().tokenString)
         
         //사진을가져와서 집어넣음
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
@@ -66,7 +71,35 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         {
             profilePhoto.image = UIImage(data: data)
         }
+    
         
+        
+        customView.tag = 1005
+        datePicker = UIDatePicker(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 160))
+        datePicker.locale = NSLocale(localeIdentifier: "ko_KR")
+        datePicker.datePickerMode = .Date
+        customView.addSubview(datePicker)
+        dateTextLabel.inputView = customView
+        let dateDoneButton:UIButton = UIButton (frame: CGRectMake(100, 100, 100, 44))
+        dateDoneButton.setTitle("선택하기", forState: UIControlState.Normal)
+        dateDoneButton.addTarget(self, action: "datePickerSelected", forControlEvents: UIControlEvents.TouchUpInside)
+        dateDoneButton.backgroundColor = UIColor.grayColor()
+        dateTextLabel.inputAccessoryView = dateDoneButton
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissSelector")
+        view.addGestureRecognizer(tap)
+        
+        
+        recruitPicker = UIPickerView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 160))
+        let recruitDoneButton:UIButton = UIButton (frame: CGRectMake(100, 100, 100, 44))
+        recruitDoneButton.setTitle("선택하기", forState: UIControlState.Normal)
+        recruitDoneButton.addTarget(self, action: "recruitPickerSelected", forControlEvents: UIControlEvents.TouchUpInside)
+        recruitDoneButton.backgroundColor = UIColor.grayColor()
+
+        recruitPicker.dataSource = self
+        recruitPicker.delegate = self
+        customView2.addSubview(recruitPicker)
+        recruitLabel.inputView = customView2
+        recruitLabel.inputAccessoryView = recruitDoneButton
 
         // Do any additional setup after loading the view.
     }
@@ -92,13 +125,9 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         deFormatter.dateFormat = "yyyy-MM-dd"
         let todayString = deFormatter.stringFromDate(todayNSDate)
         
-        
         //형변환한 날짜 집어넣고 모집인원 초기화
         self.periodDate = todayString
         self.recruitValue = 2
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -128,20 +157,36 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         }
     }
     
+    //셀렉터 숨김
+    func dismissSelector(){
+        dateTextLabel.endEditing(true)
+        recruitLabel.endEditing(true)
+    }
+    
+    
+    func recruitPickerSelected() {
+        //텍스트박스에 값 집어넣음
+        recruitLabel.text = String(self.recruitValue) + "명"
+        recruitLabel.endEditing(true)
+        
+    }
+    
+    //날짜 선택
+    func datePickerSelected() {
+        let deFormatter = NSDateFormatter()
+        deFormatter.dateFormat = "yyyy-MM-dd"
+        periodDate = deFormatter.stringFromDate(datePicker.date)
+        dateTextLabel.text = periodDate
+        dateTextLabel.endEditing(true)
+        print(periodDate)
+    }
+    
     /**
      @ Picker Action
      */
     @IBAction func backButtonTouch(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    @IBAction func datePickerChanged(sender: AnyObject) {
-        
-        let deFormatter = NSDateFormatter()
-        deFormatter.dateFormat = "yyyy-MM-dd"
-        periodDate = deFormatter.stringFromDate(sender.date!!)
-        print(periodDate)
-    }
-    
     /**
      @ Category Action Todo: 카테고리 체크박스 하드코딩 ㅠ_ㅠ
      */
@@ -249,24 +294,14 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         ETC category_etc
         */
         
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
+        
+        let content_title = contentTitleLabel.text! as String
         let title = titleLabel.text! as String
         let recruitment = recruitValue as Int
         let hosts = organizerLabel.text! as String
         let period = periodDate as String
         let cover = introTextView.text! as String
         let positions = "개발자/디자인/기획자" as String
-        
-        let parameters : [String: AnyObject] = [
-            "access_token": access_token,
-            "title": title,
-            "recruitment": recruitment,
-            "hosts": hosts,
-            "categories": categories,
-            "period": period,
-            "cover": cover,
-            "positions": positions
-        ]
         
     
         
@@ -292,14 +327,15 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             //print("cover: \(cover)")
             //print("positions: \(positions)")
             
-            Alamofire.request(.POST, "http://come.n.get.us.to/contests", parameters: [
-                "access_token": access_token,
+            Alamofire.request(.POST, "http://come.n.get.us.to/contests",headers: header ,parameters: [
                 "title": title,
                 "recruitment": recruitment,
                 "hosts": hosts,
                 "categories": categories,
                 "period": period,
                 "cover": cover,
+                "cont_locate": "서울",
+                "cont_title": content_title,
                 "positions": positions], encoding: .JSON).responseJSON{
                     response in
                     if let JSON = response.result.value{
@@ -324,8 +360,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             //print("cover: \(cover)")
             //print("positions: \(positions)")
             
-            Alamofire.request(.PUT, "http://come.n.get.us.to/contests/\(contest_id!)", parameters: [
-                "access_token": access_token,
+            Alamofire.request(.PUT, "http://come.n.get.us.to/contests/\(contest_id!)", headers: header, parameters: [
                 "title": title,
                 "recruitment": recruitment,
                 "hosts": hosts,
