@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import FBSDKLoginKit
+import SwiftyJSON
 
 class RegisgerProfileViewController: UIViewController {
     
@@ -54,8 +55,9 @@ class RegisgerProfileViewController: UIViewController {
         
         Alamofire.request(.POST,"http://come.n.get.us.to/users/reg" , parameters: ["access_token":access_token, "kakao_id": kakao_id, "username": username, "skill": skill, "school":school, "major":major, "locate":locate, "introduce":introduce, "exp":exp]).responseJSON{
             response in
-            if let JSON = response.result.value{
-                let results = JSON["result"] as! String
+            if let responseVal = response.result.value{
+                let json = JSON(responseVal)
+                let results = json["result"]
                 if(results == "true"){
                  self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
                 }

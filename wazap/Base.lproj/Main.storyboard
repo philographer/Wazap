@@ -3299,12 +3299,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-user2" translatesAutoresizingMaskIntoConstraints="NO" id="gj2-qa-aCI">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="143" y="98" width="114" height="113"/>
-                                </variation>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="카톡ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPV-Fm-n3F">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -3467,11 +3461,16 @@
                                     <rect key="frame" x="80" y="235" width="300" height="30"/>
                                 </variation>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default-user2" translatesAutoresizingMaskIntoConstraints="NO" id="gj2-qa-aCI">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="143" y="98" width="114" height="113"/>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="gj2-qa-aCI"/>
                                 <exclude reference="dPV-Fm-n3F"/>
                                 <exclude reference="pC0-Qa-nYH"/>
                                 <exclude reference="8Fy-Wy-H7i"/>
@@ -3490,11 +3489,11 @@
                                 <exclude reference="w5s-IX-QGZ"/>
                                 <exclude reference="ZSd-8J-wEl"/>
                                 <exclude reference="NDR-6O-2Sj"/>
+                                <exclude reference="gj2-qa-aCI"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
-                                <include reference="gj2-qa-aCI"/>
                                 <include reference="dPV-Fm-n3F"/>
                                 <include reference="pC0-Qa-nYH"/>
                                 <include reference="8Fy-Wy-H7i"/>
@@ -3513,6 +3512,7 @@
                                 <include reference="w5s-IX-QGZ"/>
                                 <include reference="ZSd-8J-wEl"/>
                                 <include reference="NDR-6O-2Sj"/>
+                                <include reference="gj2-qa-aCI"/>
                             </mask>
                         </variation>
                     </view>
