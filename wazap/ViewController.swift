@@ -8,7 +8,6 @@
 
 import UIKit
 import SidebarOverlay
-import FontAwesome
 import Alamofire
 import FBSDKLoginKit
 

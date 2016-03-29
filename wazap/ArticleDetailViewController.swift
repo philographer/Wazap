@@ -54,6 +54,7 @@ class ArticleDetailViewController: UIViewController {
     var applies_id: String?
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
+    
     /**
      @ 뷰 로드
      */
@@ -73,11 +74,12 @@ class ArticleDetailViewController: UIViewController {
         titleView.image = UIImage(named: "detail_title_banner-1")
         self.navigationItem.titleView = titleView
         
-        self.activityIndicator.hidden = false
+        self.activityIndicator.hidden = true
         self.activityIndicator.startAnimating()
         
 
         //상세정보 받아옴
+        /*
         var content_writer: Int?
         var isApllier = false
         
@@ -90,6 +92,8 @@ class ArticleDetailViewController: UIViewController {
                 
                 let json = JSON(responseVal)
                 self.contests = json["data"]
+                
+                print(self.contests)
                 
                 let stringJSON:JSON = self.contests["categories"]
                 if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
@@ -120,7 +124,7 @@ class ArticleDetailViewController: UIViewController {
                     if let responseValue = response.result.value{
                         let json = JSON(responseValue)
                         let jsonData = json["data"]
-                        for var i = 0; i < jsonData.count; i++ {
+                        for i in 0 ..< jsonData.count {
                             //신청자이면
                             if(jsonData[i]["contests_id"].intValue == self.contests_id!){
                                 isApllier = true
@@ -150,13 +154,13 @@ class ArticleDetailViewController: UIViewController {
                             }
                             scrapButton.setImage(ui_image, forState: .Normal)
                             scrapButton.frame = CGRectMake(0, 0, 25, 25)
-                            scrapButton.addTarget(self, action: "scrapAction:", forControlEvents: .TouchUpInside)
+                            scrapButton.addTarget(self, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
                             self.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
                         }
                         else{
                             //더보기, 마감하기 버튼 없애기
-                            self.moreButton.title = ""
-                            self.moreButton.enabled = false
+                            //self.moreButton.title = ""
+                            //self.moreButton.enabled = false
                         }
                         
                         
@@ -170,11 +174,8 @@ class ArticleDetailViewController: UIViewController {
                             button.setTitle("신청하기", forState: .Normal)
                             button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                             button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(self, action: "applyTouch:", forControlEvents: .TouchUpInside)
+                            button.addTarget(self, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
                             self.view.addSubview(button)
-                            
-                            
-                            
                             self.closeButton.hidden = true
                         }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
                         else if((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (isApllier))
@@ -189,7 +190,7 @@ class ArticleDetailViewController: UIViewController {
                             button.setTitle("신청 취소", forState: .Normal)
                             button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                             button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(self, action: "cancelTouch:", forControlEvents: .TouchUpInside)
+                            button.addTarget(self, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
                             self.view.addSubview(button)
                             
    
@@ -233,6 +234,8 @@ class ArticleDetailViewController: UIViewController {
                 
             }
         }
+        
+        상세정보 받아오기 끝*/
         
         
         
@@ -364,26 +367,40 @@ class ArticleDetailViewController: UIViewController {
             viewController.periodDate = self.contests["period"].stringValue
             viewController.contest_id = self.contests_id
             viewController.isModify = true
+            viewController.contentTitleLabel.text = self.contests["cont_title"].stringValue
+            viewController.recruitLabel.text = self.contests["recruitment"].stringValue + "명"
+            viewController.recruitPicker.selectRow(self.contests["recruitment"].intValue - 2, inComponent: 0, animated: true)
+            
+            //날짜 바꿔줌
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+            let detailDate = formatter.dateFromString(self.contests["period"].stringValue)!
+            viewController.datePicker.setDate(detailDate, animated: true)
+            formatter.dateFormat = "yyyy-MM-dd"
+            viewController.dateTextLabel.text = formatter.stringFromDate(detailDate)
+            
+            
+            
             
             //카테고리 색깔 바꿔줌
             for category in self.categoryArr {
                 switch category{
-                case "디자인/UCC":
-                    viewController.category_design_ucc = true
-                    viewController.designUccButton.tintColor = UIColor.redColor()
-                case "IT/개발":
-                    viewController.category_it_dev = true
-                    viewController.itDevButton.tintColor = UIColor.redColor()
-                case "마케팅/광고":
-                    viewController.category_market_ad = true
-                    viewController.marketAdButton.tintColor = UIColor.redColor()
-                case "논문/문학":
-                    viewController.category_paper_literature = true
-                    viewController.paperLiteratureButton.tintColor = UIColor.redColor()
-                case "게임":
-                    viewController.category_game = true
-                    viewController.gameButton.tintColor = UIColor.redColor()
-                case "ETC":
+                case "광고/아이디어/마케팅":
+                    viewController.category_ad_idea_marketing = true
+                    viewController.adIdeaMarketingButton.tintColor = UIColor.redColor()
+                case "디자인":
+                    viewController.category_design = true
+                    viewController.designButton.tintColor = UIColor.redColor()
+                case "사진/UCC":
+                    viewController.category_pic_ucc = true
+                    viewController.picUccButton.tintColor = UIColor.redColor()
+                case "게임/소프트웨어":
+                    viewController.category_game_software = true
+                    viewController.gameSoftwareButton.tintColor = UIColor.redColor()
+                case "해외":
+                    viewController.category_foreign = true
+                    viewController.foreignButton.tintColor = UIColor.redColor()
+                case "기타":
                     viewController.category_etc = true
                     viewController.etcButton.tintColor = UIColor.redColor()
                 default:
@@ -391,9 +408,7 @@ class ArticleDetailViewController: UIViewController {
                 }
             }
             
-            //날짜 바꿔줌
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+            
             //viewController.dayPicker.setDate(formatter.dateFromString(viewController.periodDate)!, animated: true)
             
             //모집인원 바꿔줌

@@ -13,7 +13,6 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var articleTitle: UILabel! //제목
     @IBOutlet weak var day: UILabel! //마감일
     @IBOutlet weak var dueDay: UILabel! //D-Day
-    @IBOutlet weak var dueTime: UILabel! //남은 시간
     @IBOutlet weak var category: UILabel! //카테고리
     @IBOutlet weak var tagList: UILabel! //태그 리스트
     @IBOutlet weak var hostName: UILabel! //주최자

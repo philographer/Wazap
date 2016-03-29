@@ -1,6 +1,5 @@
 github "Alamofire/Alamofire" ~> 3.0
 github "alexkrzyzanowski/SidebarOverlay"
-github "thii/FontAwesome.swift" >= 0.4.1
 github "SwiftyJSON/SwiftyJSON"
 github "tadija/AEAccordion"
-github "Azuritul/AZDropdownMenu"
+github "kirkbyo/Dropper"

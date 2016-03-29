@@ -24,21 +24,24 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     
     @IBOutlet weak var recruitLabel: UITextField!
     @IBOutlet weak var dateTextLabel: UITextField!
-    @IBOutlet weak var designUccButton: UIButton!
-    @IBOutlet weak var itDevButton: UIButton!
-    @IBOutlet weak var marketAdButton: UIButton!
-    @IBOutlet weak var paperLiteratureButton: UIButton!
-    @IBOutlet weak var gameButton: UIButton!
+    
+    @IBOutlet weak var adIdeaMarketingButton: UIButton!
+    @IBOutlet weak var designButton: UIButton!
+    @IBOutlet weak var picUccButton: UIButton!
+    @IBOutlet weak var gameSoftwareButton: UIButton!
+    @IBOutlet weak var foreignButton: UIButton!
     @IBOutlet weak var etcButton: UIButton!
+    
+    @IBOutlet weak var testButton: UIButton!
     
     /**
      @ Variables
     */
-    var category_design_ucc:Bool = false
-    var category_paper_literature: Bool = false
-    var category_it_dev: Bool = false
-    var category_market_ad: Bool = false
-    var category_game: Bool = false
+    var category_ad_idea_marketing:Bool = false
+    var category_design: Bool = false
+    var category_pic_ucc: Bool = false
+    var category_game_software: Bool = false
+    var category_foreign: Bool = false
     var category_etc: Bool = false
     
     var pickerDataSource = ["2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명", "10명", "11명", "12명"]
@@ -63,6 +66,9 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         super.viewDidLoad()
         print(FBSDKAccessToken.currentAccessToken().tokenString)
         
+        
+        testButton.selected = true
+        
         //사진을가져와서 집어넣음
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
@@ -82,17 +88,17 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         dateTextLabel.inputView = customView
         let dateDoneButton:UIButton = UIButton (frame: CGRectMake(100, 100, 100, 44))
         dateDoneButton.setTitle("선택하기", forState: UIControlState.Normal)
-        dateDoneButton.addTarget(self, action: "datePickerSelected", forControlEvents: UIControlEvents.TouchUpInside)
+        dateDoneButton.addTarget(self, action: #selector(WriteViewController.datePickerSelected), forControlEvents: UIControlEvents.TouchUpInside)
         dateDoneButton.backgroundColor = UIColor.grayColor()
         dateTextLabel.inputAccessoryView = dateDoneButton
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissSelector")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(WriteViewController.dismissSelector))
         view.addGestureRecognizer(tap)
         
         
         recruitPicker = UIPickerView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 160))
         let recruitDoneButton:UIButton = UIButton (frame: CGRectMake(100, 100, 100, 44))
         recruitDoneButton.setTitle("선택하기", forState: UIControlState.Normal)
-        recruitDoneButton.addTarget(self, action: "recruitPickerSelected", forControlEvents: UIControlEvents.TouchUpInside)
+        recruitDoneButton.addTarget(self, action: #selector(WriteViewController.recruitPickerSelected), forControlEvents: UIControlEvents.TouchUpInside)
         recruitDoneButton.backgroundColor = UIColor.grayColor()
 
         recruitPicker.dataSource = self
@@ -108,11 +114,11 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         /**
          @ Bool 변수 초기화
         */
-        category_design_ucc = false // 디자인/UCC
-        category_it_dev = false // IT/개발
-        category_market_ad = false // 마케팅/광고
-        category_paper_literature = false // 논문/문학
-        category_game = false // 게임
+        category_ad_idea_marketing = false // 디자인/UCC
+        category_design = false // IT/개발
+        category_pic_ucc = false // 마케팅/광고
+        category_game_software = false // 논문/문학
+        category_foreign = false // 게임
         category_etc = false // ETC
         
         /**
@@ -190,59 +196,62 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     /**
      @ Category Action Todo: 카테고리 체크박스 하드코딩 ㅠ_ㅠ
      */
-    @IBAction func designUccButton(sender: AnyObject) {
-        if(self.category_design_ucc == true){
-            self.category_design_ucc = false
-            self.designUccButton.tintColor = UIColor.blueColor()
+    @IBAction func adIdeaMarketingButton(sender: AnyObject) {
+        if(self.category_ad_idea_marketing == true){
+            self.category_ad_idea_marketing = false
+            self.adIdeaMarketingButton.tintColor = UIColor.blueColor()
+            print("true => false")
         }
         else{
-            self.category_design_ucc = true
-            self.designUccButton.tintColor = UIColor.redColor()
+            self.category_ad_idea_marketing = true
+            self.adIdeaMarketingButton.tintColor = UIColor.redColor()
+            print("false => true")
+        }
+        print("idea clicked")
+    }
+    
+    @IBAction func designButton(sender: AnyObject) {
+        if(self.category_design == true){
+            self.category_design = false
+            self.designButton.tintColor = UIColor.blueColor()
+        }
+        else{
+            self.category_design = true
+            self.designButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func itDevButton(sender: AnyObject) {
-        if(self.category_paper_literature == true){
-            self.category_paper_literature = false
-            self.itDevButton.tintColor = UIColor.blueColor()
-        }
-        else{
-            self.category_paper_literature = true
-            self.itDevButton.tintColor = UIColor.redColor()
-        }
-    }
-    
-    @IBAction func marketAdButton(sender: AnyObject) {
-        if(self.category_it_dev == true){
-            self.category_it_dev = false
-            self.marketAdButton.tintColor = UIColor.blueColor()
+    @IBAction func picUccButton(sender: AnyObject) {
+        if(self.category_pic_ucc == true){
+            self.category_pic_ucc = false
+            self.picUccButton.tintColor = UIColor.blueColor()
             
         }
         else{
-            self.category_it_dev = true
-            self.marketAdButton.tintColor = UIColor.redColor()
+            self.category_pic_ucc = true
+            self.picUccButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func paperLiteratureButton(sender: AnyObject) {
-        if(self.category_market_ad == true){
-            self.category_market_ad = false
-            self.paperLiteratureButton.tintColor = UIColor.blueColor()
+    @IBAction func gameSoftwareButton(sender: AnyObject) {
+        if(self.category_game_software == true){
+            self.category_game_software = false
+            self.gameSoftwareButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_market_ad = true
-            self.paperLiteratureButton.tintColor = UIColor.redColor()
+            self.category_game_software = true
+            self.gameSoftwareButton.tintColor = UIColor.redColor()
         }
     }
     
-    @IBAction func gameButton(sender: AnyObject) {
-        if(self.category_game == true){
-            self.category_game = false
-            self.gameButton.tintColor = UIColor.blueColor()
+    @IBAction func foreignButton(sender: AnyObject) {
+        if(self.category_foreign == true){
+            self.category_foreign = false
+            self.foreignButton.tintColor = UIColor.blueColor()
         }
         else{
-            self.category_game = true
-            self.gameButton.tintColor = UIColor.redColor()
+            self.category_foreign = true
+            self.foreignButton.tintColor = UIColor.redColor()
         }
     }
     
@@ -266,34 +275,24 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         var categories: [String] = []
         
-        if(category_design_ucc){
-            categories.append("디자인/UCC")
+        if(category_ad_idea_marketing){
+            categories.append("광고/아이디어/마케팅")
         }
-        if(category_it_dev){
-            categories.append("IT/개발")
+        if(category_design){
+            categories.append("디자인")
         }
-        if(category_market_ad){
-            categories.append("마케팅/광고")
+        if(category_pic_ucc){
+            categories.append("사진/UCC")
         }
-        if(category_paper_literature){
-            categories.append("논문/문학")
+        if(category_game_software){
+            categories.append("게임/소프트웨어")
         }
-        if(category_game){
-            categories.append("게임")
+        if(category_foreign){
+            categories.append("해외")
         }
         if(category_etc){
             categories.append("기타")
         }
-        
-        /*
-        디자인/UCC category_design_ucc
-        IT/개발 category_it_dev
-        마케팅/광고 category_market_ad
-        논문/문학 category_paper_literature
-        게임 category_game
-        ETC category_etc
-        */
-        
         
         let content_title = contentTitleLabel.text! as String
         let title = titleLabel.text! as String
@@ -303,6 +302,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         let cover = introTextView.text! as String
         let positions = "개발자/디자인/기획자" as String
         
+        print("제출한 타이틀은 \(content_title)")
     
         
         //print(parameters["categories"]!)

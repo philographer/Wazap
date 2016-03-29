@@ -23,7 +23,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     */
     //더미데이터
     var alamList:JSON?
-
+    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,8 +31,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     override func viewWillAppear(animated: Bool) {
-        let access_token = FBSDKAccessToken.currentAccessToken().tokenString as String
-        Alamofire.request(.GET, "http://come.n.get.us.to/alrams", parameters: ["access_token": access_token, "start_id": 0, "amount": 10]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/alrams",headers: header ,parameters: ["start_id": 0, "amount": 100]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)

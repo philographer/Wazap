@@ -10,10 +10,13 @@
 		BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */; };
 		BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486E1C79DD7A008C559B /* LeftViewController.swift */; };
 		BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */; };
-		BC446C421C7FC00800B40641 /* FontAwesome.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */; };
 		BC446C441C7FF02900B40641 /* ApplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */; };
-		BC446C461C8001AF00B40641 /* ModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC446C451C8001AF00B40641 /* ModifyViewController.swift */; };
-		BC446C481C809B3A00B40641 /* RecruitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC446C471C809B3A00B40641 /* RecruitTableViewCell.swift */; };
+		BC5438D01CA7FA2900F8A1DA /* AcceptButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */; };
+		BC6A314F1C9ECFF9001F87D4 /* Dropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */; };
+		BC6A31511C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */; };
+		BC74EC741CA11A6F002027BF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
+		BC75030D1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */; };
+		BC75030F1CA0BCDB0051022C /* ContestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */; };
 		BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */; };
 		BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */; };
 		BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA7AE121C7886D000555376 /* WriteViewController.swift */; };
@@ -30,16 +33,10 @@
 		BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */; };
 		BCB071CA1C76CC490011B201 /* wazapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071C91C76CC490011B201 /* wazapTests.swift */; };
 		BCB071D51C76CC4A0011B201 /* wazapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB071D41C76CC4A0011B201 /* wazapUITests.swift */; };
-		BCBC1E7A1C8F4390006B107C /* AZDropdownMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */; };
-		BCC517BB1C896EB100278E97 /* AEAccordionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */; };
-		BCC517BD1C896EC500278E97 /* AEAccordionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */; };
-		BCC517BF1C8970A200278E97 /* RecruitTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */; };
-		BCC517C11C89712200278E97 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517C01C89712200278E97 /* DetailView.xib */; };
-		BCC517C31C89716C00278E97 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC517C21C89716C00278E97 /* HeaderView.xib */; };
-		BCC517C51C8971C600278E97 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C41C8971C600278E97 /* HeaderView.swift */; };
-		BCC517C81C8971FC00278E97 /* AEXibceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */; };
-		BCC517CA1C89721200278E97 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC517C91C89721200278E97 /* DetailView.swift */; };
-		BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
+		BCBFF50B1CA4D72900ACC9F5 /* RecruitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */; };
+		BCBFF50D1CA4D88500ACC9F5 /* parentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBFF50C1CA4D88500ACC9F5 /* parentCell.swift */; };
+		BCBFF50F1CA4D89300ACC9F5 /* childCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBFF50E1CA4D89300ACC9F5 /* childCell.swift */; };
+		BCBFF5111CA4D8AD00ACC9F5 /* Parent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBFF5101CA4D8AD00ACC9F5 /* Parent.swift */; };
 		BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */; };
 		BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */; };
 		BCC529971C77239B00DE76B0 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC529961C77239B00DE76B0 /* MainTableViewController.swift */; };
@@ -47,7 +44,6 @@
 		BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */; };
 		BCE420A51C783426005B5DCE /* ApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420A41C783426005B5DCE /* ApplyViewController.swift */; };
 		BCE420A71C783468005B5DCE /* ScrapListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420A61C783468005B5DCE /* ScrapListViewController.swift */; };
-		BCE420A91C783486005B5DCE /* RecruitListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420A81C783486005B5DCE /* RecruitListViewController.swift */; };
 		BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */; };
 		BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AC1C784091005B5DCE /* NotificationViewController.swift */; };
 		BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */; };
@@ -75,8 +71,11 @@
 		BC3A486E1C79DD7A008C559B /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyTableViewCell.swift; sourceTree = "<group>"; };
-		BC446C451C8001AF00B40641 /* ModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyViewController.swift; sourceTree = "<group>"; };
-		BC446C471C809B3A00B40641 /* RecruitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitTableViewCell.swift; sourceTree = "<group>"; };
+		BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptButton.swift; sourceTree = "<group>"; };
+		BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Dropper.framework; path = Carthage/Build/iOS/Dropper.framework; sourceTree = "<group>"; };
+		BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrapTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContestsTableViewCell.swift; sourceTree = "<group>"; };
 		BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrapTableViewCell.swift; sourceTree = "<group>"; };
 		BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContestsListViewController.swift; sourceTree = "<group>"; };
 		BCA7AE121C7886D000555376 /* WriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -99,25 +98,18 @@
 		BCB071D01C76CC490011B201 /* wazapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wazapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB071D41C76CC4A0011B201 /* wazapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wazapUITests.swift; sourceTree = "<group>"; };
 		BCB071D61C76CC4A0011B201 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AZDropdownMenu.framework; path = Carthage/Build/iOS/AZDropdownMenu.framework; sourceTree = "<group>"; };
-		BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEAccordionTableViewCell.swift; sourceTree = "<group>"; };
-		BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEAccordionTableViewController.swift; sourceTree = "<group>"; };
-		BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecruitTableViewCell.xib; sourceTree = "<group>"; };
-		BCC517C01C89712200278E97 /* DetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
-		BCC517C21C89716C00278E97 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
-		BCC517C41C8971C600278E97 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AEXibceptionView.swift; path = ../AEXibceptionView.swift; sourceTree = "<group>"; };
-		BCC517C91C89721200278E97 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitViewController.swift; sourceTree = "<group>"; };
+		BCBFF50C1CA4D88500ACC9F5 /* parentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parentCell.swift; sourceTree = "<group>"; };
+		BCBFF50E1CA4D89300ACC9F5 /* childCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = childCell.swift; sourceTree = "<group>"; };
+		BCBFF5101CA4D8AD00ACC9F5 /* Parent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parent.swift; sourceTree = "<group>"; };
 		BCC529781C76CF0200DE76B0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SidebarOverlay.framework; path = Carthage/Build/iOS/SidebarOverlay.framework; sourceTree = "<group>"; };
-		BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FontAwesome.framework; path = Carthage/Build/iOS/FontAwesome.framework; sourceTree = "<group>"; };
 		BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleDetailViewController.swift; sourceTree = "<group>"; };
 		BCC529961C77239B00DE76B0 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		BCC5299A1C77248600DE76B0 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		BCE420A41C783426005B5DCE /* ApplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyViewController.swift; sourceTree = "<group>"; };
 		BCE420A61C783468005B5DCE /* ScrapListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrapListViewController.swift; sourceTree = "<group>"; };
-		BCE420A81C783486005B5DCE /* RecruitListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitListViewController.swift; sourceTree = "<group>"; };
 		BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		BCE420AC1C784091005B5DCE /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileModificationViewController.swift; sourceTree = "<group>"; };
@@ -128,14 +120,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCBC1E7A1C8F4390006B107C /* AZDropdownMenu.framework in Frameworks */,
-				BC446C421C7FC00800B40641 /* FontAwesome.framework in Frameworks */,
+				BC74EC741CA11A6F002027BF /* Alamofire.framework in Frameworks */,
+				BC6A314F1C9ECFF9001F87D4 /* Dropper.framework in Frameworks */,
 				BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */,
 				BCA7AE201C78AFCF00555376 /* FBSDKLoginKit.framework in Frameworks */,
 				BCA7AE211C78AFCF00555376 /* FBSDKShareKit.framework in Frameworks */,
 				BCC5299B1C77248600DE76B0 /* SwiftyJSON.framework in Frameworks */,
 				BCC5297D1C76D24000DE76B0 /* SidebarOverlay.framework in Frameworks */,
-				BCC529791C76CF0200DE76B0 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,13 +150,12 @@
 		BCB071A81C76CC490011B201 = {
 			isa = PBXGroup;
 			children = (
-				BCBC1E791C8F4390006B107C /* AZDropdownMenu.framework */,
+				BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */,
 				BCC517C61C8971E800278E97 /* AEXibceptionView */,
 				BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */,
 				BCA7AE1D1C78AFCF00555376 /* FBSDKLoginKit.framework */,
 				BCA7AE1E1C78AFCF00555376 /* FBSDKShareKit.framework */,
 				BCC5299A1C77248600DE76B0 /* SwiftyJSON.framework */,
-				BCC5298A1C76DD7000DE76B0 /* FontAwesome.framework */,
 				BCC5297C1C76D24000DE76B0 /* SidebarOverlay.framework */,
 				BCC529781C76CF0200DE76B0 /* Alamofire.framework */,
 				BCB071B31C76CC490011B201 /* wazap */,
@@ -199,11 +189,11 @@
 				BCE4209F1C77F498005B5DCE /* MainTableViewCell.swift */,
 				BCC529921C77184000DE76B0 /* ArticleDetailViewController.swift */,
 				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
+				BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */,
 				BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
+				BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */,
 				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
-				BCE420A81C783486005B5DCE /* RecruitListViewController.swift */,
-				BC446C471C809B3A00B40641 /* RecruitTableViewCell.swift */,
 				BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */,
 				BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */,
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
@@ -214,15 +204,12 @@
 				BC3A486E1C79DD7A008C559B /* LeftViewController.swift */,
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
 				BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */,
-				BC446C451C8001AF00B40641 /* ModifyViewController.swift */,
-				BCC517C71C8971FC00278E97 /* AEXibceptionView.swift */,
-				BCC517BA1C896EB100278E97 /* AEAccordionTableViewCell.swift */,
-				BCC517BC1C896EC500278E97 /* AEAccordionTableViewController.swift */,
-				BCC517BE1C8970A200278E97 /* RecruitTableViewCell.xib */,
-				BCC517C01C89712200278E97 /* DetailView.xib */,
-				BCC517C21C89716C00278E97 /* HeaderView.xib */,
-				BCC517C41C8971C600278E97 /* HeaderView.swift */,
-				BCC517C91C89721200278E97 /* DetailView.swift */,
+				BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */,
+				BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */,
+				BCBFF50C1CA4D88500ACC9F5 /* parentCell.swift */,
+				BCBFF50E1CA4D89300ACC9F5 /* childCell.swift */,
+				BCBFF5101CA4D8AD00ACC9F5 /* Parent.swift */,
+				BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */,
 			);
 			path = wazap;
 			sourceTree = "<group>";
@@ -262,7 +249,7 @@
 				BCB071AD1C76CC490011B201 /* Sources */,
 				BCB071AE1C76CC490011B201 /* Frameworks */,
 				BCB071AF1C76CC490011B201 /* Resources */,
-				BCC5297B1C76D0A800DE76B0 /* ShellScript */,
+				BCC5297B1C76D0A800DE76B0 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -321,6 +308,7 @@
 				TargetAttributes = {
 					BCB071B01C76CC490011B201 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 3DPPXS9XMF;
 					};
 					BCB071C41C76CC490011B201 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -357,12 +345,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCC517BF1C8970A200278E97 /* RecruitTableViewCell.xib in Resources */,
 				BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */,
 				BCB071BC1C76CC490011B201 /* Assets.xcassets in Resources */,
-				BCC517C31C89716C00278E97 /* HeaderView.xib in Resources */,
 				BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */,
-				BCC517C11C89712200278E97 /* DetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,7 +368,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BCC5297B1C76D0A800DE76B0 /* ShellScript */ = {
+		BCC5297B1C76D0A800DE76B0 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -392,9 +377,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SidebarOverlay.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SwiftyJSON.framework",
-				"$(SRCROOT)/Carthage/Build/IOS/FontAwesome.framework",
-				"$(SRCROOT)/Carthage/Build/IOS/AZDropdownMenu.framework",
+				"$(SRCROOT)/Carthage/Build/IOS/Dropper.framework",
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,32 +395,32 @@
 			files = (
 				BC88D8361C7EA2080061F627 /* ContestsListViewController.swift in Sources */,
 				BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */,
-				BCC517C81C8971FC00278E97 /* AEXibceptionView.swift in Sources */,
-				BCC517BD1C896EC500278E97 /* AEAccordionTableViewController.swift in Sources */,
 				BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */,
+				BC75030D1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift in Sources */,
 				BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */,
+				BC75030F1CA0BCDB0051022C /* ContestsTableViewCell.swift in Sources */,
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
+				BC6A31511C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift in Sources */,
 				BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
-				BCC517CA1C89721200278E97 /* DetailView.swift in Sources */,
+				BCBFF50F1CA4D89300ACC9F5 /* childCell.swift in Sources */,
 				BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */,
 				BCA7AF5C1C797CDC00171CF0 /* RegisgerProfileViewController.swift in Sources */,
+				BC5438D01CA7FA2900F8A1DA /* AcceptButton.swift in Sources */,
 				BCA7AE1B1C789F4C00555376 /* SettingViewController.swift in Sources */,
 				BC446C441C7FF02900B40641 /* ApplyTableViewCell.swift in Sources */,
 				BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */,
-				BCC517BB1C896EB100278E97 /* AEAccordionTableViewCell.swift in Sources */,
 				BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
+				BCBFF50D1CA4D88500ACC9F5 /* parentCell.swift in Sources */,
 				BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */,
 				BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */,
 				BCE420A71C783468005B5DCE /* ScrapListViewController.swift in Sources */,
 				BCE420A51C783426005B5DCE /* ApplyViewController.swift in Sources */,
-				BCE420A91C783486005B5DCE /* RecruitListViewController.swift in Sources */,
+				BCBFF5111CA4D8AD00ACC9F5 /* Parent.swift in Sources */,
 				BCC529971C77239B00DE76B0 /* MainTableViewController.swift in Sources */,
-				BC446C461C8001AF00B40641 /* ModifyViewController.swift in Sources */,
 				BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */,
-				BC446C481C809B3A00B40641 /* RecruitTableViewCell.swift in Sources */,
-				BCC517C51C8971C600278E97 /* HeaderView.swift in Sources */,
+				BCBFF50B1CA4D72900ACC9F5 /* RecruitViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,11 +492,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -529,8 +515,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = wazap;
+				PROVISIONING_PROFILE = None;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -551,11 +540,13 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -566,8 +557,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = wazap;
+				PROVISIONING_PROFILE = None;
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -576,6 +569,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -583,8 +579,10 @@
 				);
 				INFOPLIST_FILE = wazap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.wazap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.teamnexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -593,6 +591,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -600,8 +601,9 @@
 				);
 				INFOPLIST_FILE = wazap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nexters.wazap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.teamnexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

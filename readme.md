@@ -16,6 +16,7 @@ SWIFT, IOS : **공모전 팀빌딩 App**
 
 **Using Library** 
 
+- **Carthage:** https://github.com/Carthage/Carthage
 - **FBSDK(Facebook SDK):** https://developers.facebook.com/docs/ios
 - **Alamofire:** https://github.com/Alamofire/Alamofire
 - **SwiftyJSON:** https://github.com/SwiftyJSON/SwiftyJSON

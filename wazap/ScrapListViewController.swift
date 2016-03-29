@@ -15,7 +15,10 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
 
     var scrapList:JSON? //스크랩 리스트
+    var scrapListNow : JSON = JSON.null
+    var scrapListEnd : JSON = JSON.null
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    
     
     /**
      @ Outlet
@@ -38,35 +41,193 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailViewController = segue.destinationViewController as! ArticleDetailViewController
+        let myIndexPath = self.tableView.indexPathForSelectedRow
+        let row:Int = myIndexPath!.row
+        detailViewController.contests_id = self.scrapList![row]["contests_id"].intValue
+        
+        var content_writer: Int?
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                //print(responseVal["data"])
+                //받아온 정보 contests에 할당
+                let json = JSON(responseVal)
+                
+                detailViewController.contests = json["data"]
+                let stringJSON:JSON = json["data"]["categories"]
+                if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                    for words in wordsInclude{
+                        detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
+                    }
+                }
+                
+                // 받아온 상세정보 라벨에 집어넣음
+                detailViewController.titleLabel.text = json["data"]["title"].stringValue
+                detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
+                detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
+                detailViewController.recruitmentLabel.text = json["data"]["recruitment"].stringValue
+                detailViewController.writerLabel.text = json["data"]["cont_writer"].stringValue
+                detailViewController.coverLabel.text = json["data"]["cover"].stringValue
+                detailViewController.appliersLabel.text = json["data"]["appliers"].stringValue
+                detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
+                
+                //content_writer 값 할당
+                content_writer = json["data"]["cont_writer"].intValue
+                
+                //!! 글쓴이가 아니면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
+                if (content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
+                    //신청하기 버튼 추가
+                    let button = UIButton(type: UIButtonType.System) as UIButton
+                    button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
+                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                    button.setTitle("신청하기", forState: .Normal)
+                    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                    button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                    button.addTarget(detailViewController, action: #selector(detailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+                    button.tag = 1004
+                    detailViewController.view.addSubview(button)
+                    
+                    //더보기, 마감하기 버튼 없애기
+                    detailViewController.moreButton.title = ""
+                    detailViewController.moreButton.enabled = false
+                    detailViewController.closeButton.hidden = true
+                    
+                }
+                
+                //D-day 변환 로직
+                if let dayString:String = json["data"]["period"].stringValue{
+                    //String을 NSDate로 변환
+                    let formatter = NSDateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+                    if let formattedDate = formatter.dateFromString(dayString){
+                        //앞의 자리수로 자르고 day라벨에 집어넣기
+                        formatter.dateFormat = "yyyy-MM-dd"
+                        
+                        //D-day 표시
+                        let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
+                        if (toDate > 0){
+                            detailViewController.dueDayLabel.text = "D-" + String(Int(toDate))
+                        }
+                        else{
+                            detailViewController.dueDayLabel.text = "마감"
+                        }
+                        
+                    }
+                }
+            }
+        }
+        /*
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id)/applies", parameters: ["access_token": access_token]).responseJSON{
+        response in
+        if let responseValue = response.result.value{
+        print(responseValue["msg"])
+        }
+        }
+        */
+        
+        
+    }
+
     /**
      @ Table
     */
-    
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        var headerCellHeight:CGFloat
+        
+        switch(section){
+        case 0:
+            if(self.scrapListNow.count == 0){
+                headerCellHeight = 0
+            }
+            else{
+                headerCellHeight = 70.0
+            }
+        case 1:
+            if(self.scrapListEnd.count == 0){
+                headerCellHeight = 0
+            }
+            else{
+                headerCellHeight = 70.0
+            }
+        default:
+            headerCellHeight = 100.0
+        }
+        
+        return headerCellHeight
+    }
+    
+    
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerCell = tableView.dequeueReusableCellWithIdentifier("scrapHeaderCell") as! ScrapTableViewHeaderCell
+        headerCell.backgroundColor = UIColor.cyanColor()
+        
+        switch(section){
+        case 0:
+            headerCell.headerLabel.text = "함께하고 싶은 팀에 신청하세요"
+        case 1:
+            headerCell.headerLabel.text = "마감된 공모"
+        default:
+            break
+        }
+        
+        return headerCell
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return scrapList!.count
+        var row = 0
+        
+        switch(section){
+        case 0:
+            row = self.scrapListNow.count
+        case 1:
+            row = self.scrapListEnd.count
+        default:
+            break
+        }
+        
+        return row
     }
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("scrapCell", forIndexPath: indexPath) as! ScrapTableViewCell
         let row = indexPath.row
         var categoryList:[String] = [] //카테고리 리스트
         
-        cell.titleLabel.text = String(self.scrapList![row]["title"])
-        cell.recruitLabel.text = String(self.scrapList![row]["recruitment"])
         
-        
-        //카테고리 변환 로직
-        let stringJSON:JSON = self.scrapList![row]["categories"]
-        if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-            for words in wordsInclude{
-                categoryList.append(String(words.characters.dropFirst().dropLast()))
+        switch(indexPath.section){
+        case 0:
+            cell.titleLabel.text = String(self.scrapListNow[row]["title"])
+            cell.recruitLabel.text = String(self.scrapListNow[row]["recruitment"])
+            //카테고리 변환 로직
+            let stringJSON = self.scrapListNow[row]["categories"]
+            if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                for words in wordsInclude{
+                    categoryList.append(String(words.characters.dropFirst().dropLast()))
+                }
             }
+            cell.categoryLabel.text = String(categoryList)
+        case 1:
+            cell.titleLabel.text = String(self.scrapListEnd[row]["title"])
+            cell.recruitLabel.text = String(self.scrapListEnd[row]["recruitment"])
+            //카테고리 변환 로직
+            let stringJSON = self.scrapListEnd[row]["categories"]
+            if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                for words in wordsInclude{
+                    categoryList.append(String(words.characters.dropFirst().dropLast()))
+                }
+            }
+            cell.categoryLabel.text = String(categoryList)
+        default:
+            break
         }
-        cell.categoryLabel.text = String(categoryList)
         
         //D-Day 변환 로직
         if let dayString:String = self.scrapList![row]["period"].stringValue {
@@ -91,16 +252,16 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         //신청버튼
-        cell.applyButton.addTarget(self, action: "applyAction:", forControlEvents: .TouchUpInside)
+        cell.applyButton.addTarget(self, action: #selector(ScrapListViewController.applyAction(_:)), forControlEvents: .TouchUpInside)
         cell.applyButton.tag = self.scrapList![row]["contests_id"].intValue
         
         //자세히보기 버튼
-        cell.detailButton.addTarget(self, action: "detailAction:", forControlEvents: .TouchUpInside)
-        cell.detailButton.tag = self.scrapList![row]["contests_id"].intValue
+        //cell.detailButton.addTarget(self, action: "detailAction:", forControlEvents: .TouchUpInside)
+        //cell.detailButton.tag = self.scrapList![row]["contests_id"].intValue
         
         //삭제하기 버튼
-        cell.deleteButton.addTarget(self, action: "deleteAction:", forControlEvents: .TouchUpInside)
-        cell.deleteButton.tag = self.scrapList![row]["contests_id"].intValue
+        //cell.deleteButton.addTarget(self, action: "deleteAction:", forControlEvents: .TouchUpInside)
+        //cell.deleteButton.tag = self.scrapList![row]["contests_id"].intValue
 
 
         
@@ -111,7 +272,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        
+    
     }
     
     
@@ -192,6 +353,21 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 self.scrapList = json["data"]
+                
+                
+                var jsonArrayNow:[JSON] = []
+                var jsonArrayEnd:[JSON] = []
+                for (key : subJson):(String, JSON) in self.scrapList!{
+                    if(subJson.1["is_finish"].boolValue == true){
+                        jsonArrayEnd.append(subJson.1)
+                    }
+                    else{
+                        jsonArrayNow.append(subJson.1)
+                    }
+                }
+                
+                self.scrapListNow = JSON(jsonArrayNow)
+                self.scrapListEnd = JSON(jsonArrayEnd)
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 self.tableView.reloadData()

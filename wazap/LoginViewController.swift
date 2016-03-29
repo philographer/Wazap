@@ -24,7 +24,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate{
         }
         else{
             print("logged in..")
-            self.performSelector("loadNextViewController", withObject: nil, afterDelay: 0)
+            self.performSelector(#selector(LoginViewController.loadNextViewController), withObject: nil, afterDelay: 0)
         }
         
         //페이스북 로그인 버튼 중앙에 생성
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate{
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if error == nil{
             print("login completed.")
-            self.performSelector("loadNextViewController", withObject: nil, afterDelay: 0)
+            self.performSelector(#selector(LoginViewController.loadNextViewController), withObject: nil, afterDelay: 0)
         }
         else
         {
