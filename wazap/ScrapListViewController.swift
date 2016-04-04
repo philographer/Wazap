@@ -27,8 +27,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.navigationController)
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -76,24 +74,73 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
                 //content_writer 값 할당
                 content_writer = json["data"]["cont_writer"].intValue
                 
-                //!! 글쓴이가 아니면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
-                if (content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
-                    //신청하기 버튼 추가
-                    let button = UIButton(type: UIButtonType.System) as UIButton
-                    button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
-                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                    button.setTitle("신청하기", forState: .Normal)
-                    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                    button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                    button.addTarget(detailViewController, action: #selector(detailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
-                    button.tag = 1004
-                    detailViewController.view.addSubview(button)
-                    
-                    //더보기, 마감하기 버튼 없애기
-                    detailViewController.moreButton.title = ""
-                    detailViewController.moreButton.enabled = false
-                    detailViewController.closeButton.hidden = true
-                    
+                //!! 신청자인지 검사 !!
+                var isApllier = false
+                request(.GET, "http://come.n.get.us.to/contests/applications", headers: self.header).responseJSON{
+                    response in
+                    if let responseValue = response.result.value{
+                        let json = JSON(responseValue)
+                        let jsonData = json["data"]
+                        for i in 0 ..< jsonData.count {
+                            //신청자이면
+                            if(jsonData[i]["contests_id"].intValue == detailViewController.contests_id!){
+                                isApllier = true
+                                detailViewController.applies_id = jsonData[i]["applies_id"].stringValue
+                            }
+                        }
+                        /*
+                         if(isApllier){
+                         print("신청자입니다")
+                         }else{
+                         print("신청자가 아닙니다")
+                         }
+                         */
+                        
+                        //스크랩 버튼 추가
+                        let scrapButton: UIButton = UIButton()
+                        var ui_image:UIImage;
+                        if (detailViewController.contests["is_clip"] == 0)
+                        {
+                            ui_image = UIImage(named: "heart1")!
+                        }
+                        else{
+                            ui_image = UIImage(named: "heart2")!
+                        }
+                        scrapButton.setImage(ui_image, forState: .Normal)
+                        scrapButton.frame = CGRectMake(0, 0, 25, 25)
+                        scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
+                        detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
+                        
+                        //!! 글쓴이가 아니고 신청릉 안 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
+                        if (!isApllier){
+                            //신청하기 버튼 추가
+                            print("신청버튼 추가할래요")
+                            let button = UIButton(type: UIButtonType.System) as UIButton
+                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                            button.setTitle("신청하기", forState: .Normal)
+                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+                            button.layer.zPosition = 100
+                            detailViewController.view.addSubview(button)
+                        }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
+                        else if(isApllier)
+                        {
+                            print("신청취소버튼 추가할래요")
+                            print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
+                            //신청 취소버튼 추가
+                            let button = UIButton(type: UIButtonType.System) as UIButton
+                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                            button.setTitle("신청 취소", forState: .Normal)
+                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
+                            button.layer.zPosition = 100
+                            detailViewController.view.addSubview(button)
+                        }
+                    }
                 }
                 
                 //D-day 변환 로직
@@ -167,7 +214,8 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCellWithIdentifier("scrapHeaderCell") as! ScrapTableViewHeaderCell
-        headerCell.backgroundColor = UIColor.cyanColor()
+        //headerCell.backgroundColor = UIColor(red: 0x72, green: 0x72, blue: 0x72, alpha: CGFloat(1.0))
+        headerCell.backgroundColor = UIColorFromRGB(0xf2f3f3)
         
         switch(section){
         case 0:
@@ -275,18 +323,11 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     }
     
-    
-    /**
-     @ BackButton Action
-     */
-    @IBAction func backButtonTouch(sender: AnyObject) {
-        
-        let mainController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            self.so_containerViewController!.topViewController = mainController
-        }
+    @IBAction func backButtonAction(sender: AnyObject) {
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
     }
+    
+    
     
     func detailAction(sender: UIButton){
         let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController
@@ -342,8 +383,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
                 
             }
         }
-        
-        
     }
     
     func loadData(){

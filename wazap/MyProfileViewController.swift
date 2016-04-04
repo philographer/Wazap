@@ -27,6 +27,7 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var expLabel: UITextView!
     @IBOutlet weak var activityIND: UIActivityIndicatorView!
     @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var profileNavigationBar: UINavigationItem!
     
     
     
@@ -62,8 +63,8 @@ class MyProfileViewController: UIViewController {
         
         //로그인한 사람이 현재 보여주는 사람이 아니면 Back버튼 숨김
         if (FBSDKAccessToken.currentAccessToken().userID != facebookId){
-            self.backButton.enabled = false
-            self.backButton.title = ""
+            //self.backButton.enabled = false
+            //self.backButton.title = ""
         }
         
         //사진정보 가져와서 넣음
@@ -105,6 +106,10 @@ class MyProfileViewController: UIViewController {
      @ 모달 닫기 Action
     */
     @IBAction func closeModal(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func closeView(){
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -24,19 +24,25 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var categoryButton: UIButton!
+    @IBOutlet weak var recruitTab: UITabBarItem!
+    @IBOutlet weak var contestsListTab: UITabBarItem!
     
     
     
     var contestList:JSON = [] //API에서 불러온 공모전 리스트
     var dueDays:[String]? = [] //D-Day 계산을 위한 배열
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
-    let dropper = Dropper(width: 75, height: 200)
+    let dropper = Dropper(width: 150, height: 300)
+    
+    
+    var alphaSubview:UIView?
     
     /**
      @ 뷰 로드
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         var titleView : UIImageView
         // set the dimensions you want here
@@ -45,7 +51,24 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         titleView.contentMode = .ScaleAspectFit
         titleView.image = UIImage(named: "detail_title_banner-1")
         self.navigationItem.titleView = titleView
-        print(header)
+        
+        
+        //Dropper
+        dropper.items = ["전체","광고·아이디어·마케팅", "디자인", "사진·UCC", "게임·소프트웨어", "해외", "ETC"]
+        //dropper.theme = Dropper.Themes.White
+        dropper.theme = Dropper.Themes.Black(UIColor.blackColor()) // Uses Black UIColor
+        dropper.delegate = self
+        dropper.cornerRadius = 3
+        
+        
+        //탭바 아이템
+        //let barbuttonFont = UIFont.systemFontOfSize(30)
+        //UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: barbuttonFont, NSForegroundColorAttributeName:UIColor.whiteColor()], forState: UIControlState.Normal)
+        
+        
+        
+        
+        
         //print(FBSDKAccessToken.currentAccessToken().tokenString)
         //margin
         //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
@@ -55,16 +78,12 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
      @ View Appear
      */
     override func viewWillAppear(animated: Bool) {
-        
-        
-        
         //Contest ReLoad
         Alamofire.request(.GET, "http://come.n.get.us.to/contests",headers: header ,parameters: ["amount": 30]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 
                 let jsonList:JSON = JSON(responseVal)
-                
                 self.contestList = jsonList["data"]
                 //TableView 소스
                 self.tableView.delegate = self
@@ -72,12 +91,15 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 //TabBar 소스
                 self.tabBar.delegate = self
                 self.tableView.reloadData()
+                print(self.contestList[0])
             }
         }
         
+        
+        
         //글쓰기 버튼 추가
 
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 60, height: 60)))
         button.layer.zPosition = 2
         button.layer.cornerRadius = 0.5 * button.bounds.size.width
         button.backgroundColor = UIColor.whiteColor()
@@ -86,6 +108,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         button.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationController?.view.addSubview(button)
     }
+    
+    
     
     /**
      @ 뷰 사라짐
@@ -113,6 +137,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    
+    func uitablevoew
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -150,8 +176,9 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         cell.nowNumber.text = self.contestList[row]["appliers"].stringValue
         cell.maxNumber.text = self.contestList[row]["recruitment"].stringValue
-        
+        cell.location.text = self.contestList[row]["cont_locate"].stringValue
         cell.articleTitle.text = self.contestList[row]["title"].stringValue
+        cell.contTitle.text = self.contestList[row]["cont_title"].stringValue
         cell.hostName.text = self.contestList[row]["hosts"].stringValue
         cell.category.text = self.contestList[row]["categories"].stringValue
         cell.scrapButton.tag = self.contestList[row]["contests_id"].intValue
@@ -161,7 +188,9 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         if(is_clip == true){
             cell.scrapButton.setImage(UIImage(named: "heart2"), forState: .Normal)
-            (UIImage(named: "writing_icon"), forState: UIControlState.Normal)
+        }
+        else{
+            cell.scrapButton.setImage(UIImage(named: "heart1"), forState: .Normal)
         }
         
         
@@ -234,12 +263,12 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     //content_writer 값 할당
                     content_writer = json["data"]["cont_writer"].intValue
                     
-                    //!! 글쓴이가 아니면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
+                    let button = UIButton(type: UIButtonType.System) as UIButton
+                    button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
+                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                    //!! 글쓴이가 아니면 신청하기,스크랩 버튼 추가, 글쓴이이면 마감버튼 추가
                     if (content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
                         //신청하기 버튼 추가
-                        let button = UIButton(type: UIButtonType.System) as UIButton
-                        button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
-                        button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
                         button.setTitle("신청하기", forState: .Normal)
                         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                         button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
@@ -247,11 +276,30 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                         button.tag = 1004
                         detailViewController.view.addSubview(button)
                         
-                        //더보기, 마감하기 버튼 없애기
-                        detailViewController.moreButton.title = ""
-                        detailViewController.moreButton.enabled = false
-                        detailViewController.closeButton.hidden = true
+                        //스크랩버튼 추가
+                        let scrapButton: UIButton = UIButton()
+                        var ui_image:UIImage;
+                        if (json["data"]["is_clip"].boolValue == false)
+                        {
+                            ui_image = UIImage(named: "heart1")!
+                        }
+                        else{
+                            ui_image = UIImage(named: "heart2")!
+                        }
+                        scrapButton.setImage(ui_image, forState: .Normal)
+                        scrapButton.frame = CGRectMake(0, 0, 25, 25)
+                        scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
+                        detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
+                    }
+                    else{
+                        button.setTitle("마감하기", forState: .Normal)
+                        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                        button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                        button.addTarget(detailViewController, action: #selector(detailViewController.closeTouch(_:)), forControlEvents: .TouchUpInside)
+                        detailViewController.view.addSubview(button)
                         
+                        let moreButton = UIBarButtonItem(title: "···", style: .Plain, target: detailViewController, action: #selector(detailViewController.moreTouch(_:)))
+                        detailViewController.navigationItem.setRightBarButtonItem(moreButton, animated: true)
                     }
                     
                     //D-day 변환 로직
@@ -380,22 +428,34 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
      @ 드랍다운
     */
     @IBAction func dropdownAction(sender: AnyObject) {
-        if dropper.status == .Hidden {
-            dropper.items = ["전체","광고·아이디어·마케팅", "디자인", "사진·UCC", "게임·소프트웨어", "해외", "ETC"]
-            dropper.theme = Dropper.Themes.White
-            dropper.delegate = self
-            dropper.cornerRadius = 3
+        
+        
+        if dropper.status == .Hidden { //dropper가 안 보일때
             dropper.showWithAnimation(0.15, options: Dropper.Alignment.Center, button: categoryButton)
-        } else {
+            self.alphaSubview = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)))
+            self.alphaSubview!.backgroundColor = UIColor.blackColor()
+            self.alphaSubview!.alpha = 0.0
+            self.view.addSubview(self.alphaSubview!)
+            self.view.bringSubviewToFront(dropper)
+            UIView.animateWithDuration(0.2, animations: {
+                self.alphaSubview?.alpha = 0.5
+            })
+        } else { //dropper가 숨겨질때
             dropper.hideWithAnimation(0.1)
+            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0})
+            print("이 경우가 있음?")
         }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (dropper.hidden == false) { // Checks if Dropper is visible
             dropper.hideWithAnimation(0.1) // Hides Dropper
+            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         }
     }
+    
+    
+
 
     
     
@@ -407,8 +467,10 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
  */
 extension MainTableViewController: DropperDelegate {
     func DropperSelectedRow(path: NSIndexPath, contents: String) {
-        categoryButton.setTitle("\(contents)", forState: .Normal)
+        print("선택했음")
+        UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         
+        categoryButton.setTitle("\(contents)", forState: .Normal)
         let content = "\(contents)"
         var category = ""
         switch content {
@@ -464,6 +526,20 @@ extension MainTableViewController: DropperDelegate {
         
         // self.tableView.reloadData()
         // self.contestList 변경
+    }
+}
+
+public extension UIView{
+    func fadeIn(duration duration:NSTimeInterval = 1.0){
+        UIView.animateWithDuration(duration, animations: {
+            self.alpha = 0.5
+        })
+    }
+    
+    func fadeOut(duration duration:NSTimeInterval = 1.0){
+        UIView.animateWithDuration(duration, animations: {
+            self.alpha = 0.0
+        })
     }
 }
 

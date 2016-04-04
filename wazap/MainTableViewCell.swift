@@ -19,7 +19,10 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var scrapButton: UIButton! //스크랩버튼
     @IBOutlet weak var nowNumber: UILabel!
     @IBOutlet weak var maxNumber: UILabel!
-
+    @IBOutlet weak var location: UILabel!
+    @IBOutlet weak var contTitle: UILabel!
+    @IBOutlet weak var categoryIcon: UIImageView!
+    @IBOutlet weak var contIcon: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

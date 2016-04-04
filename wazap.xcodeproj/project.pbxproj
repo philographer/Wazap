@@ -47,6 +47,7 @@
 		BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */; };
 		BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AC1C784091005B5DCE /* NotificationViewController.swift */; };
 		BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */; };
+		BCEC9FA51CAD158E00F562E2 /* extensionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEC9FA41CAD158E00F562E2 /* extensionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		BCE420AC1C784091005B5DCE /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileModificationViewController.swift; sourceTree = "<group>"; };
+		BCEC9FA41CAD158E00F562E2 /* extensionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
 				BCB071B61C76CC490011B201 /* ViewController.swift */,
 				BCB071B81C76CC490011B201 /* Main.storyboard */,
+				BCEC9FA41CAD158E00F562E2 /* extensionController.swift */,
 				BCB071BB1C76CC490011B201 /* Assets.xcassets */,
 				BCB071BD1C76CC490011B201 /* LaunchScreen.storyboard */,
 				BCB071C01C76CC490011B201 /* Info.plist */,
@@ -420,6 +423,7 @@
 				BCBFF5111CA4D8AD00ACC9F5 /* Parent.swift in Sources */,
 				BCC529971C77239B00DE76B0 /* MainTableViewController.swift in Sources */,
 				BCC529931C77184000DE76B0 /* ArticleDetailViewController.swift in Sources */,
+				BCEC9FA51CAD158E00F562E2 /* extensionController.swift in Sources */,
 				BCBFF50B1CA4D72900ACC9F5 /* RecruitViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

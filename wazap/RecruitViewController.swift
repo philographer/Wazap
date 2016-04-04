@@ -428,8 +428,6 @@ extension RecruitViewController {
             print("prepare for segue: contests_id: \(detailViewController.contests_id)")
             
             //상세정보 받아옴
-            
-            var content_writer: Int?
             Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
                 response in
                 if let responseVal = response.result.value{
@@ -454,6 +452,20 @@ extension RecruitViewController {
                     detailViewController.coverLabel.text = json["data"]["cover"].stringValue
                     detailViewController.appliersLabel.text = json["data"]["appliers"].stringValue
                     detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
+                    
+                    
+                    //마감하기 버튼
+                    let button = UIButton(type: UIButtonType.System) as UIButton
+                    button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
+                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                    button.setTitle("마감하기", forState: .Normal)
+                    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                    button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                    button.addTarget(detailViewController, action: #selector(detailViewController.closeTouch(_:)), forControlEvents: .TouchUpInside)
+                    detailViewController.view.addSubview(button)
+                    
+                    let moreButton = UIBarButtonItem(title: "···", style: .Plain, target: detailViewController, action: #selector(detailViewController.moreTouch(_:)))
+                    detailViewController.navigationItem.setRightBarButtonItem(moreButton, animated: true)
                     
                    
                     

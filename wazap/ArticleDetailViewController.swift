@@ -25,8 +25,6 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var appliersLabel: UILabel!
     @IBOutlet weak var writerLabel: UILabel!
     @IBOutlet weak var coverLabel: UITextView!
-    @IBOutlet weak var moreButton: UIBarButtonItem!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var kakaoLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -236,10 +234,6 @@ class ArticleDetailViewController: UIViewController {
         }
         
         상세정보 받아오기 끝*/
-        
-        
-        
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -482,12 +476,23 @@ class ArticleDetailViewController: UIViewController {
         */
     }
     
+    
+    @IBAction func backButtonAction(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     @IBAction func detailProfile(sender: AnyObject) {
         let profileController = self.storyboard?.instantiateViewControllerWithIdentifier("profileViewController") as! MyProfileViewController
-        
         profileController.facebookId = String(self.contests["cont_writer"].stringValue)
-
-        self.navigationController?.pushViewController(profileController, animated: true)
+        
+        
+        let closeBtn = UIBarButtonItem(title: "뒤로", style: .Plain, target: profileController, action: #selector(profileController.closeView))
+        //profileController.navigationItem.setRightBarButtonItem(closeBtn, animated: true)
+        profileController.profileNavigationBar?.leftBarButtonItem = closeBtn
+        self.presentViewController(profileController, animated: true, completion: nil)
+        
+        
+        
+        //self.navigationController?.pushViewController(profileController, animated: true)
     }
     
     

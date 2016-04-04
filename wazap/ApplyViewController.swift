@@ -106,9 +106,6 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 //content_writer 값 할당
                 content_writer = json["data"]["cont_writer"].intValue
                 
-                //마감하기버튼 없애기
-                detailViewController.closeButton.hidden = true
-                detailViewController.closeButton.enabled = false
                 
                 //!! 신청자인지 검사 !!
                 var isApllier = false
@@ -157,9 +154,8 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             button.setTitle("신청하기", forState: .Normal)
                             button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                             button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(self, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
                             detailViewController.view.addSubview(button)
-                            detailViewController.closeButton.hidden = true
                         }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
                         else if(isApllier)
                         {
@@ -250,7 +246,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCellWithIdentifier("applyHeaderCell") as! ApplyTableViewHeaderCell
-        headerCell.backgroundColor = UIColor.cyanColor()
+        headerCell.backgroundColor = UIColorFromRGB(0xf2f3f3)
         
         switch(section){
         case 0:

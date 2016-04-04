@@ -32,7 +32,6 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBOutlet weak var foreignButton: UIButton!
     @IBOutlet weak var etcButton: UIButton!
     
-    @IBOutlet weak var testButton: UIButton!
     
     /**
      @ Variables
@@ -66,8 +65,6 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         super.viewDidLoad()
         print(FBSDKAccessToken.currentAccessToken().tokenString)
         
-        
-        testButton.selected = true
         
         //사진을가져와서 집어넣음
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
