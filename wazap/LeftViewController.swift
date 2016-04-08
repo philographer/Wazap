@@ -12,12 +12,12 @@ import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
 
-class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class LeftViewController: UIViewController{
     
     /**
      @ Outlet
     */
-    @IBOutlet weak var tableView: UITableView!
+    
     @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
@@ -30,50 +30,13 @@ class LeftViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return leftMenu.count
-    }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("leftCell", forIndexPath: indexPath) as! LeftTableViewCell
-        
-        let row = indexPath.row
-        cell.cellTitle.text = leftMenu[row]
-        // Configure the cell...
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let row = indexPath.row
-        
-        //사이드바 닫고
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = false
-        }
-        
-        //사이드메뉴 클릭시 메인컨트롤러 이동
-        switch row{
-        case 0:
-            self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("scrapScreen")
-        case 1:
-            self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("applyScreen")
-        case 2:
-            self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("recruitScreen")
-            //여기서 값을 못 넘기나?
-        default:
-            self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("mainScreen")
-        }
-
-    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(leftMenu.count)
-        tableView.delegate = self
-        tableView.dataSource = self
+        
         
         //페이스북 정보 가져와서 사진을 넣는 로직
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String

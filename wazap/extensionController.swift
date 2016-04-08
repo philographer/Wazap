@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 extension UIViewController {
 
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
@@ -17,6 +18,15 @@ extension UIViewController {
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: CGFloat(1.0)
         )
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
 

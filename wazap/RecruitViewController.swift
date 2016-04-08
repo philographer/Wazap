@@ -98,8 +98,10 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let data = [Parent](count: parents, repeatedValue: Parent(state: .Collapsed, childs: [JSON](), parentData: JSON.null)) //이게 무슨 문법이여
         
-        dataSource = data.enumerate().map({ (index: Int, var element: Parent) -> Parent in
+        dataSource = data.enumerate().map({ (index: Int, element: Parent) -> Parent in
             
+            
+            var element = element
             //!**************  원래 있던 타이틀  *****************!
             //element.title = "Item \(index)"
             let tempIndex = index
@@ -150,8 +152,12 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
      */
     private func collapseSubItemsAtIndex(index : Int, parent: Int) {
         
-        var indexPaths = [NSIndexPath]()
         
+        //print("collapseSubItemsAtIndex 호출")
+        //print("Index \(index)")
+        //print("Parent \(parent)")
+        
+        var indexPaths = [NSIndexPath]()
         let numberOfChilds = self.dataSource[parent].childs.count
         
         // update the state of the cell.
@@ -160,7 +166,6 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
         // create an array of NSIndexPath with the selected positions
         //print("index is \(index)")
         //print("numberOfChilds is \(numberOfChilds)")
-        
         
         
         if(numberOfChilds != 0){
@@ -182,9 +187,16 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
      */
     private func updateCells(parent: Int, index: Int) {
         
+        //print("updateCell")
+        //print("parent\(parent)")
+        //print("parent\(index)")
+        
         switch (self.dataSource[parent].state) {
             
         case .Expanded:
+            //print("updateCells 호출")
+            //print("Index \(index)")
+            //print("Parent \(parent)")
             self.collapseSubItemsAtIndex(index, parent: parent)
             self.lastCellExpanded = NoCellExpanded
             
@@ -290,20 +302,20 @@ extension RecruitViewController {
             
             
             
-            //사진 집어넣음
-            let photoUrl = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["profile_img"].stringValue
-            if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
+            let profileString = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["profile_img"].stringValue
+            let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+            
+            if let data = NSData(contentsOfURL: profileURL)
             {
                 cell.profileImage.image = UIImage(data: data)
             }
-            
             
             let users_id = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["app_users_id"].intValue
             let applies_id = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["applies_id"].intValue
             let contests_id = self.dataSource[parent].parentData["contests_id"].intValue
             let is_check = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["is_check"].boolValue
-            print(is_check)
             
+            //print(is_check)
             //print("users_id: \(users_id)")
             //print("contests_id: \(contests_id)")
             
@@ -329,6 +341,9 @@ extension RecruitViewController {
                 cell.textLabel!.text = self.dataSource[parent].childs[indexPath.row - actualPosition - 1
             ]
              */
+            
+            
+            
             return cell
             
         }
@@ -357,6 +372,8 @@ extension RecruitViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        print("didSelectRowAtIndexPath 동작")
+        
         let (parent, isParentCell, actualPosition) = self.findParent(indexPath.row)
         
         guard isParentCell else {
@@ -371,6 +388,7 @@ extension RecruitViewController {
         self.tableView.beginUpdates()
         self.updateCells(parent, index: indexPath.row)
         self.tableView.endUpdates()
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -387,8 +405,28 @@ extension RecruitViewController {
         
         let profileController = self.storyboard?.instantiateViewControllerWithIdentifier("profileViewController") as! MyProfileViewController
         profileController.facebookId = String(sender.tag)
-        print(profileController.facebookId)
-        self.navigationController?.pushViewController(profileController, animated: true)
+        //print(profileController.facebookId)
+        //let rowToSelect:NSIndexPath = NSIndexPath(forRow: self.lastCellExpanded.0, inSection: self.lastCellExpanded.1);  //slecting 0th row with 0th section
+        //self.tableView.selectRowAtIndexPath(rowToSelect, animated: true, scrollPosition: UITableViewScrollPosition.None)
+        
+        //부모 셀 알아냄
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! childCell
+        let tempIndexPath = self.tableView.indexPathForCell(cell)!
+        let (parent, isParentCell, actualPosition) = self.findParent(tempIndexPath.row)
+        
+        //셀 접음
+        self.tableView.beginUpdates()
+        self.updateCells(parent, index: parent)
+        self.tableView.endUpdates()
+        
+        //새 창 띄움
+        self.presentViewController(profileController, animated: true, completion: nil)
+        
+        //세팅 없앰
+        profileController.profileNavigationBar.setRightBarButtonItem(nil, animated: true)
+        //self.navigationController?.pushViewController(profileController, animated: true)
         
     }
     
@@ -444,6 +482,13 @@ extension RecruitViewController {
                     }
                     
                     // 받아온 상세정보 라벨에 집어넣음
+                    let profileString = json["data"]["profile_img"].stringValue
+                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+                    
+                    if let data = NSData(contentsOfURL: profileURL)
+                    {
+                        detailViewController.profileImage.image = UIImage(data: data)
+                    }
                     detailViewController.titleLabel.text = json["data"]["title"].stringValue
                     detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                     detailViewController.categoryLabel.text = String(detailViewController.categoryArr)

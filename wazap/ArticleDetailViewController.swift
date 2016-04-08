@@ -27,6 +27,8 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var coverLabel: UITextView!
     @IBOutlet weak var kakaoLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var profileImage: UIImageView!
+    
     
     /** Variables
      
@@ -59,6 +61,7 @@ class ArticleDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("contests_id: \(contests_id!)")
+        
     }
     
     override func viewWillAppear(animated: Bool) {

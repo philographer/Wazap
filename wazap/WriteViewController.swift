@@ -63,6 +63,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround() 
         print(FBSDKAccessToken.currentAccessToken().tokenString)
         
         

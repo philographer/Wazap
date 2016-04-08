@@ -28,6 +28,7 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var activityIND: UIActivityIndicatorView!
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var profileNavigationBar: UINavigationItem!
+    @IBOutlet weak var profileEditButton: UIBarButtonItem!
     
     
     

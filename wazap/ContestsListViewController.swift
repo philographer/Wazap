@@ -18,6 +18,7 @@ class ContestsListViewController: UIViewController, UITabBarDelegate, UITableVie
     */
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var contestsLine: UIImageView!
     
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     var contestList:JSON = JSON.null
@@ -33,10 +34,14 @@ class ContestsListViewController: UIViewController, UITabBarDelegate, UITableVie
         titleView.image = UIImage(named: "detail_title_banner-1")
         self.navigationItem.titleView = titleView
         
-        self.tabBar.delegate = self
+        //self.tabBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        
+        
+        
         // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,6 +112,9 @@ class ContestsListViewController: UIViewController, UITabBarDelegate, UITableVie
         if let container = self.so_containerViewController{
             container.isLeftViewControllerPresented = true
         }
+    }
+    @IBAction func recruitButton(sender: AnyObject) {
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
     }
     
 

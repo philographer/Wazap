@@ -94,6 +94,14 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 
                 // 받아온 상세정보 라벨에 집어넣음
+                
+                let profileString = json["data"]["profile_img"].stringValue
+                let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+                
+                if let data = NSData(contentsOfURL: profileURL)
+                {
+                    detailViewController.profileImage.image = UIImage(data: data)
+                }
                 detailViewController.titleLabel.text = json["data"]["title"].stringValue
                 detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                 detailViewController.categoryLabel.text = String(detailViewController.categoryArr)

@@ -47,6 +47,16 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSansKR-Black-Hestia.otf</string>
+		<string>NotoSansKR-Bold-Hestia.otf</string>
+		<string>NotoSansKR-DemiLight-Hestia.otf</string>
+		<string>NotoSansKR-Light-Hestia.otf</string>
+		<string>NotoSansKR-Medium-Hestia.otf</string>
+		<string>NotoSansKR-Regular-Hestia.otf</string>
+		<string>NotoSansKR-Thin-Hestia.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

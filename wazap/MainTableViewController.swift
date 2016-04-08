@@ -26,6 +26,11 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var categoryButton: UIButton!
     @IBOutlet weak var recruitTab: UITabBarItem!
     @IBOutlet weak var contestsListTab: UITabBarItem!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var accordianButton: UIButton!
+    @IBOutlet weak var recruitLine: UIImageView!
+    
+    
     
     
     
@@ -35,6 +40,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     let dropper = Dropper(width: 150, height: 300)
     
     
+    var writeButton:UIButton?
     var alphaSubview:UIView?
     
     /**
@@ -43,7 +49,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        recruitLine.layer.zPosition = 33
         var titleView : UIImageView
         // set the dimensions you want here
         titleView = UIImageView(frame:CGRectMake(0, 0, 50, 50))
@@ -52,13 +58,31 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         titleView.image = UIImage(named: "detail_title_banner-1")
         self.navigationItem.titleView = titleView
         
+        //categoryButton.layer.borderColor = UIColorFromRGB(0xf2f2f2).CGColor
+        //categoryLabel.layer.borderColor = UIColorFromRGB(0xf2f2f2).CGColor
+        
+        categoryButton.layer.borderColor = UIColor(red: 184.0/255.0, green: 184.0/255.0, blue: 184.0/255.0, alpha: 1.0).CGColor
+        
+        
+        categoryLabel.layer.borderColor = UIColor(red: 184.0/255.0, green: 184.0/255.0, blue: 184.0/255.0, alpha: 1.0).CGColor
+        
+        accordianButton.addTarget(self, action: #selector(self.dropdownAction(_:)), forControlEvents: .TouchUpInside)
+        
+        
+    
+        
+        
         
         //Dropper
         dropper.items = ["전체","광고·아이디어·마케팅", "디자인", "사진·UCC", "게임·소프트웨어", "해외", "ETC"]
-        //dropper.theme = Dropper.Themes.White
-        dropper.theme = Dropper.Themes.Black(UIColor.blackColor()) // Uses Black UIColor
+        dropper.theme = Dropper.Themes.White
         dropper.delegate = self
         dropper.cornerRadius = 3
+        dropper.refresh()
+        
+        //라인 숨기기
+        
+        
         
         
         //탭바 아이템
@@ -89,7 +113,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 //TabBar 소스
-                self.tabBar.delegate = self
+                //self.tabBar.delegate = self
                 self.tableView.reloadData()
                 print(self.contestList[0])
             }
@@ -98,15 +122,31 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         
         //글쓰기 버튼 추가
-
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 60, height: 60)))
-        button.layer.zPosition = 2
-        button.layer.cornerRadius = 0.5 * button.bounds.size.width
-        button.backgroundColor = UIColor.whiteColor()
-        button.setImage(UIImage(named: "writing_icon"), forState: UIControlState.Normal)
-        button.tag = 1000
-        button.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.navigationController?.view.addSubview(button)
+        
+        
+        
+        writeButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
+        writeButton!.layer.zPosition = 1
+        writeButton!.layer.cornerRadius = 0.5 * writeButton!.bounds.size.width
+        writeButton!.backgroundColor = UIColor.whiteColor()
+        writeButton!.setImage(UIImage(named: "write_button_2"), forState: UIControlState.Normal)
+        writeButton!.tag = 1000
+        writeButton!.layer.shadowColor = UIColor.blackColor().CGColor
+        //writeButton!.layer.shadowOffset = CGSize(width: 2.0, height: 0.5)
+        //writeButton!.layer.shadowOpacity = 1;
+        //writeButton!.layer.shadowRadius = 10;
+        writeButton!.layer.shadowOffset = CGSizeMake(0, 7)
+        writeButton!.layer.shadowRadius = 3.5
+        writeButton!.layer.shadowOpacity = 0.3
+        
+    
+        
+        
+        
+        
+        
+        writeButton!.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationController?.view.addSubview(writeButton!)
     }
     
     
@@ -137,8 +177,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
-    func uitablevoew
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -235,7 +273,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             //상세정보 받아옴
             
             var content_writer: Int?
-            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
+            
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header, encoding: .JSON).responseJSON{
                 response in
                 if let responseVal = response.result.value{
                     //print(responseVal["data"])
@@ -243,6 +282,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     let json = JSON(responseVal)
                     
                     detailViewController.contests = json["data"]
+                    
+                    print(json["data"])
                     let stringJSON:JSON = json["data"]["categories"]
                     if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
                         for words in wordsInclude{
@@ -251,6 +292,18 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     }
                     
                     // 받아온 상세정보 라벨에 집어넣음
+                    
+                    
+                    
+                    let profileString = json["data"]["profile_img"].stringValue
+                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+                    
+                    if let data = NSData(contentsOfURL: profileURL)
+                    {
+                        detailViewController.profileImage.image = UIImage(data: data)
+                    }
+                    
+                    
                     detailViewController.titleLabel.text = json["data"]["title"].stringValue
                     detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                     detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
@@ -409,6 +462,16 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    
+    @IBAction func recruitButton(sender: AnyObject) {
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+    }
+    
+    
+    @IBAction func contestsButton(sender: AnyObject) {
+        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("contestsListScreen")
+    }
+    
     /**
      @ 글쓰기 버튼 Function
      */
@@ -423,6 +486,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBAction func searchButton(sender: AnyObject) {
         
     }
+    
     
     /**
      @ 드랍다운
@@ -439,10 +503,14 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             self.view.bringSubviewToFront(dropper)
             UIView.animateWithDuration(0.2, animations: {
                 self.alphaSubview?.alpha = 0.5
+                self.writeButton?.alpha = 0
             })
         } else { //dropper가 숨겨질때
             dropper.hideWithAnimation(0.1)
-            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0})
+            UIView.animateWithDuration(0.2, animations: {
+                self.alphaSubview?.alpha = 0.0
+                self.writeButton?.alpha = 1
+            })
             print("이 경우가 있음?")
         }
     }
@@ -450,17 +518,13 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (dropper.hidden == false) { // Checks if Dropper is visible
             dropper.hideWithAnimation(0.1) // Hides Dropper
-            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
+            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0
+                self.writeButton?.alpha = 1}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         }
     }
-    
-    
-
-
-    
-    
-
 }
+
+
 
 /**
  @ 드랍다운

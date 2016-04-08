@@ -31,14 +31,15 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     override func viewWillAppear(animated: Bool) {
-        Alamofire.request(.GET, "http://come.n.get.us.to/alrams",headers: header ,parameters: ["start_id": 0, "amount": 100]).responseJSON{
+        Alamofire.request(.GET, "http://come.n.get.us.to/alrams",headers: header ,parameters: [:]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
-                print(json)
                 self.alamList = json["data"]
+                print(self.alamList)
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
     }
@@ -62,7 +63,17 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         let row = indexPath.row
         
             cell.alarmLabel.text = alamList![row]["msg"].stringValue
-            cell.profilePhoto.image = UIImage(named: "default-user2")
+        
+        
+            let profileString = alamList![row]["profile_img"].stringValue
+            let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+            
+            if let data = NSData(contentsOfURL: profileURL)
+            {
+                cell.profilePhoto.image = UIImage(data: data)
+            }
+        
+        
 
         return cell
     }

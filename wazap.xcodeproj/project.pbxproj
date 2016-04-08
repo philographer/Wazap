@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1AAE601CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */; };
+		BC1AAE611CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5A1CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf */; };
+		BC1AAE621CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5B1CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf */; };
+		BC1AAE631CB4D492006B17CC /* NotoSansKR-Light-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5C1CB4D492006B17CC /* NotoSansKR-Light-Hestia.otf */; };
+		BC1AAE641CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5D1CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf */; };
+		BC1AAE651CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5E1CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf */; };
+		BC1AAE661CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5F1CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf */; };
 		BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */; };
 		BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A486E1C79DD7A008C559B /* LeftViewController.swift */; };
 		BC3A48731C7AB9A3008C559B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */; };
@@ -68,6 +75,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Black-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5A1CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5B1CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-DemiLight-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5C1CB4D492006B17CC /* NotoSansKR-Light-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5D1CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5E1CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular-Hestia.otf"; sourceTree = "<group>"; };
+		BC1AAE5F1CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin-Hestia.otf"; sourceTree = "<group>"; };
 		BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftTableViewCell.swift; sourceTree = "<group>"; };
 		BC3A486E1C79DD7A008C559B /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		BC3A48721C7AB9A3008C559B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
@@ -152,6 +166,13 @@
 		BCB071A81C76CC490011B201 = {
 			isa = PBXGroup;
 			children = (
+				BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */,
+				BC1AAE5A1CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf */,
+				BC1AAE5B1CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf */,
+				BC1AAE5C1CB4D492006B17CC /* NotoSansKR-Light-Hestia.otf */,
+				BC1AAE5D1CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf */,
+				BC1AAE5E1CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf */,
+				BC1AAE5F1CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf */,
 				BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */,
 				BCC517C61C8971E800278E97 /* AEXibceptionView */,
 				BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */,
@@ -194,9 +215,9 @@
 				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */,
 				BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */,
+				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
 				BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */,
-				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
 				BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */,
 				BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */,
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
@@ -348,6 +369,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC1AAE601CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf in Resources */,
+				BC1AAE611CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf in Resources */,
+				BC1AAE621CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf in Resources */,
+				BC1AAE631CB4D492006B17CC /* NotoSansKR-Light-Hestia.otf in Resources */,
+				BC1AAE641CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf in Resources */,
+				BC1AAE651CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf in Resources */,
+				BC1AAE661CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf in Resources */,
 				BCB071BF1C76CC490011B201 /* LaunchScreen.storyboard in Resources */,
 				BCB071BC1C76CC490011B201 /* Assets.xcassets in Resources */,
 				BCB071BA1C76CC490011B201 /* Main.storyboard in Resources */,
