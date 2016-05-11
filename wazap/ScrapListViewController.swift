@@ -217,8 +217,11 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             headerCellHeight = 100.0
         }
         
+        
         return headerCellHeight
     }
+    
+    
     
     
     
@@ -402,12 +405,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 self.scrapList = json["data"]
-                
-                
-                
-                
-                
-                
                 var jsonArrayNow:[JSON] = []
                 var jsonArrayEnd:[JSON] = []
                 for (key : subJson):(String, JSON) in self.scrapList!{
