@@ -67,176 +67,19 @@ class ArticleDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         
         //타이틀을 이미지로 변경
-        var titleView : UIImageView
-        // set the dimensions you want here
-        titleView = UIImageView(frame:CGRectMake(0, 0, 50, 70))
-        // Set how do you want to maintain the aspect
-        titleView.contentMode = .ScaleAspectFit
-        titleView.image = UIImage(named: "detail_title_banner-1")
-        self.navigationItem.titleView = titleView
+        dispatch_async(dispatch_get_main_queue(), {
+            var titleView : UIImageView
+            // set the dimensions you want here
+            titleView = UIImageView(frame:CGRectMake(0, 0, 50, 70))
+            // Set how do you want to maintain the aspect
+            titleView.contentMode = .ScaleAspectFit
+            titleView.image = UIImage(named: "detail_title_banner-1")
+            self.navigationItem.titleView = titleView
+        })
         
         self.activityIndicator.hidden = true
         self.activityIndicator.startAnimating()
         
-
-        //상세정보 받아옴
-        /*
-        var content_writer: Int?
-        var isApllier = false
-        
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id!)", headers: header).responseJSON{
-            response in
-            if let responseVal = response.result.value{
-                //받아온 정보 contests에 할당
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.hidden = true
-                
-                let json = JSON(responseVal)
-                self.contests = json["data"]
-                
-                print(self.contests)
-                
-                let stringJSON:JSON = self.contests["categories"]
-                if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-                    for words in wordsInclude{
-                        self.categoryArr.append(String(words.characters.dropFirst().dropLast()))
-                    }
-                }
-                
-                // 받아온 상세정보 라벨에 집어넣음
-                self.titleLabel.text = self.contests["title"].stringValue
-                self.hostsLabel.text = self.contests["hosts"].stringValue
-                self.categoryLabel.text = String(self.categoryArr)
-                self.recruitmentLabel.text = self.contests["recruitment"].stringValue
-                self.writerLabel.text = self.contests["cont_writer"].stringValue
-                self.coverLabel.text = self.contests["cover"].stringValue
-                self.appliersLabel.text = self.contests["appliers"].stringValue
-                self.kakaoLabel.text = self.contests["kakao_id"].stringValue
-                
-                
-                //content_writer 값 할당
-                content_writer = self.contests["cont_writer"].intValue
-                
-                
-                
-                //!! 신청자인지 검사 !!
-                request(.GET, "http://come.n.get.us.to/contests/applications", headers: self.header).responseJSON{
-                    response in
-                    if let responseValue = response.result.value{
-                        let json = JSON(responseValue)
-                        let jsonData = json["data"]
-                        for i in 0 ..< jsonData.count {
-                            //신청자이면
-                            if(jsonData[i]["contests_id"].intValue == self.contests_id!){
-                                isApllier = true
-                                self.applies_id = jsonData[i]["applies_id"].stringValue
-                            }
-                        }
-                        /*
-                        if(isApllier){
-                            print("신청자입니다")
-                        }else{
-                            print("신청자가 아닙니다")
-                        }
-                        */
-                        
-                        
-                        //!! 글쓴이가 아니면 scrap버튼 추가
-                        if(content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
-                            //스크랩 버튼 추가
-                            let scrapButton: UIButton = UIButton()
-                            var ui_image:UIImage;
-                            if (self.contests["is_clip"] == 0)
-                            {
-                                ui_image = UIImage(named: "heart1")!
-                            }
-                            else{
-                                ui_image = UIImage(named: "heart2")!
-                            }
-                            scrapButton.setImage(ui_image, forState: .Normal)
-                            scrapButton.frame = CGRectMake(0, 0, 25, 25)
-                            scrapButton.addTarget(self, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
-                            self.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
-                        }
-                        else{
-                            //더보기, 마감하기 버튼 없애기
-                            //self.moreButton.title = ""
-                            //self.moreButton.enabled = false
-                        }
-                        
-                        
-                        //!! 글쓴이가 아니고 신청릉 안 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
-                        if ((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (!isApllier)){
-                            //신청하기 버튼 추가
-                            print("신청버튼 추가할래요")
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청하기", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(self, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
-                            self.view.addSubview(button)
-                            self.closeButton.hidden = true
-                        }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
-                        else if((content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)) && (isApllier))
-                        {
-                            print("신청취소버튼 추가할래요")
-                            print("현재 글번호는 \(self.contests_id)")
-                            print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
-                            //신청 취소버튼 추가
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청 취소", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(self, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
-                            self.view.addSubview(button)
-                            
-   
-                            //더보기, 마감하기 버튼 없애기
-                            self.moreButton.title = ""
-                            self.moreButton.enabled = false
-                            self.closeButton.hidden = true
-                            
-                            //신청하기 버튼 없애기
-                            for subview in self.view.subviews
-                            {
-                                if subview.tag == 1004{
-                                    subview.removeFromSuperview()
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-                
-                //D-day 변환 로직
-                if let dayString:String = json["data"]["period"].stringValue{
-                    //String을 NSDate로 변환
-                    let formatter = NSDateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-                    if let formattedDate = formatter.dateFromString(dayString){
-                        //앞의 자리수로 자르고 day라벨에 집어넣기
-                        formatter.dateFormat = "yyyy-MM-dd"
-                        
-                        //D-day 표시
-                        let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                        if (toDate > 0){
-                            self.dueDayLabel.text = "D-" + String(Int(toDate))
-                        }
-                        else{
-                            self.dueDayLabel.text = "마감"
-                        }
-                        
-                    }
-                }
-                
-            }
-        }
-        
-        상세정보 받아오기 끝*/
     }
     
     override func didReceiveMemoryWarning() {

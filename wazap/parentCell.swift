@@ -12,11 +12,10 @@ class parentCell: UITableViewCell {
 
     @IBOutlet weak var dueDayLabel: UILabel!
     @IBOutlet weak var contestTitle: UILabel!
-    @IBOutlet weak var detailButton: UIButton!
-    @IBOutlet weak var applierListButton: UILabel!
     @IBOutlet weak var recruitLabel: UILabel!
     @IBOutlet weak var applierLabel: UILabel!
     @IBOutlet weak var confirmLabel: UILabel!
+    @IBOutlet var applierListButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

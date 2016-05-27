@@ -133,10 +133,17 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.dataSource[parent].state = .Expanded
         
         // position to start to insert rows.
-        var insertPos = index + 1
+        let insertPos:Int = index
         
         // create an array of NSIndexPath with the selected positions
-        let indexPaths = (0..<currentSubItems.count).map { _ in NSIndexPath(forRow: insertPos++, inSection: 0) }
+        
+        let indexPaths = (0..<currentSubItems.count).map { i in
+            NSIndexPath(forRow: insertPos + i+1, inSection: 0)
+        }
+ 
+        
+        
+        //문제가 되면 원래 insertPos ++;로 고칠것
         
         // insert the new rows
         self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
@@ -349,15 +356,19 @@ extension RecruitViewController {
         }
         else { //부모셀
             let cell = tableView.dequeueReusableCellWithIdentifier("ParentCell", forIndexPath: indexPath) as! parentCell
-            let contests_id = self.dataSource[parent].parentData["contests_id"].intValue
+            _ = self.dataSource[parent].parentData["contests_id"].intValue
             
             
             cell.contestTitle.text = self.dataSource[parent].parentData["cont_title"].stringValue
             cell.recruitLabel.text = self.dataSource[parent].parentData["recruitment"].stringValue
             cell.applierLabel.text = self.dataSource[parent].parentData["appliers"].stringValue
             cell.confirmLabel.text = self.dataSource[parent].parentData["members"].stringValue
-            cell.detailButton.tag = parent
-            cell.detailButton.addTarget(self, action: #selector(self.detailContests(_:)), forControlEvents: .TouchUpInside)
+            cell.applierListButton.tag = parent
+            cell.applierListButton.addTarget(self, action: #selector(self.showTeamList(_:)), forControlEvents: .TouchUpInside)
+            //cell.detailButton.tag = parent
+            //cell.detailButton.addTarget(self, action: #selector(self.detailContests(_:)), forControlEvents: .TouchUpInside)
+            
+            
         
             //cell.contestTitle = self.dataSource[parent]
             /*
@@ -372,22 +383,11 @@ extension RecruitViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        print("didSelectRowAtIndexPath 동작")
         
-        let (parent, isParentCell, actualPosition) = self.findParent(indexPath.row)
+        let (parent, _, _) = self.findParent(indexPath.row)
         
-        guard isParentCell else {
-            NSLog("A child was tapped!!!")
-            
-            // The value of the child is indexPath.row - actualPosition - 1
-            NSLog("The value of the child is \(self.dataSource[parent].childs[indexPath.row - actualPosition - 1])")
-            
-            return
-        }
-        
-        self.tableView.beginUpdates()
-        self.updateCells(parent, index: indexPath.row)
-        self.tableView.endUpdates()
+        self.performSegueWithIdentifier("ShowArticleDetail_recruit", sender: parent)
+
         
     }
     
@@ -414,7 +414,7 @@ extension RecruitViewController {
         let view = button.superview!
         let cell = view.superview as! childCell
         let tempIndexPath = self.tableView.indexPathForCell(cell)!
-        let (parent, isParentCell, actualPosition) = self.findParent(tempIndexPath.row)
+        let (parent, _, _) = self.findParent(tempIndexPath.row)
         
         //셀 접음
         self.tableView.beginUpdates()
@@ -440,6 +440,7 @@ extension RecruitViewController {
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
+                print(json)
                 if(sender.titleLabel!.text == "수락됨"){
                     sender.setTitle("수락", forState: .Normal)
                 }
@@ -451,15 +452,42 @@ extension RecruitViewController {
         }
     }
     
-    func detailContests(sender: AnyObject){
-        performSegueWithIdentifier("ShowArticleDetail_recruit", sender: sender)
+    func showTeamList(sender: AnyObject){
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! parentCell
+        let indexPath = self.tableView.indexPathForCell(cell)!
+        
+        print("row is\(indexPath.row)")
+        print("section is\(indexPath.section)")
+        let (parent, _, _) = self.findParent(indexPath.row)
+        
+        
+        /* 자식셀 클릭
+         guard isParentCell else {
+         NSLog("A child was tapped!!!")
+         
+         // The value of the child is indexPath.row - actualPosition - 1
+         NSLog("The value of the child is \(self.dataSource[parent].childs[indexPath.row - actualPosition - 1])")
+         
+         return
+         }
+        */
+        
+        
+        self.tableView.beginUpdates()
+        self.updateCells(parent, index: indexPath.row)
+        self.tableView.endUpdates()
+        
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowArticleDetail_recruit"{
             
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
-            let row = sender!.tag
+            let row = sender as! Int
             print("row is \(row)")
             
             detailViewController.contests_id = self.recruitList[row]["contests_id"].intValue
@@ -484,11 +512,11 @@ extension RecruitViewController {
                     // 받아온 상세정보 라벨에 집어넣음
                     let profileString = json["data"]["profile_img"].stringValue
                     let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                    
-                    if let data = NSData(contentsOfURL: profileURL)
-                    {
-                        detailViewController.profileImage.image = UIImage(data: data)
-                    }
+                    detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+                        if let profileImage = image{
+                            detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
+                        }
+                    })
                     detailViewController.titleLabel.text = json["data"]["title"].stringValue
                     detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                     detailViewController.categoryLabel.text = String(detailViewController.categoryArr)

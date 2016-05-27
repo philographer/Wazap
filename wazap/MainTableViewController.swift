@@ -28,12 +28,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var contestsListTab: UITabBarItem!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var accordianButton: UIButton!
-    @IBOutlet weak var recruitLine: UIImageView!
     
-    
-    
-    
-    
+
     var contestList:JSON = [] //API에서 불러온 공모전 리스트
     var dueDays:[String]? = [] //D-Day 계산을 위한 배열
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
@@ -48,8 +44,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        recruitLine.layer.zPosition = 33
         var titleView : UIImageView
         // set the dimensions you want here
         titleView = UIImageView(frame:CGRectMake(0, 0, 50, 50))
@@ -115,7 +109,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 //TabBar 소스
                 //self.tabBar.delegate = self
                 self.tableView.reloadData()
-                print(self.contestList[0])
             }
         }
         
@@ -268,6 +261,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             let myIndexPath = self.tableView.indexPathForSelectedRow
             let row:Int = myIndexPath!.row
             detailViewController.contests_id = self.contestList[row]["contests_id"].intValue
+            
+            
             //print("prepare for segue: applies_id: \(detailViewController.applies_id)")
             
             //상세정보 받아옴
@@ -277,7 +272,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header, encoding: .JSON).responseJSON{
                 response in
                 if let responseVal = response.result.value{
-                    //print(responseVal["data"])
+                    
+                    
                     //받아온 정보 contests에 할당
                     let json = JSON(responseVal)
                     
@@ -293,17 +289,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     
                     // 받아온 상세정보 라벨에 집어넣음
                     
-                    
-                    
-                    let profileString = json["data"]["profile_img"].stringValue
-                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                    
-                    if let data = NSData(contentsOfURL: profileURL)
-                    {
-                        detailViewController.profileImage.image = UIImage(data: data)
-                    }
-                    
-                    
+                    //사진 집어넣음
                     detailViewController.titleLabel.text = json["data"]["title"].stringValue
                     detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                     detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
@@ -312,6 +298,19 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     detailViewController.coverLabel.text = json["data"]["cover"].stringValue
                     detailViewController.appliersLabel.text = json["data"]["appliers"].stringValue
                     detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
+                    
+                    
+                    
+                    let profileString = json["data"]["profile_img"].stringValue
+                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+
+                    detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+                        if let profileImage = image{
+                            detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
+                        }
+                    })
+
+                    
                     
                     //content_writer 값 할당
                     content_writer = json["data"]["cont_writer"].intValue
@@ -387,7 +386,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             */
             
         }
-
+        
     }
     
     /**
@@ -405,8 +404,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBAction func scrapButton(sender: UIButton)
     {
         
-        print("스크랩버튼")
-        print(sender.tag)
         
         var is_clip:Bool = false
         
@@ -417,7 +414,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 is_clip = subJson["is_clip"].boolValue
             }
         }
-        print(is_clip)
         
         if(is_clip){
             //찜 삭제
@@ -488,6 +484,10 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     
+    @IBAction func listButton(sender: AnyObject) {
+        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("contestsWeekly")
+    }
+    
     /**
      @ 드랍다운
     */
@@ -511,7 +511,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 self.alphaSubview?.alpha = 0.0
                 self.writeButton?.alpha = 1
             })
-            print("이 경우가 있음?")
+            //이 경우가 있음?
         }
     }
     
@@ -531,33 +531,70 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
  */
 extension MainTableViewController: DropperDelegate {
     func DropperSelectedRow(path: NSIndexPath, contents: String) {
-        print("선택했음")
-        UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         
         categoryButton.setTitle("\(contents)", forState: .Normal)
         let content = "\(contents)"
         var category = ""
         switch content {
-            case "전체":
-                category = "all"
-            case "광고·아이디어·마케팅":
-                category = "광고"
-            case "디자인":
-                category = "디자인"
-            case "사진·UCC":
-                category = "사진"
-            case "게임·소프트웨어":
-                category = "게임"
-            case "해외":
-                category = "해외"
-            case "ETC":
-                category = "[\"ETC\"]"
-            default:
-                category = "all"
+        case "전체":
+            category = "전체"
+        case "광고·아이디어·마케팅":
+            category = "광고/아이디어/마케팅"
+        case "디자인":
+            category = "디자인"
+        case "사진·UCC":
+            category = "사진/UCC"
+        case "게임·소프트웨어":
+            category = "게임/소프트웨어"
+        case "해외":
+            category = "해외"
+        case "ETC":
+            category = "기타"
+        default:
+            category = "all"
         }
         
         print(category)
+        UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         
+        
+        
+        if category == "전체"{
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests",headers: header ,parameters: ["amount": 30]).responseJSON{
+                response in
+                if let responseVal = response.result.value{
+                    
+                    let jsonList:JSON = JSON(responseVal)
+                    self.contestList = jsonList["data"]
+                    //TableView 소스
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    //TabBar 소스
+                    //self.tabBar.delegate = self
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        else{
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests/categories",headers: header ,parameters: ["amount": 30, "category_name": category]).responseJSON{
+                response in
+                if let responseVal = response.result.value{
+                    print(responseVal["msg"])
+                    let jsonList:JSON = JSON(responseVal)
+                    self.contestList = jsonList["data"]
+                    //TableView 소스
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    //TabBar 소스
+                    self.tableView.reloadData()
+                }
+            }
+            
+        }
+        
+        
+        /*
+        print(header)
         Alamofire.request(.GET, "http://come.n.get.us.to/contests",headers: header ,parameters: ["amount": 30]).responseJSON{
             response in
             if let responseVal = response.result.value{
@@ -568,11 +605,11 @@ extension MainTableViewController: DropperDelegate {
                 for (key : subJson):(String, JSON) in jsonList["data"]{
                     if(category == "all"){
                         jsonArray.append(subJson.1)
-                        print(subJson.1["categories"].stringValue)
+                        //print(subJson.1["categories"].stringValue)
                     }
                     else if(subJson.1["categories"].stringValue.containsString(category)){
                         jsonArray.append(subJson.1)
-                        print(subJson.1)
+                        //print(subJson.1)
                     }
                 }
                 
@@ -583,7 +620,7 @@ extension MainTableViewController: DropperDelegate {
                 self.tableView.reloadData()
             }
         }
-        
+        */
         
         //
         

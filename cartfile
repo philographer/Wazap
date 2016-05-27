@@ -1,5 +1,7 @@
-github "Alamofire/Alamofire" ~> 3.0
-github "alexkrzyzanowski/SidebarOverlay"
-github "SwiftyJSON/SwiftyJSON"
-github "tadija/AEAccordion"
-github "kirkbyo/Dropper"
+github "tadija/AEAccordion" "AEXibceptionView-v1.0.3"
+github "Alamofire/Alamofire" "3.2.1"
+github "kirkbyo/Dropper" "2.3"
+github "alexkrzyzanowski/SidebarOverlay" "2.1.2"
+github "SwiftyJSON/SwiftyJSON" "2.3.3"
+github "onevcat/Kingfisher" ~> 2.4
+github "Alamofire/AlamofireImage" ~> 2.0

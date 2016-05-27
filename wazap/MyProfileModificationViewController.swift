@@ -34,9 +34,7 @@ class MyProfileModificationViewController: UIViewController {
         //페이스북 프로필, 이름정보
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
-        if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url){
-            profilePhoto.image = UIImage(data: data)
-        }
+        self.profilePhoto.kf_setImageWithURL(NSURL(string: photoUrl)!)
         
         //내 정보 불러움
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{

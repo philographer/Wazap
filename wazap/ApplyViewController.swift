@@ -35,31 +35,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     override func viewWillAppear(animated: Bool) {
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications",headers: header ,parameters: ["amount": 30]).responseJSON{
-            response in
-            if let responseVal = response.result.value{
-                let json = JSON(responseVal)
-                print(json)
-                self.applyList = json["data"]
-                var jsonArrayNow:[JSON] = []
-                var jsonArrayEnd:[JSON] = []
-                for (key : subJson):(String, JSON) in self.applyList!{
-                    if(subJson.1["is_finish"].boolValue == true){
-                        jsonArrayEnd.append(subJson.1)
-                    }
-                    else{
-                        jsonArrayNow.append(subJson.1)
-                    }
-                }
-                
-                self.applyListNow = JSON(jsonArrayNow)
-                self.applyListEnd = JSON(jsonArrayEnd)
-                
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
-            }
-        }
+        reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -77,7 +53,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let row:Int = myIndexPath!.row
         detailViewController.contests_id = self.applyList![row]["contests_id"].intValue
         
-        var content_writer: Int?
+        //var content_writer:Int?
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
             response in
             if let responseVal = response.result.value{
@@ -94,14 +70,13 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 
                 // 받아온 상세정보 라벨에 집어넣음
-                
                 let profileString = json["data"]["profile_img"].stringValue
                 let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                
-                if let data = NSData(contentsOfURL: profileURL)
-                {
-                    detailViewController.profileImage.image = UIImage(data: data)
-                }
+                detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+                    if let profileImage = image{
+                        detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
+                    }
+                })
                 detailViewController.titleLabel.text = json["data"]["title"].stringValue
                 detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
                 detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
@@ -112,7 +87,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
                 
                 //content_writer 값 할당
-                content_writer = json["data"]["cont_writer"].intValue
+                //content_writer = json["data"]["cont_writer"].intValue
                 
                 
                 //!! 신청자인지 검사 !!
@@ -156,36 +131,42 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         if (!isApllier){
                             //신청하기 버튼 추가
                             print("신청버튼 추가할래요")
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청하기", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
-                            detailViewController.view.addSubview(button)
-                        }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
+                            dispatch_async(dispatch_get_main_queue(), {
+                                let button = UIButton(type: UIButtonType.System) as UIButton
+                                button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                                button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                                button.setTitle("신청하기", forState: .Normal)
+                                button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                                button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                                button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+                                detailViewController.view.addSubview(button)
+                            })//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
+                            }
+                            
                         else if(isApllier)
                         {
                             print("신청취소버튼 추가할래요")
                             print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
                             //신청 취소버튼 추가
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청 취소", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
-                            detailViewController.view.addSubview(button)
                             
-                            //신청하기 버튼 없애기
-                            for subview in detailViewController.view.subviews
-                            {
-                                if subview.tag == 1004{
-                                    subview.removeFromSuperview()
+                            dispatch_async(dispatch_get_main_queue(), {
+                                let button = UIButton(type: UIButtonType.System) as UIButton
+                                button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
+                                button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+                                button.setTitle("신청 취소", forState: .Normal)
+                                button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                                button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                                button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
+                                detailViewController.view.addSubview(button)
+                                
+                                //신청하기 버튼 없애기
+                                for subview in detailViewController.view.subviews
+                                {
+                                    if subview.tag == 1004{
+                                        subview.removeFromSuperview()
+                                    }
                                 }
-                            }
+                            })
                         }
                     }
                 }
@@ -328,9 +309,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
             }
-            cell.detailButton.tag = row as Int
-            cell.detailButton.addTarget(self, action: #selector(ApplyViewController.detailModal(_:)), forControlEvents: .TouchUpInside)
-            //appliers_id 를 어찌 넘길까
+            cell.cancleButton.tag = row as Int
         case 1:
             let row = indexPath.row
             cell.titleLabel.text = String(self.applyListEnd[row]["title"])
@@ -357,9 +336,7 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 }
             }
-            
-            cell.detailButton.tag = row as Int
-            cell.detailButton.addTarget(self, action: #selector(ApplyViewController.detailModal(_:)), forControlEvents: .TouchUpInside)
+            cell.cancleButton.tag = row as Int
         default:
             break
         }
@@ -384,9 +361,8 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }, completion: nil)
     }
     
+    //상세보기 모달
     func detailModal(sender:UIButton){
-        //상세보기 모달
-        
         let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController
         let row = sender.tag
         let contests_id = self.applyList![row]["contests_id"].intValue
@@ -403,6 +379,51 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
     }
     
+    func reloadData(){
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/applications",headers: header ,parameters: ["amount": 30]).responseJSON{
+            response in
+            if let responseVal = response.result.value{
+                let json = JSON(responseVal)
+                print(json)
+                self.applyList = json["data"]
+                var jsonArrayNow:[JSON] = []
+                var jsonArrayEnd:[JSON] = []
+                for (key : subJson):(String, JSON) in self.applyList!{
+                    if(subJson.1["is_finish"].boolValue == true){
+                        jsonArrayEnd.append(subJson.1)
+                    }
+                    else{
+                        jsonArrayNow.append(subJson.1)
+                    }
+                }
+                
+                self.applyListNow = JSON(jsonArrayNow)
+                self.applyListEnd = JSON(jsonArrayEnd)
+                
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    @IBAction func cancleAction(sender: AnyObject) {
+        let row = sender.tag
+        let contests_id = self.applyList![row]["contests_id"].intValue
+        Alamofire.request(.DELETE, "http://come.n.get.us.to/contests/\(contests_id)/join", headers: header).responseJSON{
+            response in
+            print(response)
+            if let JSON = response.result.value{
+                let alertController = UIAlertController(title: "신청 취소", message: JSON["msg"]!! as? String, preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "ok", style: .Default, handler: {(action) in
+                    self.navigationController?.popViewControllerAnimated(true)
+                    self.reloadData()
+                })
+                alertController.addAction(okAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
     
     
     

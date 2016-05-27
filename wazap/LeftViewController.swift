@@ -11,6 +11,8 @@ import SidebarOverlay
 import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
+import Kingfisher
+import AlamofireImage
 
 class LeftViewController: UIViewController{
     
@@ -42,11 +44,16 @@ class LeftViewController: UIViewController{
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
         
-        if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
-        {
-            profilePhoto.image = UIImage(data: data)
-        }
         
+        self.profilePhoto.kf_setImageWithURL(NSURL(string: photoUrl)!, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+            if let profileImage = image{
+                self.profilePhoto.image = profileImage.af_imageRoundedIntoCircle()
+            }
+        })
+    
+    
+
+    
         //사용자 정보중 이름을 가져옴
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{
             response in
@@ -76,7 +83,20 @@ class LeftViewController: UIViewController{
     }
     
     
+    @IBAction func scrapAction(sender: AnyObject) {
+        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("scrapScreen")
+        self.so_containerViewController?.isLeftViewControllerPresented = false
+    }
     
+    @IBAction func applyAction(sender: AnyObject) {
+        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("applyScreen")
+        self.so_containerViewController?.isLeftViewControllerPresented = false
+    }
+    
+    @IBAction func articleAction(sender: AnyObject) {
+        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("recruitScreen")
+        self.so_containerViewController?.isLeftViewControllerPresented = false
+    }
     
 
     /*

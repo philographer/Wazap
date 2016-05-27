@@ -15,7 +15,7 @@ class ApplyTableViewCell: UITableViewCell {
     @IBOutlet weak var recruitLabel: UILabel!
     @IBOutlet weak var applierLabel: UILabel!
     @IBOutlet weak var confirmLabel: UILabel!
-    @IBOutlet weak var detailButton: UIButton!
+    @IBOutlet var cancleButton: UIButton!
     
 
     override func awakeFromNib() {

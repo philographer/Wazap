@@ -11,9 +11,9 @@ import Alamofire
 import FBSDKLoginKit
 import SwiftyJSON
 
+
 class ScrapListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-
     var scrapList:JSON? //스크랩 리스트
     var scrapListNow : JSON = JSON.null
     var scrapListEnd : JSON = JSON.null
@@ -45,7 +45,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         let row:Int = myIndexPath!.row
         detailViewController.contests_id = self.scrapList![row]["contests_id"].intValue
         
-        var content_writer: Int?
+        //var content_writer: Int?
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
             response in
             if let responseVal = response.result.value{
@@ -62,15 +62,13 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
                 
                 // 받아온 상세정보 라벨에 집어넣음
-                
-                
                 let profileString = json["data"]["profile_img"].stringValue
                 let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                
-                if let data = NSData(contentsOfURL: profileURL)
-                {
-                    detailViewController.profileImage.image = UIImage(data: data)
-                }
+                detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+                    if let profileImage = image{
+                        detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
+                    }
+                })
                 
                 detailViewController.titleLabel.text = json["data"]["title"].stringValue
                 detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
@@ -82,7 +80,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
                 detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
                 
                 //content_writer 값 할당
-                content_writer = json["data"]["cont_writer"].intValue
+                //content_writer = json["data"]["cont_writer"].intValue
                 
                 //!! 신청자인지 검사 !!
                 var isApllier = false

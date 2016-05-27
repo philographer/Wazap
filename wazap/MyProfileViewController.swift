@@ -70,11 +70,8 @@ class MyProfileViewController: UIViewController {
         
         //사진정보 가져와서 넣음
         let photoUrl = "https://graph.facebook.com/\(facebookId!)/picture?type=large"
+        self.profilePhoto.kf_setImageWithURL(NSURL(string: photoUrl)!)
         
-        if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
-        {
-            self.profilePhoto.image = UIImage(data: data)
-        }
         
         //사용자 정보 집어넣음
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId!)", parameters: nil).responseJSON{

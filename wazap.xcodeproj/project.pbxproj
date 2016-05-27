@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0AF4831CF74D38009E6ABC /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0AF4811CF74D38009E6ABC /* AlamofireImage.framework */; };
+		BC0AF4841CF74D38009E6ABC /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0AF4821CF74D38009E6ABC /* Kingfisher.framework */; };
 		BC1AAE601CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */; };
 		BC1AAE611CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5A1CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf */; };
 		BC1AAE621CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf in Resources */ = {isa = PBXBuildFile; fileRef = BC1AAE5B1CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf */; };
@@ -75,6 +77,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC0AF4811CF74D38009E6ABC /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
+		BC0AF4821CF74D38009E6ABC /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Black-Hestia.otf"; sourceTree = "<group>"; };
 		BC1AAE5A1CB4D492006B17CC /* NotoSansKR-Bold-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold-Hestia.otf"; sourceTree = "<group>"; };
 		BC1AAE5B1CB4D492006B17CC /* NotoSansKR-DemiLight-Hestia.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-DemiLight-Hestia.otf"; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0AF4831CF74D38009E6ABC /* AlamofireImage.framework in Frameworks */,
+				BC0AF4841CF74D38009E6ABC /* Kingfisher.framework in Frameworks */,
 				BC74EC741CA11A6F002027BF /* Alamofire.framework in Frameworks */,
 				BC6A314F1C9ECFF9001F87D4 /* Dropper.framework in Frameworks */,
 				BCA7AE1F1C78AFCF00555376 /* FBSDKCoreKit.framework in Frameworks */,
@@ -163,7 +169,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BCB071A81C76CC490011B201 = {
+		BC0AF4851CF74EAE009E6ABC /* font */ = {
 			isa = PBXGroup;
 			children = (
 				BC1AAE591CB4D492006B17CC /* NotoSansKR-Black-Hestia.otf */,
@@ -173,6 +179,15 @@
 				BC1AAE5D1CB4D492006B17CC /* NotoSansKR-Medium-Hestia.otf */,
 				BC1AAE5E1CB4D492006B17CC /* NotoSansKR-Regular-Hestia.otf */,
 				BC1AAE5F1CB4D492006B17CC /* NotoSansKR-Thin-Hestia.otf */,
+			);
+			name = font;
+			sourceTree = "<group>";
+		};
+		BCB071A81C76CC490011B201 = {
+			isa = PBXGroup;
+			children = (
+				BC0AF4811CF74D38009E6ABC /* AlamofireImage.framework */,
+				BC0AF4821CF74D38009E6ABC /* Kingfisher.framework */,
 				BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */,
 				BCC517C61C8971E800278E97 /* AEXibceptionView */,
 				BCA7AE1C1C78AFCF00555376 /* FBSDKCoreKit.framework */,
@@ -184,6 +199,7 @@
 				BCB071B31C76CC490011B201 /* wazap */,
 				BCB071C81C76CC490011B201 /* wazapTests */,
 				BCB071D31C76CC4A0011B201 /* wazapUITests */,
+				BC0AF4851CF74EAE009E6ABC /* font */,
 				BCB071B21C76CC490011B201 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -327,7 +343,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = nexters;
 				TargetAttributes = {
 					BCB071B01C76CC490011B201 = {
@@ -409,6 +425,8 @@
 				"$(SRCROOT)/Carthage/Build/IOS/SidebarOverlay.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/SwiftyJSON.framework",
 				"$(SRCROOT)/Carthage/Build/IOS/Dropper.framework",
+				"$(SRCROOT)/Carthage/Build/IOS/AlamofireImage.framework",
+				"$(SRCROOT)/Carthage/Build/IOS/Kingfisher.framework",
 			);
 			name = "Run Script";
 			outputPaths = (
@@ -529,7 +547,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -544,7 +562,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = wazap;
@@ -587,7 +605,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = wazap;
 				PROVISIONING_PROFILE = None;
