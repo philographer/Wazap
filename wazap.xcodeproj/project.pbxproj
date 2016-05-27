@@ -632,6 +632,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.teamnexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -654,6 +655,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.teamnexters.wazap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

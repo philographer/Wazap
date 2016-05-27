@@ -67,11 +67,7 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         
             let profileString = alamList![row]["profile_img"].stringValue
             let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-            
-            if let data = NSData(contentsOfURL: profileURL)
-            {
-                cell.profilePhoto.image = UIImage(data: data)
-            }
+            cell.profilePhoto.kf_setImageWithURL(profileURL)
         
         
 

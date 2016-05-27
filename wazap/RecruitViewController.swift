@@ -383,10 +383,24 @@ extension RecruitViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        let (parent, isParentCell, _) = self.findParent(indexPath.row)
         
-        let (parent, _, _) = self.findParent(indexPath.row)
+        if isParentCell{ //부모셀 클릭
+            self.performSegueWithIdentifier("ShowArticleDetail_recruit", sender: parent)
+        }else{ //자식셀 클릭
+            //NSLog("A child was tapped!!!")
+            
+            // The value of the child is indexPath.row - actualPosition - 1
+            //NSLog("The value of the child is \(self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["app_users_id"])")
+            
+            
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! childCell
+            
+            
+            detailProfile(cell.detailButton)
+        }
         
-        self.performSegueWithIdentifier("ShowArticleDetail_recruit", sender: parent)
+        
 
         
     }
@@ -434,6 +448,12 @@ extension RecruitViewController {
         let contests_id:Int = sender.contests_id!
         let applies_id:Int = sender.applies_id!
         
+        //print(contests_id)
+        //print(applies_id)
+        //print(header)
+        
+        print("contests_id is :\(contests_id)")
+        print("applies_id is :\(applies_id)")
         
         
         Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id)/\(applies_id)", parameters: [:], encoding: .JSON, headers: header).responseJSON{
@@ -441,15 +461,19 @@ extension RecruitViewController {
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 print(json)
-                if(sender.titleLabel!.text == "수락됨"){
+                if(sender.titleLabel!.text == "수락됨" && json["result"] == true){
                     sender.setTitle("수락", forState: .Normal)
                 }
-                else{
+                else if(sender.titleLabel!.text == "수락" && json["result"] == true){
                     sender.setTitle("수락됨", forState: .Normal)
+                }
+                else{
+                    print(json)
                 }
                 
             }
         }
+        
     }
     
     func showTeamList(sender: AnyObject){
@@ -459,12 +483,13 @@ extension RecruitViewController {
         let cell = view.superview as! parentCell
         let indexPath = self.tableView.indexPathForCell(cell)!
         
-        print("row is\(indexPath.row)")
-        print("section is\(indexPath.section)")
+        //print("row is\(indexPath.row)")
+        //print("section is\(indexPath.section)")
+        
         let (parent, _, _) = self.findParent(indexPath.row)
         
         
-        /* 자식셀 클릭
+         /*
          guard isParentCell else {
          NSLog("A child was tapped!!!")
          
@@ -473,7 +498,8 @@ extension RecruitViewController {
          
          return
          }
-        */
+         */
+        
         
         
         self.tableView.beginUpdates()
@@ -488,10 +514,10 @@ extension RecruitViewController {
             
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
             let row = sender as! Int
-            print("row is \(row)")
+            //print("row is \(row)")
             
             detailViewController.contests_id = self.recruitList[row]["contests_id"].intValue
-            print("prepare for segue: contests_id: \(detailViewController.contests_id)")
+            //print("prepare for segue: contests_id: \(detailViewController.contests_id)")
             
             //상세정보 받아옴
             Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{

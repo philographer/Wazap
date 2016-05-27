@@ -29,6 +29,29 @@ extension UIViewController {
         view.endEditing(true)
     }
     
+    func viewUpByKeyboard(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if self.view.tag == 0{
+            if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                print("키보드 올라가기전 y\(self.view.frame.origin.y)")
+                self.view.frame.origin.y -= keyboardSize.height
+                self.view.tag = 1
+            }
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if self.view.tag == 1{
+            self.view.frame.origin.y = 0
+            self.view.tag = 0
+        }
+    }
+    
 
     /*
     // MARK: - Navigation

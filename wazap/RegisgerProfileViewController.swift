@@ -26,7 +26,7 @@ class RegisgerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardWhenTappedAround()
         let alertController = UIAlertController(title: "회원가입", message: "상세 정보를 입력해 주세요", preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default,handler: nil))
         self.presentViewController(alertController, animated: true, completion: nil)

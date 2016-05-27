@@ -97,10 +97,7 @@ class ContestsListViewController: UIViewController, UITabBarDelegate, UITableVie
         
         let photoUrl = self.contestList[row]["IMG"].stringValue
         
-        if let url = NSURL(string: photoUrl), data = NSData(contentsOfURL: url)
-        {
-            cell.contestImage.image = UIImage(data: data)
-        }
+        cell.contestImage.kf_setImageWithURL(NSURL(string: photoUrl)!)
         
         
         return cell
