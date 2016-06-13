@@ -13,7 +13,6 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var articleTitle: UILabel! //제목
     @IBOutlet weak var day: UILabel! //마감일
     @IBOutlet weak var dueDay: UILabel! //D-Day
-    @IBOutlet weak var category: UILabel! //카테고리
     @IBOutlet weak var tagList: UILabel! //태그 리스트
     @IBOutlet weak var hostName: UILabel! //주최자
     @IBOutlet weak var scrapButton: UIButton! //스크랩버튼
@@ -21,8 +20,13 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var maxNumber: UILabel!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var contTitle: UILabel!
-    @IBOutlet weak var categoryIcon: UIImageView!
     @IBOutlet weak var contIcon: UIImageView!
+    @IBOutlet weak var firstCategoryIcon: UIImageView!
+    @IBOutlet weak var firstCategoryLabel: UILabel!
+    @IBOutlet weak var secondCategoryIcon: UIImageView!
+    @IBOutlet weak var secondCategoryLabel: UILabel!
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -32,6 +32,8 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
     var lastCellExpanded : (Int, Int)!
     var recruitList = JSON.null
     var recruitMemberList:[JSON] = []
+    
+    
     //하나당...
     //자식목록 
     
@@ -40,12 +42,14 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.tableView.reloadData()
         
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController!.navigationBar.barTintColor = UIColor(red: 0/255, green: 87/255, blue: 255/255, alpha: 1.0)
+        self.navigationController!.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Noto Sans KR", size: 20)!]
         let writer_id:String = FBSDKAccessToken.currentAccessToken().userID
         //print(self.header)
         //print(writer_id)
@@ -54,6 +58,18 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 self.recruitList = json["data"]
+                
+                var jsonArrayNow:[JSON] = []
+                var jsonArrayEnd:[JSON] = []
+                for (key : subJson):(String, JSON) in self.recruitList{
+                    if(subJson.1["is_finish"].boolValue == true){
+                        jsonArrayEnd.append(subJson.1)
+                    }
+                    else{
+                        jsonArrayNow.append(subJson.1)
+                    }
+                }
+                
                 self.recruitMemberList = [JSON](count: self.recruitList.count, repeatedValue: nil)
                 for (index, subJson):(String, JSON) in self.recruitList{
                     let contests_id:String = subJson["contests_id"].stringValue
@@ -67,6 +83,7 @@ class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewD
                             
                             //비동기로 받아온걸 올바른 순서로 넣을 수 ...
                             self.recruitMemberList[index_json] = json["data"]
+                            
                             if(self.recruitList.count == self.recruitMemberList.count){
                                 self.tableView.dataSource = self
                                 self.tableView.delegate = self
@@ -314,7 +331,8 @@ extension RecruitViewController {
             
             if let data = NSData(contentsOfURL: profileURL)
             {
-                cell.profileImage.image = UIImage(data: data)
+                cell.profileImage.image = UIImage(data: data)?.af_imageRoundedIntoCircle()
+                
             }
             
             let users_id = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["app_users_id"].intValue
@@ -330,7 +348,12 @@ extension RecruitViewController {
             cell.detailButton.tag = users_id
             if(is_check)
             {
+                cell.acceptButton.setImage(UIImage(named: "accept_button_on"), forState: .Normal)
                 cell.acceptButton.setTitle("수락됨", forState: .Normal)
+            }
+            else{
+                cell.acceptButton.setImage(UIImage(named: "accept_button_off"), forState: .Normal)
+                cell.acceptButton.setTitle("수락", forState: .Normal)
             }
             cell.detailButton.addTarget(self, action: #selector(self.detailProfile(_:)), forControlEvents: .TouchUpInside)
             
@@ -360,9 +383,9 @@ extension RecruitViewController {
             
             
             cell.contestTitle.text = self.dataSource[parent].parentData["cont_title"].stringValue
-            cell.recruitLabel.text = self.dataSource[parent].parentData["recruitment"].stringValue
-            cell.applierLabel.text = self.dataSource[parent].parentData["appliers"].stringValue
-            cell.confirmLabel.text = self.dataSource[parent].parentData["members"].stringValue
+            cell.recruitLabel.text = self.dataSource[parent].parentData["recruitment"].stringValue + "명"
+            cell.applierLabel.text = self.dataSource[parent].parentData["appliers"].stringValue + "명"
+            cell.confirmLabel.text = self.dataSource[parent].parentData["members"].stringValue + "명"
             cell.applierListButton.tag = parent
             cell.applierListButton.addTarget(self, action: #selector(self.showTeamList(_:)), forControlEvents: .TouchUpInside)
             //cell.detailButton.tag = parent
@@ -409,6 +432,43 @@ extension RecruitViewController {
         return !self.findParent(indexPath.row).isParentCell ? 50.0 : 100.0
     }
     
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerCell = tableView.dequeueReusableCellWithIdentifier("RecruitHeaderCell") as! RecruitTableViewHeaderCell
+        
+        headerCell.backgroundColor = UIColorFromRGB(0xf2f3f3)
+        switch(section){
+        case 0:
+            headerCell.headerLabel.text = "지금까지 모집한 포스터를 확인하세요"
+        case 1:
+            headerCell.headerLabel.text = "마감된 포스터"
+        default:
+            break
+        }
+        
+        return headerCell
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        var headerCellHeight:CGFloat
+        switch(section){
+        case 0:
+            if(self.recruitList.count == 0){
+                headerCellHeight = 0
+            }
+            else{
+                headerCellHeight = 70.0
+            }
+        case 1:
+            headerCellHeight = 0
+        default:
+            headerCellHeight = 100.0
+        }
+        
+        return headerCellHeight
+    }
+    
     //함수들
     
     @IBAction func backButtonTouch(sender: AnyObject) {
@@ -452,8 +512,9 @@ extension RecruitViewController {
         //print(applies_id)
         //print(header)
         
-        print("contests_id is :\(contests_id)")
-        print("applies_id is :\(applies_id)")
+        
+        
+
         
         
         Alamofire.request(.POST, "http://come.n.get.us.to/contests/\(contests_id)/\(applies_id)", parameters: [:], encoding: .JSON, headers: header).responseJSON{
@@ -461,11 +522,31 @@ extension RecruitViewController {
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 print(json)
+                
+                //성공하면 확정인원 늘이고 줄이기
+                let button = sender as UIButton
+                let view = button.superview!
+                let cell = view.superview as! childCell
+                let indexPath = self.tableView.indexPathForCell(cell)
+                let (parent, _, _) = self.findParent(indexPath!.row)
+                let parentIndexPath = NSIndexPath(forRow: parent, inSection: 0)
+                let pc = self.tableView.cellForRowAtIndexPath(parentIndexPath) as! parentCell
+                var before :Int = Int(String(pc.confirmLabel.text!.characters.dropLast()))!
+                
+                
                 if(sender.titleLabel!.text == "수락됨" && json["result"] == true){
+                    sender.setImage(UIImage(named: "accept_button_off"), forState: .Normal)
                     sender.setTitle("수락", forState: .Normal)
+                    before -= 1
+                    pc.confirmLabel.text = String(before) + "명"
                 }
                 else if(sender.titleLabel!.text == "수락" && json["result"] == true){
+                    sender.setImage(UIImage(named: "accept_button_on"), forState: .Normal)
                     sender.setTitle("수락됨", forState: .Normal)
+                    before += 1
+                    pc.confirmLabel.text = String(before) + "명"
+                    
+                    
                 }
                 else{
                     print(json)
@@ -515,6 +596,8 @@ extension RecruitViewController {
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
             let row = sender as! Int
             //print("row is \(row)")
+            
+            self.navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
             
             detailViewController.contests_id = self.recruitList[row]["contests_id"].intValue
             //print("prepare for segue: contests_id: \(detailViewController.contests_id)")

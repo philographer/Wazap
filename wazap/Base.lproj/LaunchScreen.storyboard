@@ -17,33 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="U91-LV-7RD">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="U91-LV-7RD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="U91-LV-7RD" secondAttribute="trailing" id="8zP-pQ-pg0"/>
-                            <constraint firstItem="U91-LV-7RD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="XjI-cN-lre"/>
-                            <constraint firstItem="U91-LV-7RD" firstAttribute="bottom" secondItem="xb3-aO-Qok" secondAttribute="top" id="mlm-o0-8km"/>
-                            <constraint firstItem="U91-LV-7RD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ou0-cD-EHf"/>
+                            <constraint firstAttribute="bottom" secondItem="U91-LV-7RD" secondAttribute="bottom" id="5K7-Wc-UNe"/>
+                            <constraint firstItem="U91-LV-7RD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="GE0-Is-yK3"/>
+                            <constraint firstItem="U91-LV-7RD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="WfO-ev-NJ7"/>
+                            <constraint firstAttribute="trailing" secondItem="U91-LV-7RD" secondAttribute="trailing" id="p7F-u7-Pek"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="8zP-pQ-pg0"/>
-                                <exclude reference="XjI-cN-lre"/>
-                                <exclude reference="mlm-o0-8km"/>
-                                <exclude reference="ou0-cD-EHf"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="8zP-pQ-pg0"/>
-                                <include reference="XjI-cN-lre"/>
-                                <include reference="mlm-o0-8km"/>
-                                <include reference="ou0-cD-EHf"/>
-                            </mask>
-                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -62,12 +62,24 @@ class NotificationViewController: UIViewController, UITableViewDataSource, UITab
         let cell = self.tableView.dequeueReusableCellWithIdentifier("notiCell") as! NotificationTableViewCell
         let row = indexPath.row
         
-            cell.alarmLabel.text = alamList![row]["msg"].stringValue
+        cell.alarmLabel.text = alamList![row]["msg"].stringValue
+    
+    
+        let profileString = alamList![row]["profile_img"].stringValue
+        let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
         
+        cell.profilePhoto.kf_setImageWithURL(profileURL, completionHandler:{
+            (image, error, cacheType, imageURL) -> () in
+            cell.profilePhoto.image = cell.profilePhoto.image?.af_imageRoundedIntoCircle()
+        })
         
-            let profileString = alamList![row]["profile_img"].stringValue
-            let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-            cell.profilePhoto.kf_setImageWithURL(profileURL)
+        /*
+        if let data = NSData(contentsOfURL: profileURL)
+        {
+            cell.profilePhoto.image = UIImage(data: data)?.af_imageRoundedIntoCircle()
+        }
+        */
+        
         
         
 

@@ -17,6 +17,12 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     var scrapList:JSON? //스크랩 리스트
     var scrapListNow : JSON = JSON.null
     var scrapListEnd : JSON = JSON.null
+    
+    var firstCategoryNow : [String] = []
+    var firstCategoryEnd : [String] = []
+    var secondCategoryNow : [String] = []
+    var secondCategoryEnd : [String] = []
+    
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
     
@@ -30,7 +36,10 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
         self.loadData()
+        self.navigationController!.navigationBar.barTintColor = UIColor(red: 0/255, green: 87/255, blue: 255/255, alpha: 1.0)
+        self.navigationController!.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Noto Sans KR", size: 20)!]
     }
     
     
@@ -43,7 +52,18 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         let detailViewController = segue.destinationViewController as! ArticleDetailViewController
         let myIndexPath = self.tableView.indexPathForSelectedRow
         let row:Int = myIndexPath!.row
-        detailViewController.contests_id = self.scrapList![row]["contests_id"].intValue
+        
+        
+        
+        switch myIndexPath!.section{
+            case 0:
+                detailViewController.contests_id = self.scrapListNow[row]["contests_id"].intValue
+            case 1:
+                detailViewController.contests_id = self.scrapListEnd[row]["contests_id"].intValue
+            default:
+                break
+        }
+        self.navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         //var content_writer: Int?
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
@@ -215,7 +235,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             headerCellHeight = 100.0
         }
         
-        
         return headerCellHeight
     }
     
@@ -258,61 +277,196 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("scrapCell", forIndexPath: indexPath) as! ScrapTableViewCell
         let row = indexPath.row
-        var categoryList:[String] = [] //카테고리 리스트
-        
-        
         switch(indexPath.section){
         case 0:
             cell.titleLabel.text = String(self.scrapListNow[row]["title"])
             cell.recruitLabel.text = String(self.scrapListNow[row]["recruitment"])
-            //카테고리 변환 로직
-            let stringJSON = self.scrapListNow[row]["categories"]
-            if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-                for words in wordsInclude{
-                    categoryList.append(String(words.characters.dropFirst().dropLast()))
+            if(self.scrapListNow[row]["is_apply"].intValue == 1){
+                cell.applyButton.setImage(UIImage(named: "scrap_info_button_down"), forState: .Normal)
+            }else{
+                cell.applyButton.setImage(UIImage(named: "scrap_info_button"), forState: .Normal)
+            }
+            cell.titleLabel.textColor = UIColor.blackColor()
+            cell.recruitLabel.textColor = UIColor.scrapCategory()
+            cell.firstCategoryLabel.textColor = UIColor.scrapCategory()
+            cell.recruitNumberLabel.textColor = UIColor.scrapCategory()
+            
+            //D-Day 변환 로직
+            if let dayString:String = self.scrapListNow[row]["period"].stringValue {
+                //String을 NSDate로 변환
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+                if let formattedDate = formatter.dateFromString(dayString){
+                    //앞의 자리수로 자르고 day라벨에 집어넣기
+                    formatter.dateFormat = "yyyy-MM-dd"
+                    cell.dueDayLabel.text = formatter.stringFromDate(formattedDate)
+                    
+                    //D-day 표시
+                    let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
+                    if (toDate > 0){
+                        cell.dueDayLabel.text = "D-" + String(Int(toDate))
+                        cell.endImage.hidden = true
+                    }
+                    else{
+                        cell.dueDayLabel.text = "마감"
+                        print("마감이라 표시할꺼")
+                    }
                 }
             }
-            cell.categoryLabel.text = String(categoryList)
+            
+            //@ Todo: 중복코드 Refactoring 필요
+            cell.firstCategoryLabel.text = firstCategoryNow[row]
+            switch self.firstCategoryNow[row] {
+            case "광고/아이디어/마케팅":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_idea")
+            case "디자인":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_design")
+            case "사진/UCC":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_video")
+            case "게임/소프트웨어":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_it")
+            case "해외":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+            case "기타":
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+            default:
+                print("default section 0 first")
+            }
+            if(secondCategoryNow[row] != "없음"){
+                cell.secondCategoryLabel.text = secondCategoryNow[row]
+            }
+            switch self.secondCategoryNow[row] {
+            case "광고/아이디어/마케팅":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_idea")
+            case "디자인":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_design")
+            case "사진/UCC":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_video")
+            case "게임/소프트웨어":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_it")
+            case "해외":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+            case "기타":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+            default:
+                print("default section 0 second")
+                cell.secondCategoryIcon.image = UIImage()
+                cell.secondCategoryLabel.hidden = true
+                cell.separatorLeft.active = false
+            }
+            
+            print("section 0")
+            
         case 1:
             cell.titleLabel.text = String(self.scrapListEnd[row]["title"])
             cell.recruitLabel.text = String(self.scrapListEnd[row]["recruitment"])
-            //카테고리 변환 로직
-            let stringJSON = self.scrapListEnd[row]["categories"]
-            if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-                for words in wordsInclude{
-                    categoryList.append(String(words.characters.dropFirst().dropLast()))
-                }
+            cell.titleLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
+            cell.recruitLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
+            cell.endImage.hidden = false
+            cell.endImage.image = UIImage(named: "scrap_info_finish")
+            cell.firstCategoryLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
+            cell.recruitNumberLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
+            cell.firstCategoryLabel.text = firstCategoryEnd[row]
+            cell.applyButton.enabled = false
+            if(self.scrapListEnd[row]["is_apply"].intValue == 1){
+                cell.applyButton.setImage(UIImage(named: "scrap_info_button_down"), forState: .Normal)
+            }else{
+                cell.applyButton.setImage(UIImage(named: "scrap_info_button"), forState: .Normal)
             }
-            cell.categoryLabel.text = String(categoryList)
+            switch self.firstCategoryEnd[row] {
+            case "광고/아이디어/마케팅":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_idea")
+            case "디자인":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_design")
+            case "사진/UCC":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_video")
+            case "게임/소프트웨어":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_it")
+            case "해외":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+            case "기타":
+                cell.separatorLeftSecond.active = true
+                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+            default:
+                print("default  section 1 first")
+            }
+            
+            if(secondCategoryEnd[row] != "없음"){
+                cell.secondCategoryLabel.text = secondCategoryEnd[row]
+                cell.secondCategoryLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
+                cell.separatorLeftSecond.active = true
+            }
+            switch self.secondCategoryEnd[row] {
+            case "광고/아이디어/마케팅":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_idea")
+            case "디자인":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_design")
+            case "사진/UCC":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_video")
+            case "게임/소프트웨어":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_it")
+            case "해외":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+            case "기타":
+                cell.separatorLeft.active = true
+                cell.separatorLeftSecond.active = false
+                cell.secondCategoryLabel.hidden = false
+                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+            default:
+                cell.secondCategoryIcon.image = UIImage()
+                cell.secondCategoryIcon.frame = CGRectMake(0, 0, 0, 0)
+                cell.secondCategoryLabel.hidden = true
+                cell.secondCategoryLabel.frame = CGRectMake(0, 0, 0, 0)
+                cell.separatorLeft.active = false
+            }
+            
         default:
-            break
+            print("default section2 second")
         }
         
-        //D-Day 변환 로직
-        if let dayString:String = self.scrapList![row]["period"].stringValue {
-            //String을 NSDate로 변환
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-            if let formattedDate = formatter.dateFromString(dayString){
-                //앞의 자리수로 자르고 day라벨에 집어넣기
-                formatter.dateFormat = "yyyy-MM-dd"
-                cell.dueDayLabel.text = formatter.stringFromDate(formattedDate)
-                
-                //D-day 표시
-                let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                if (toDate > 0){
-                    cell.dueDayLabel.text = "D-" + String(Int(toDate))
-                }
-                else{
-                    cell.dueDayLabel.text = "마감"
-                }
-                
-            }
-        }
         
         //신청버튼
         cell.applyButton.addTarget(self, action: #selector(ScrapListViewController.applyAction(_:)), forControlEvents: .TouchUpInside)
         cell.applyButton.tag = self.scrapList![row]["contests_id"].intValue
+        
         
         //자세히보기 버튼
         //cell.detailButton.addTarget(self, action: "detailAction:", forControlEvents: .TouchUpInside)
@@ -322,11 +476,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         //cell.deleteButton.addTarget(self, action: "deleteAction:", forControlEvents: .TouchUpInside)
         //cell.deleteButton.tag = self.scrapList![row]["contests_id"].intValue
 
-
-        
-        
-        
-        
         return cell
     }
     
@@ -360,7 +509,7 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
                     let alertController2 = UIAlertController(title: "신청결과", message: responseVal["msg"]!! as? String, preferredStyle: .Alert)
                     let okAction2 = UIAlertAction(title: "완료", style: .Default, handler: { (action)
                         in
-                        self.tableView.reloadData()
+                        self.loadData()
                     })
                     alertController2.addAction(okAction2)
                     self.presentViewController(alertController2, animated: true, completion: nil)
@@ -398,29 +547,73 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func loadData(){
         let amount:Int = 20
+        var jsonArrayNow:[JSON] = []
+        var jsonArrayEnd:[JSON] = []
         Alamofire.request(.GET, "http://come.n.get.us.to/clips",headers: header ,parameters: ["amount": amount]).responseJSON{
             response in
             if let responseVal = response.result.value{
                 let json = JSON(responseVal)
                 self.scrapList = json["data"]
-                var jsonArrayNow:[JSON] = []
-                var jsonArrayEnd:[JSON] = []
+                self.firstCategoryEnd.removeAll()
+                self.secondCategoryEnd.removeAll()
+                self.firstCategoryNow.removeAll()
+                self.secondCategoryNow.removeAll()
                 for (key : subJson):(String, JSON) in self.scrapList!{
-                    if(subJson.1["is_finish"].boolValue == true){
+                    if(subJson.1["is_finish"].boolValue == true){ //끝난 목록
                         jsonArrayEnd.append(subJson.1)
+                        //cell for row에 파싱해서 넣으면 버그때문에 여기서!
+                        if let wordsInclude = subJson.1["categories"].string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                            for (index,words) in wordsInclude.enumerate(){
+                                switch index{
+                                case 0:
+                                    self.firstCategoryEnd.append(String(words.characters.dropFirst().dropLast()))
+                                case 1:
+                                    self.secondCategoryEnd.append(String(words.characters.dropFirst().dropLast()))
+                                default:
+                                    break
+                                }
+                                if(wordsInclude.count == 1){
+                                    self.secondCategoryEnd.append("없음")
+                                }
+                            }
+                        }
+                        
                     }
                     else{
                         jsonArrayNow.append(subJson.1)
+                        //cell for row에 파싱해서 넣으면 버그때문에 여기서!
+                        if let wordsInclude = subJson.1["categories"].string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                            for (index,words) in wordsInclude.enumerate(){
+                                switch index{
+                                case 0:
+                                    self.firstCategoryNow.append(String(words.characters.dropFirst().dropLast()))
+                                case 1:
+                                    self.secondCategoryNow.append(String(words.characters.dropFirst().dropLast()))
+                                default:
+                                    break
+                                }
+                                if(wordsInclude.count == 1){
+                                    self.secondCategoryNow.append("없음")
+                                }
+                            }
+                        }
                     }
                 }
-                
-                self.scrapListNow = JSON(jsonArrayNow)
-                self.scrapListEnd = JSON(jsonArrayEnd)
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
             }
+            self.scrapListNow = JSON(jsonArrayNow)
+            self.scrapListEnd = JSON(jsonArrayEnd)
+            print(self.firstCategoryEnd)
+            print(self.secondCategoryEnd)
+            
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.tableView.reloadData()
+            
+            print("reload함수 실행.")
         }
+        
+        
+        
     }
     
     

@@ -23,6 +23,7 @@
 		BC5438D01CA7FA2900F8A1DA /* AcceptButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */; };
 		BC6A314F1C9ECFF9001F87D4 /* Dropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */; };
 		BC6A31511C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */; };
+		BC731EAA1D0DAC5000015064 /* RecruitTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */; };
 		BC74EC741CA11A6F002027BF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCC529781C76CF0200DE76B0 /* Alamofire.framework */; };
 		BC75030D1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */; };
 		BC75030F1CA0BCDB0051022C /* ContestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */; };
@@ -57,6 +58,8 @@
 		BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AC1C784091005B5DCE /* NotificationViewController.swift */; };
 		BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */; };
 		BCEC9FA51CAD158E00F562E2 /* extensionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEC9FA41CAD158E00F562E2 /* extensionController.swift */; };
+		BCF70BD51D0A473C00060F62 /* MyColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF70BD41D0A473C00060F62 /* MyColor.swift */; };
+		BCF70BD81D0A476B00060F62 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF70BD71D0A476B00060F62 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,7 @@
 		BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptButton.swift; sourceTree = "<group>"; };
 		BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Dropper.framework; path = Carthage/Build/iOS/Dropper.framework; sourceTree = "<group>"; };
 		BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrapTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContestsTableViewCell.swift; sourceTree = "<group>"; };
 		BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrapTableViewCell.swift; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 		BCE420AC1C784091005B5DCE /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileModificationViewController.swift; sourceTree = "<group>"; };
 		BCEC9FA41CAD158E00F562E2 /* extensionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensionController.swift; sourceTree = "<group>"; };
+		BCF70BD41D0A473C00060F62 /* MyColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyColor.swift; sourceTree = "<group>"; };
+		BCF70BD71D0A476B00060F62 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +223,8 @@
 		BCB071B31C76CC490011B201 /* wazap */ = {
 			isa = PBXGroup;
 			children = (
+				BCF70BD61D0A475D00060F62 /* util */,
+				BCF70BD31D0A471C00060F62 /* extension */,
 				BCB071B41C76CC490011B201 /* AppDelegate.swift */,
 				BCA7AE221C78B32800555376 /* LoginViewController.swift */,
 				BCB071B61C76CC490011B201 /* ViewController.swift */,
@@ -234,6 +242,11 @@
 				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
 				BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */,
+				BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */,
+				BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */,
+				BCBFF5101CA4D8AD00ACC9F5 /* Parent.swift */,
+				BCBFF50C1CA4D88500ACC9F5 /* parentCell.swift */,
+				BCBFF50E1CA4D89300ACC9F5 /* childCell.swift */,
 				BCE420AA1C7834A3005B5DCE /* MyProfileViewController.swift */,
 				BCE420AE1C784107005B5DCE /* MyProfileModificationViewController.swift */,
 				BCA7AE121C7886D000555376 /* WriteViewController.swift */,
@@ -245,10 +258,6 @@
 				BC3A486C1C79DAEF008C559B /* LeftTableViewCell.swift */,
 				BC88D8351C7EA2080061F627 /* ContestsListViewController.swift */,
 				BC75030E1CA0BCDB0051022C /* ContestsTableViewCell.swift */,
-				BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */,
-				BCBFF50C1CA4D88500ACC9F5 /* parentCell.swift */,
-				BCBFF50E1CA4D89300ACC9F5 /* childCell.swift */,
-				BCBFF5101CA4D8AD00ACC9F5 /* Parent.swift */,
 				BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */,
 			);
 			path = wazap;
@@ -277,6 +286,22 @@
 			children = (
 			);
 			name = AEXibceptionView;
+			sourceTree = "<group>";
+		};
+		BCF70BD31D0A471C00060F62 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				BCF70BD41D0A473C00060F62 /* MyColor.swift */,
+			);
+			name = extension;
+			sourceTree = "<group>";
+		};
+		BCF70BD61D0A475D00060F62 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				BCF70BD71D0A476B00060F62 /* Utils.swift */,
+			);
+			name = util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,10 +472,12 @@
 				BCE420AF1C784107005B5DCE /* MyProfileModificationViewController.swift in Sources */,
 				BC75030D1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift in Sources */,
 				BCE420AB1C7834A3005B5DCE /* MyProfileViewController.swift in Sources */,
+				BCF70BD51D0A473C00060F62 /* MyColor.swift in Sources */,
 				BC75030F1CA0BCDB0051022C /* ContestsTableViewCell.swift in Sources */,
 				BCE420AD1C784091005B5DCE /* NotificationViewController.swift in Sources */,
 				BC6A31511C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift in Sources */,
 				BCA7AE231C78B32800555376 /* LoginViewController.swift in Sources */,
+				BC731EAA1D0DAC5000015064 /* RecruitTableViewHeaderCell.swift in Sources */,
 				BCE420A01C77F498005B5DCE /* MainTableViewCell.swift in Sources */,
 				BCBFF50F1CA4D89300ACC9F5 /* childCell.swift in Sources */,
 				BC3A486D1C79DAEF008C559B /* LeftTableViewCell.swift in Sources */,
@@ -462,6 +489,7 @@
 				BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
 				BCBFF50D1CA4D88500ACC9F5 /* parentCell.swift in Sources */,
+				BCF70BD81D0A476B00060F62 /* Utils.swift in Sources */,
 				BC3A486F1C79DD7A008C559B /* LeftViewController.swift in Sources */,
 				BCB071B51C76CC490011B201 /* AppDelegate.swift in Sources */,
 				BCE420A71C783468005B5DCE /* ScrapListViewController.swift in Sources */,

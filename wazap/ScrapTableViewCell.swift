@@ -12,9 +12,21 @@ class ScrapTableViewCell: UITableViewCell {
 
     @IBOutlet weak var dueDayLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var recruitLabel: UILabel!
     @IBOutlet weak var applyButton: UIButton!
+    @IBOutlet weak var firstCategoryIcon: UIImageView!
+    @IBOutlet weak var secondCategoryIcon: UIImageView!
+    @IBOutlet weak var firstCategoryLabel: UILabel!
+    @IBOutlet weak var secondCategoryLabel: UILabel!
+    @IBOutlet weak var secondCategoryIconLeft: NSLayoutConstraint!
+    @IBOutlet weak var secondCategoryLabelLeft: NSLayoutConstraint!
+    @IBOutlet weak var separatorLeft: NSLayoutConstraint!
+    @IBOutlet weak var separatorLeftSecond: NSLayoutConstraint!
+    @IBOutlet weak var separator: UIView!
+    @IBOutlet weak var endImage: UIImageView!
+    @IBOutlet weak var recruitNumberLabel: UILabel!
+    
+    
     //@IBOutlet weak var detailButton: UIButton!
     //@IBOutlet weak var deleteButton: UIButton!
     

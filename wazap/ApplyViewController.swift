@@ -30,12 +30,16 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.navigationController!.title = "신청목록"
         
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
         reloadData()
+        self.navigationController!.navigationBar.barTintColor = UIColor(red: 0/255, green: 87/255, blue: 255/255, alpha: 1.0)
+        self.navigationController!.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "Noto Sans KR", size: 20)!]
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -50,8 +54,17 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailViewController = segue.destinationViewController as! ArticleDetailViewController
         let myIndexPath = self.tableView.indexPathForSelectedRow
-        let row:Int = myIndexPath!.row
-        detailViewController.contests_id = self.applyList![row]["contests_id"].intValue
+        
+        switch  myIndexPath!.section{
+        case 0:
+            detailViewController.contests_id = self.applyListNow[myIndexPath!.row]["contests_id"].intValue
+        case 1:
+            detailViewController.contests_id = self.applyListNow[myIndexPath!.row]["contests_id"].intValue
+        default:
+            detailViewController.contests_id = self.applyListNow[myIndexPath!.row]["contests_id"].intValue
+        }
+        
+        self.navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
         //var content_writer:Int?
         Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
@@ -279,8 +292,6 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         let cell = self.tableView.dequeueReusableCellWithIdentifier("applyCell") as! ApplyTableViewCell
         
-        //헤더없이 하고싶다면?
-        
         switch(indexPath.section){
         case 0:
             //cell.dueDay.text = self.applyList![row]["title"]
@@ -289,26 +300,23 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.recruitLabel.text = String(self.applyListNow[row]["recruitment"])
             cell.applierLabel.text = String(self.applyListNow[row]["appliers"])
             cell.confirmLabel.text = String(self.applyListNow[row]["members"])
+            cell.endImage.hidden = true
+            cell.dueDayLabel.hidden = false
             
-            if let dayString:String = self.applyList![row]["period"].stringValue {
+            if let dayString:String = self.applyListNow[row]["period"].stringValue {
                 //String을 NSDate로 변환
                 let formatter = NSDateFormatter()
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
                 if let formattedDate = formatter.dateFromString(dayString){
                     //앞의 자리수로 자르고 day라벨에 집어넣기
                     formatter.dateFormat = "yyyy-MM-dd"
-                    cell.dueDayLabel.text = formatter.stringFromDate(formattedDate)
-                    
                     //D-day 표시
                     let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                    if (toDate > 0){
-                        cell.dueDayLabel.text = "D-" + String(Int(toDate))
-                    }
-                    else{
-                        cell.dueDayLabel.text = "마감"
-                    }
+                    cell.dueDayLabel.text = "D-" + String(Int(toDate))
                 }
             }
+            
+            
             cell.cancleButton.tag = row as Int
         case 1:
             let row = indexPath.row
@@ -316,26 +324,9 @@ class ApplyViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.recruitLabel.text = String(self.applyListEnd[row]["recruitment"])
             cell.applierLabel.text = String(self.applyListEnd[row]["appliers"])
             cell.confirmLabel.text = String(self.applyListEnd[row]["members"])
-            
-            if let dayString:String = self.applyList![row]["period"].stringValue {
-                //String을 NSDate로 변환
-                let formatter = NSDateFormatter()
-                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-                if let formattedDate = formatter.dateFromString(dayString){
-                    //앞의 자리수로 자르고 day라벨에 집어넣기
-                    formatter.dateFormat = "yyyy-MM-dd"
-                    cell.dueDayLabel.text = formatter.stringFromDate(formattedDate)
-                    
-                    //D-day 표시
-                    let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                    if (toDate > 0){
-                        cell.dueDayLabel.text = "D-" + String(Int(toDate))
-                    }
-                    else{
-                        cell.dueDayLabel.text = "마감"
-                    }
-                }
-            }
+            cell.endImage.hidden = false
+            cell.endImage.image = UIImage(named: "require_info_end_label")
+            cell.dueDayLabel.hidden = true
             cell.cancleButton.tag = row as Int
         default:
             break
