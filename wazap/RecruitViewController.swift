@@ -13,8 +13,10 @@ import FBSDKLoginKit
 
 
 
-class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RecruitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     @IBOutlet weak var tableView: UITableView!
+    
+    
     
     /// The number of elements in the data source
     var total = 0
@@ -324,6 +326,28 @@ extension RecruitViewController {
             //applies_id
             //username
             
+            if((indexPath.row - actualPosition - 1) == 0){
+                print("첫셀")
+            }
+            
+            //1개만 있을때가 아닌경우
+            if(self.dataSource[parent].childs.count != 1){
+                if(self.dataSource[parent].childs.count == (indexPath.row - actualPosition)){ //마지막 셀인경우
+                    print("올림")
+                    cell.centerYconstraint.constant = -7
+                }
+                else if((indexPath.row - actualPosition - 1) == 0){ //처음셀인경우
+                    print("내림")
+                    cell.centerYconstraint.constant = 7
+                }
+            }else{ //1개만 있을때
+                print("그대로")
+            }
+            
+            //처음은 올린다
+            
+            //끝은 내린다.
+            
             
             
             let profileString = self.dataSource[parent].childs[indexPath.row - actualPosition - 1]["profile_img"].stringValue
@@ -429,7 +453,41 @@ extension RecruitViewController {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return !self.findParent(indexPath.row).isParentCell ? 50.0 : 100.0
+        
+        
+        
+        
+        
+        let (parent, isParentCell, actualPosition) = self.findParent(indexPath.row)
+        if(isParentCell){
+            print("부모")
+            return 100.0
+        }
+        else{ //부모셀이 아닐때,
+            //처음
+            if((indexPath.row - actualPosition - 1) == 0){
+                return 66.0
+            }//끝
+            else if((indexPath.row - actualPosition - 1) == (self.dataSource[parent].childs.count - 1)){ //처음이나 끝이 아니고 중간이면
+                return 66.0
+            }
+            else{ //일반
+                return 52.0
+            }
+        }
+        
+        
+        
+        
+        
+        //return !self.findParent(indexPath.row).isParentCell ? 50.0 : 100.0
+        
+        
+        //첫줄 마지막줄의 뭔가를 알아야함.
+        
+        
+        
+        //자식일때 50, 부모일땐 100
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -528,7 +586,7 @@ extension RecruitViewController {
                 let view = button.superview!
                 let cell = view.superview as! childCell
                 let indexPath = self.tableView.indexPathForCell(cell)
-                let (parent, _, _) = self.findParent(indexPath!.row)
+                let (parent, _, actualPosition) = self.findParent(indexPath!.row)
                 let parentIndexPath = NSIndexPath(forRow: parent, inSection: 0)
                 let pc = self.tableView.cellForRowAtIndexPath(parentIndexPath) as! parentCell
                 var before :Int = Int(String(pc.confirmLabel.text!.characters.dropLast()))!
@@ -539,14 +597,15 @@ extension RecruitViewController {
                     sender.setTitle("수락", forState: .Normal)
                     before -= 1
                     pc.confirmLabel.text = String(before) + "명"
+                    self.dataSource[parent].childs[indexPath!.row - actualPosition - 1]["is_check"] = 0
+                    
                 }
                 else if(sender.titleLabel!.text == "수락" && json["result"] == true){
                     sender.setImage(UIImage(named: "accept_button_on"), forState: .Normal)
                     sender.setTitle("수락됨", forState: .Normal)
                     before += 1
                     pc.confirmLabel.text = String(before) + "명"
-                    
-                    
+                    self.dataSource[parent].childs[indexPath!.row - actualPosition - 1]["is_check"] = 1
                 }
                 else{
                     print(json)
@@ -589,6 +648,8 @@ extension RecruitViewController {
         
         
     }
+    
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowArticleDetail_recruit"{

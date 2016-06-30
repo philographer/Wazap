@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SidebarOverlay
 import Alamofire
 import FBSDKLoginKit
 
@@ -42,14 +41,29 @@ class ViewController : SOContainerViewController {
                             Alamofire.request(.GET, "http://come.n.get.us.to/users/\(userNumber)", parameters: nil).responseJSON{
                                 response in
                                 if let JSON2 = response.result.value{
-                                    print(JSON2["msg"])
+                                    //print(JSON2["msg"])
+                                    let mainStoryboard: UIStoryboard = self.storyboard!
                                     if(JSON2["data"]!![0]["kakao_id"]!! is NSNull){ //kakao 아이디가 없으므로 회원가입시킴
-                                        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("registerScreen")
+                                        //self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("registerScreen")
+                                        let viewController = mainStoryboard.instantiateViewControllerWithIdentifier("registerScreen")
+                                        UIApplication.sharedApplication().keyWindow?.rootViewController = viewController;
+                                        
                                     }
                                     else //아니면 메인페이지로 넘어감
                                     {
-                                        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
-                                        self.leftViewController = self.storyboard?.instantiateViewControllerWithIdentifier("leftScreen")
+                                        
+                                        
+                                        self.so_containerViewController?.sideViewController = self.storyboard?.instantiateViewControllerWithIdentifier("leftScreen")
+                                        self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+                                        self.menuSide = .Left
+                                        
+                                        
+                                        //
+                                        
+                                        //self.so_containerViewController?.menuSide = .Left
+                                        //
+                                        
+                                        //self.so_containerViewController?.isSideViewControllerPresented = true
                                     }
                                 }
                             }
@@ -72,6 +86,18 @@ class ViewController : SOContainerViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    override var isSideViewControllerPresented: Bool {
+        didSet {
+            let action = isSideViewControllerPresented ? "opened" : "closed"
+            let side = menuSide == .Left ? "left" : "right"
+            NSLog("You've \(action) the \(side) view controller.")
+        }
     }
     
 

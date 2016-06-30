@@ -12,9 +12,10 @@ class ContestsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hostLabel: UILabel!
-    @IBOutlet weak var startDateLabel: UILabel!
-    @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var contestImage: UIImageView!
+    @IBOutlet weak var categoryImage: UIImageView!
+    @IBOutlet weak var dueDayLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

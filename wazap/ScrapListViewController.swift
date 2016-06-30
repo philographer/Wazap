@@ -53,8 +53,6 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         let myIndexPath = self.tableView.indexPathForSelectedRow
         let row:Int = myIndexPath!.row
         
-        
-        
         switch myIndexPath!.section{
             case 0:
                 detailViewController.contests_id = self.scrapListNow[row]["contests_id"].intValue
@@ -488,6 +486,11 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
+    
+    func navBarColorChange(color: UIColor){
+        self.navigationController?.navigationBar.tintColor = color
+        print("navigation 함수 실행")
+    }
     
     func detailAction(sender: UIButton){
         let detailViewController = storyboard?.instantiateViewControllerWithIdentifier("detailViewController") as! ArticleDetailViewController

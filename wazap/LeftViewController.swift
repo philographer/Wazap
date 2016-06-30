@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SidebarOverlay
 import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
@@ -23,6 +22,7 @@ class LeftViewController: UIViewController{
     @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
+    
     /**
      @ Variables
     */
@@ -37,6 +37,7 @@ class LeftViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         print(leftMenu.count)
         
         
@@ -50,10 +51,7 @@ class LeftViewController: UIViewController{
                 self.profilePhoto.image = profileImage.af_imageRoundedIntoCircle()
             }
         })
-    
-    
-
-    
+        
         //사용자 정보중 이름을 가져옴
         Alamofire.request(.GET, "http://come.n.get.us.to/users/\(facebookId)", parameters: nil).responseJSON{
             response in
@@ -64,6 +62,10 @@ class LeftViewController: UIViewController{
         }
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,18 +86,18 @@ class LeftViewController: UIViewController{
     
     
     @IBAction func scrapAction(sender: AnyObject) {
-        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("scrapScreen")
-        self.so_containerViewController?.isLeftViewControllerPresented = false
+        self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("scrapScreen")
+        self.so_containerViewController!.isSideViewControllerPresented = false
     }
     
     @IBAction func applyAction(sender: AnyObject) {
-        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("applyScreen")
-        self.so_containerViewController?.isLeftViewControllerPresented = false
+        self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("applyScreen")
+        self.so_containerViewController!.isSideViewControllerPresented = false
     }
     
     @IBAction func articleAction(sender: AnyObject) {
-        self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("recruitScreen")
-        self.so_containerViewController?.isLeftViewControllerPresented = false
+        self.so_containerViewController!.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("recruitScreen")
+        self.so_containerViewController!.isSideViewControllerPresented = false
     }
     
 

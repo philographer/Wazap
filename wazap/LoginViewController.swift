@@ -49,7 +49,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate{
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if error == nil{
             print("login completed.")
-            self.performSelector(#selector(LoginViewController.loadNextViewController), withObject: nil, afterDelay: 0)
+            self.performSelector(#selector(LoginViewController.loadNextViewController), withObject: nil, afterDelay: 0)   
         }
         else
         {

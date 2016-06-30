@@ -28,7 +28,10 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var kakaoLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var profileImage: UIImageView!
-    
+    @IBOutlet weak var positionLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var contTitleLabel: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     /** Variables
      
@@ -50,9 +53,12 @@ class ArticleDetailViewController: UIViewController {
     
     var contests_id: Int?
     var contests: JSON = JSON.null
+    var detailContests: JSON = JSON.null
     var categoryArr: [String] = []
     var applies_id: String?
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    
+    
     
     
     /**
@@ -60,14 +66,47 @@ class ArticleDetailViewController: UIViewController {
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("contests_id: \(contests_id!)")
+        
+        //스크롤뷰 오토레이아웃 버그때문에 추가함(프로필 상세보기를 열면 스크롤뷰가 내려감)
+        self.automaticallyAdjustsScrollViewInsets = false
+        
+        //값 셋팅
+        self.titleLabel.text = self.contests["title"].stringValue
+        self.contTitleLabel.text = self.contests["cont_title"].stringValue
+        self.recruitmentLabel.text =
+            self.contests["members"].stringValue + " / " + self.contests["recruitment"].stringValue
+        self.writerLabel.text = self.contests["username"].stringValue
+        self.hostsLabel.text = self.contests["hosts"].stringValue
+        self.categoryLabel.text = String(self.categoryArr)
+        self.coverLabel.text = self.contests["cover"].stringValue
+        self.appliersLabel.text = self.contests["appliers"].stringValue
+        self.locationLabel.text = self.contests["cont_locate"].stringValue
+        self.positionLabel.text = self.contests["positions"].stringValue
+        
+        
+        
+        //유저 프로필 이미지 셋팅
+        
+        
+        
         
     }
     
     override func viewWillAppear(animated: Bool) {
         
         //타이틀을 이미지로 변경
-        dispatch_async(dispatch_get_main_queue(), {
+        var titleView : UIImageView
+        // set the dimensions you want here
+        titleView = UIImageView(frame:CGRectMake(0, 0, 50, 45))
+        // Set how do you want to maintain the aspect
+        titleView.contentMode = .ScaleAspectFit
+        titleView.image = UIImage(named: "detail_title_banner-4")
+        self.navigationItem.titleView = titleView
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        //self.navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
+        /*dispatch_async(dispatch_get_main_queue(), {
             var titleView : UIImageView
             // set the dimensions you want here
             titleView = UIImageView(frame:CGRectMake(0, 0, 10, 25))
@@ -76,9 +115,15 @@ class ArticleDetailViewController: UIViewController {
             titleView.image = UIImage(named: "detail_title_banner-1")
             self.navigationItem.titleView = titleView
         })
+        */
         
         self.activityIndicator.hidden = true
         self.activityIndicator.startAnimating()
+        
+        //scrollView setContentOffset:CGPointZero
+        
+        //self.scrollView.setContentOffset(CGPointZero, animated: false)
+        
         
     }
     
@@ -210,6 +255,9 @@ class ArticleDetailViewController: UIViewController {
             viewController.contentTitleLabel.text = self.contests["cont_title"].stringValue
             viewController.recruitLabel.text = self.contests["recruitment"].stringValue + "명"
             viewController.recruitPicker.selectRow(self.contests["recruitment"].intValue - 2, inComponent: 0, animated: true)
+            viewController.locationLabel.text = self.contests["cont_locate"].stringValue
+            
+            viewController.positionLabel.text = self.contests["positions"].stringValue
             
             //날짜 바꿔줌
             let formatter = NSDateFormatter()
@@ -220,33 +268,30 @@ class ArticleDetailViewController: UIViewController {
             viewController.dateTextLabel.text = formatter.stringFromDate(detailDate)
             
             
+            print(self.categoryArr)
             
-            
-            //카테고리 색깔 바꿔줌
-            for category in self.categoryArr {
-                switch category{
-                case "광고/아이디어/마케팅":
-                    viewController.category_ad_idea_marketing = true
-                    viewController.adIdeaMarketingButton.tintColor = UIColor.redColor()
-                case "디자인":
-                    viewController.category_design = true
-                    viewController.designButton.tintColor = UIColor.redColor()
-                case "사진/UCC":
-                    viewController.category_pic_ucc = true
-                    viewController.picUccButton.tintColor = UIColor.redColor()
-                case "게임/소프트웨어":
-                    viewController.category_game_software = true
-                    viewController.gameSoftwareButton.tintColor = UIColor.redColor()
-                case "해외":
-                    viewController.category_foreign = true
-                    viewController.foreignButton.tintColor = UIColor.redColor()
-                case "기타":
-                    viewController.category_etc = true
-                    viewController.etcButton.tintColor = UIColor.redColor()
-                default:
-                    break
-                }
+            if self.categoryArr.contains("광고/아이디어/마케팅"){
+                viewController.adIdeaMarketingButton.isChecked = true
             }
+            if self.categoryArr.contains("디자인"){
+                viewController.designButton.isChecked = true
+            }
+            if self.categoryArr.contains("사진/UCC"){
+                viewController.picUccButton.isChecked = true
+            }
+            if self.categoryArr.contains("해외"){
+                viewController.foreignButton.isChecked = true
+            }
+            if self.categoryArr.contains("게임/소프트웨어"){
+                viewController.gameSoftwareButton.isChecked = true
+            }
+            if self.categoryArr.contains("기타"){
+                viewController.etcButton.isChecked = true
+            }
+            
+            
+            
+            
             
             
             //viewController.dayPicker.setDate(formatter.dateFromString(viewController.periodDate)!, animated: true)
@@ -325,11 +370,11 @@ class ArticleDetailViewController: UIViewController {
     
     @IBAction func backButtonAction(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
+        
     }
     @IBAction func detailProfile(sender: AnyObject) {
         let profileController = self.storyboard?.instantiateViewControllerWithIdentifier("profileViewController") as! MyProfileViewController
         profileController.facebookId = String(self.contests["cont_writer"].stringValue)
-        
         
         let closeBtn = UIBarButtonItem(title: "뒤로", style: .Plain, target: profileController, action: #selector(profileController.closeView))
         //profileController.navigationItem.setRightBarButtonItem(closeBtn, animated: true)

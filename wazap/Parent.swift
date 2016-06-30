@@ -56,6 +56,3 @@ struct Parent {
  
  - returns: true if there are different, otherwise false
  */
-func != (lhs: (Int, Int), rhs: (Int, Int)) -> Bool {
-    return lhs.0 != rhs.0 && rhs.1 != lhs.1
-}

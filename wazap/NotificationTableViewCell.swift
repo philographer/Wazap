@@ -14,7 +14,8 @@ class NotificationTableViewCell: UITableViewCell {
      @ Outlet
     */
     @IBOutlet weak var profilePhoto: UIImageView!
-    @IBOutlet weak var alarmLabel: UILabel!
+    
+    @IBOutlet weak var alarmTextView: UITextView!
     @IBOutlet weak var beforeLabel: UILabel!
     
     override func awakeFromNib() {

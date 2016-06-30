@@ -24,6 +24,7 @@ class RegisgerProfileViewController: UIViewController {
     
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
@@ -60,7 +61,7 @@ class RegisgerProfileViewController: UIViewController {
                 let json = JSON(responseVal)
                 let results = json["result"]
                 if(results == "true"){
-                 self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+                 self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
                 }
             }
         }

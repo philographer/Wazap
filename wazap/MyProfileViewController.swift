@@ -30,6 +30,10 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var profileNavigationBar: UINavigationItem!
     @IBOutlet weak var profileEditButton: UIBarButtonItem!
     
+    @IBOutlet weak var innerView2: UIView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var innerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     /**
@@ -46,6 +50,23 @@ class MyProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if facebookId != FBSDKAccessToken.currentAccessToken().userID {
+            self.profileEditButton.tintColor = UIColor.clearColor()
+            self.profileEditButton.enabled = false
+        }else{
+            self.profileEditButton.tintColor = nil
+            self.profileEditButton.enabled = true
+        }
+    }
+    /**
+      @ Todo: Scroll View의 Constraint문제
+     */
+    override func viewDidLayoutSubviews() {
+        //let screenHeight = UIScreen.mainScreen().bounds.height
+        //let innerView2Ypos = self.innerView2.frame.origin.y
+        //let navHeight = self.navigationBar.frame.height
+        //self.innerViewConstraint.constant = screenHeight - innerView2Ypos - navHeight - 10
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,7 +91,14 @@ class MyProfileViewController: UIViewController {
         
         //사진정보 가져와서 넣음
         let photoUrl = "https://graph.facebook.com/\(facebookId!)/picture?type=large"
-        self.profilePhoto.kf_setImageWithURL(NSURL(string: photoUrl)!)
+        
+        
+        self.profilePhoto.kf_setImageWithURL(NSURL(string: photoUrl)!, completionHandler:{
+            (image, error, cacheType, imageURL) -> () in
+            self.profilePhoto.image = self.profilePhoto.image?.af_imageRoundedIntoCircle()
+        })
+    
+        
         
         
         //사용자 정보 집어넣음
@@ -81,7 +109,7 @@ class MyProfileViewController: UIViewController {
                 let json = JSON(responseVal)
                 self.skillLabel.text = json["data"][0]["skill"].stringValue
                 self.expLabel.text = json["data"][0]["exp"].stringValue
-                self.introduceLabel.text = json["data"][0]["introduce"].stringValue
+                //self.introduceLabel.text = json["data"][0]["introduce"].stringValue
                 self.kakaoLabel.text = json["data"][0]["kakao_id"].stringValue
                 self.locateLabel.text = json["data"][0]["locate"].stringValue
                 self.majorLabel.text = json["data"][0]["major"].stringValue
@@ -111,7 +139,30 @@ class MyProfileViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    @IBAction func settingAction(sender: AnyObject) {
+        self.performSegueWithIdentifier("ShowModificationProfile", sender: self)
+    }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        
+        
+        if segue.identifier == "ShowModificationProfile"{
+            print("segue")
+            let vc = segue.destinationViewController as! MyProfileModificationViewController
+            vc.profileImage = self.profilePhoto.image!
+            vc.name = self.nameLabel.text!
+            vc.kakao = self.kakaoLabel.text!
+            vc.school = self.schoolLabel.text!
+            vc.major = self.majorLabel.text!
+            vc.locate = self.locateLabel.text!
+            vc.skill = self.skillLabel.text!
+            vc.introduce = self.introduceLabel.text!
+        }
+        
+        
+        
+    }
     
 
     /*

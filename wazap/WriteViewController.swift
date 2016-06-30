@@ -11,7 +11,7 @@ import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
 
-class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
+class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIScrollViewDelegate, ChildNameDelegate{
     /**
      @ Outlet field, button
     */
@@ -20,32 +20,32 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var organizerLabel: UITextField!
     @IBOutlet weak var introTextView: UITextView!
-    @IBOutlet weak var profilePhoto: UIImageView!
     
     @IBOutlet weak var recruitLabel: UITextField!
     @IBOutlet weak var dateTextLabel: UITextField!
     
-    @IBOutlet weak var adIdeaMarketingButton: UIButton!
-    @IBOutlet weak var designButton: UIButton!
-    @IBOutlet weak var picUccButton: UIButton!
-    @IBOutlet weak var gameSoftwareButton: UIButton!
-    @IBOutlet weak var foreignButton: UIButton!
-    @IBOutlet weak var etcButton: UIButton!
+    @IBOutlet weak var adIdeaMarketingButton: CheckBox!
+    @IBOutlet weak var designButton: CheckBox!
+    @IBOutlet weak var picUccButton: CheckBox!
+    @IBOutlet weak var foreignButton: CheckBox!
+    @IBOutlet weak var gameSoftwareButton: CheckBox!
+    @IBOutlet weak var etcButton: CheckBox!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var positionLabel: UITextField!
+    
+    
+    
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     /**
      @ Variables
     */
-    var category_ad_idea_marketing:Bool = false
-    var category_design: Bool = false
-    var category_pic_ucc: Bool = false
-    var category_game_software: Bool = false
-    var category_foreign: Bool = false
-    var category_etc: Bool = false
     
     var pickerDataSource = ["2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명", "10명", "11명", "12명"]
     var itemAtDefaultPosition: String?
-    var recruitValue : Int = 2 //Default 2
+    var recruitValue : Int = 2 //Default 0
     var periodDate : String = ""
     
     var isModify: Bool = false //modify인지 수정인지 검사
@@ -66,8 +66,41 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         self.hideKeyboardWhenTappedAround() 
         print(FBSDKAccessToken.currentAccessToken().tokenString)
         
+        var titleView : UIImageView
+        // set the dimensions you want here
+        titleView = UIImageView(frame:CGRectMake(0, 0, 50, 50))
+        // Set how do you want to maintain the aspect
+        titleView.contentMode = .ScaleAspectFit
+        titleView.image = UIImage(named: "detail_title_banner-4")
+        self.navigationBar.topItem?.titleView = titleView
+        self.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationBar.shadowImage = UIImage()
+        
+        
+        //로케이션에 탭 추가
+        let locationTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.locationAction(_:)))
+        self.locationLabel.addGestureRecognizer(locationTap)
+        
+        
+        
+        adIdeaMarketingButton.setImage("category_idea_icon", unchecked: "disable_category_idea_icon")
+        designButton.setImage("category_design_icon", unchecked: "disable_category_design_icon")
+        picUccButton.setImage("category_photo_icon", unchecked: "disable_category_photo_icon")
+        gameSoftwareButton.setImage("category_game_icon", unchecked: "disable_category_game_icon")
+        foreignButton.setImage("category_global_icon", unchecked: "disable_category_global_icon")
+        etcButton.setImage("category_etc_icon", unchecked: "disable_category_etc_icon")
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         //사진을가져와서 집어넣음
+        /*
         let facebookId = FBSDKAccessToken.currentAccessToken().userID as String
         let photoUrl = "https://graph.facebook.com/\(facebookId)/picture?type=large"
         
@@ -75,6 +108,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         {
             profilePhoto.image = UIImage(data: data)
         }
+        */
     
         
         
@@ -109,15 +143,6 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        /**
-         @ Bool 변수 초기화
-        */
-        category_ad_idea_marketing = false // 디자인/UCC
-        category_design = false // IT/개발
-        category_pic_ucc = false // 마케팅/광고
-        category_game_software = false // 논문/문학
-        category_foreign = false // 게임
-        category_etc = false // ETC
         
         /**
          @ 오늘날짜, 모집인원 초기화
@@ -161,6 +186,11 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         }
     }
     
+    //childDelegate
+    func dataChanged(str: String) {
+        locationLabel.text = str
+    }
+    
     //셀렉터 숨김
     func dismissSelector(){
         dateTextLabel.endEditing(true)
@@ -191,78 +221,62 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBAction func backButtonTouch(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     /**
      @ Category Action Todo: 카테고리 체크박스 하드코딩 ㅠ_ㅠ
      */
-    @IBAction func adIdeaMarketingButton(sender: AnyObject) {
-        if(self.category_ad_idea_marketing == true){
-            self.category_ad_idea_marketing = false
-            self.adIdeaMarketingButton.tintColor = UIColor.blueColor()
-            print("true => false")
-        }
-        else{
-            self.category_ad_idea_marketing = true
-            self.adIdeaMarketingButton.tintColor = UIColor.redColor()
-            print("false => true")
-        }
-        print("idea clicked")
-    }
-    
-    @IBAction func designButton(sender: AnyObject) {
-        if(self.category_design == true){
-            self.category_design = false
-            self.designButton.tintColor = UIColor.blueColor()
-        }
-        else{
-            self.category_design = true
-            self.designButton.tintColor = UIColor.redColor()
+    @IBAction func adIdeaMarketingAction(sender: AnyObject) {
+        if adIdeaMarketingButton.isChecked {
+            adIdeaMarketingButton.uncheck()
+        }else{
+            adIdeaMarketingButton.check()
         }
     }
     
-    @IBAction func picUccButton(sender: AnyObject) {
-        if(self.category_pic_ucc == true){
-            self.category_pic_ucc = false
-            self.picUccButton.tintColor = UIColor.blueColor()
-            
+    @IBAction func designAction(sender: AnyObject) {
+        if designButton.isChecked {
+            designButton.uncheck()
+        }else{
+            designButton.check()
         }
-        else{
-            self.category_pic_ucc = true
-            self.picUccButton.tintColor = UIColor.redColor()
+    }
+    @IBAction func picUccAction(sender: AnyObject) {
+        if picUccButton.isChecked{
+            picUccButton.uncheck()
+        }else{
+            picUccButton.check()
         }
     }
     
-    @IBAction func gameSoftwareButton(sender: AnyObject) {
-        if(self.category_game_software == true){
-            self.category_game_software = false
-            self.gameSoftwareButton.tintColor = UIColor.blueColor()
+    @IBAction func foreignAction(sender: AnyObject) {
+        if foreignButton.isChecked{
+            foreignButton.uncheck()
+        }else{
+            foreignButton.check()
         }
-        else{
-            self.category_game_software = true
-            self.gameSoftwareButton.tintColor = UIColor.redColor()
+    }
+    @IBAction func gameSoftwareAction(sender: AnyObject) {
+        if gameSoftwareButton.isChecked{
+            gameSoftwareButton.uncheck()
+        }else{
+            gameSoftwareButton.check()
+        }
+    }
+    @IBAction func etcAction(sender: AnyObject) {
+        if etcButton.isChecked{
+            etcButton.uncheck()
+        }else{
+           etcButton.check()
         }
     }
     
-    @IBAction func foreignButton(sender: AnyObject) {
-        if(self.category_foreign == true){
-            self.category_foreign = false
-            self.foreignButton.tintColor = UIColor.blueColor()
-        }
-        else{
-            self.category_foreign = true
-            self.foreignButton.tintColor = UIColor.redColor()
-        }
+    func locationAction(sender: UITapGestureRecognizer) {
+        let modalViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LocationViewController") as! LocationViewController
+        
+        modalViewController.delegate = self
+        self.presentViewController(modalViewController, animated: false, completion: nil)
     }
     
-    @IBAction func etcButton(sender: AnyObject) {
-        if(self.category_etc == true){
-            self.category_etc = false
-            self.etcButton.tintColor = UIColor.blueColor()
-        }
-        else{
-            self.category_etc = true
-            self.etcButton.tintColor = UIColor.redColor()
-        }
-    }
     
     /**
      @ 만들기 버튼 Action 클릭
@@ -273,24 +287,26 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
         var categories: [String] = []
         
-        if(category_ad_idea_marketing){
+        if(self.adIdeaMarketingButton.isChecked){
             categories.append("광고/아이디어/마케팅")
         }
-        if(category_design){
+        if(self.designButton.isChecked){
             categories.append("디자인")
         }
-        if(category_pic_ucc){
+        if(self.picUccButton.isChecked){
             categories.append("사진/UCC")
         }
-        if(category_game_software){
+        if(self.gameSoftwareButton.isChecked){
             categories.append("게임/소프트웨어")
         }
-        if(category_foreign){
+        if(self.foreignButton.isChecked){
             categories.append("해외")
         }
-        if(category_etc){
+        if(self.etcButton.isChecked){
             categories.append("기타")
         }
+        
+        
         
         let content_title = contentTitleLabel.text! as String
         let title = titleLabel.text! as String
@@ -298,33 +314,22 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         let hosts = organizerLabel.text! as String
         let period = periodDate as String
         let cover = introTextView.text! as String
-        let positions = "개발자/디자인/기획자" as String
+        let positions = positionLabel.text!
+        let location = locationLabel.text!
         
-        print("제출한 타이틀은 \(content_title)")
-    
-        
-        //print(parameters["categories"]!)
-        //print(access_token)
-        //print(title)
-        //print(recruitment)
-        //print(hosts)
-        //print(period)
-        //print(cover)
-        //print(positions)
+        //Validation 검증
         
         
+        
+        
+        let validation = self.validation(content_title, title: title, categories: categories, recruitment: recruitment, hosts: hosts, period: period, cover: cover, positions: positions, location: location)
+        
+        //발리데이션 통과 못 하면 끝
+        guard validation else{
+            return
+        }
         
         if(!self.isModify){ //글작성
-            
-            //print("access_token: \(access_token)")
-            //print("title: \(title)")
-            //print("recruitment: \(recruitment)")
-            //print("hosts: \(hosts)")
-            //print("categories: \(categories)")
-            //print("period: \(period)")
-            //print("cover: \(cover)")
-            //print("positions: \(positions)")
-            
             Alamofire.request(.POST, "http://come.n.get.us.to/contests",headers: header ,parameters: [
                 "title": title,
                 "recruitment": recruitment,
@@ -332,7 +337,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
                 "categories": categories,
                 "period": period,
                 "cover": cover,
-                "cont_locate": "서울",
+                "cont_locate": location,
                 "cont_title": content_title,
                 "positions": positions], encoding: .JSON).responseJSON{
                     response in
@@ -348,16 +353,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
                     }
             }
         }
-        else{ //수정
-            //print("access_token: \(access_token)")
-            //print("title: \(title)")
-            //print("recruitment: \(recruitment)")
-            //print("hosts: \(hosts)")
-            //print("categories: \(categories)")
-            //print("period: \(period)")
-            //print("cover: \(cover)")
-            //print("positions: \(positions)")
-            
+        else{
             Alamofire.request(.PUT, "http://come.n.get.us.to/contests/\(contest_id!)", headers: header, parameters: [
                 "title": title,
                 "recruitment": recruitment,
@@ -365,6 +361,7 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
                 "categories": categories,
                 "period": period,
                 "cover": cover,
+                "cont_locate": location,
                 "positions": positions], encoding: .JSON).responseJSON{
                 response in
                 if let JSON = response.result.value{
@@ -381,6 +378,64 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         
 
         
+    }
+    
+    func validation(cont_title: String, title: String, categories: [String], recruitment: Int, hosts: String, period: String, cover: String, positions: String, location: String) -> Bool{
+        if(cont_title == ""){
+            alertMessage("제목을 작성해 주세요.")
+            return false
+        }else if(title == ""){
+            alertMessage("공모전 명칭을 작성해 주세요.")
+            return false
+        }else if(recruitment == 0){
+            alertMessage("모집 인원을 선택해 주세요")
+            return false
+        }else if(hosts == ""){
+            alertMessage("모집 주최를 입력해 주세요")
+            return false
+        }else if(period == ""){
+            alertMessage("날짜를 입력해 주세요")
+            return false
+        }else if(cover == ""){
+            alertMessage("상세 소개를 입력해 주세요")
+            return false
+        }else if(positions == ""){
+            alertMessage("모집 직군를 입력해 주세요")
+            return false
+        }else if(categories.count > 3){
+            alertMessage("카테고리는 3개 이하만 가능합니다.")
+            return false
+        }else if(categories.count == 0){
+            alertMessage("카테고리는 하나 이상 선택해야 합니다.")
+            return false
+        }else if(location == ""){
+            alertMessage("지역을 선택해 주세요")
+            return false
+        }
+        else{
+            //Date 변환
+            let deFormatter = NSDateFormatter()
+            deFormatter.dateFormat = "yyyy-MM-dd"
+            let formattedDate = deFormatter.dateFromString(period)
+            let toDate = floor(formattedDate!.timeIntervalSinceNow / 3600 / 24)
+            if (toDate <= 0){
+                alertMessage("모집 마감일은 금일보다 이후가 되어야 합니다.")
+                return false
+            }else{
+                return true
+            }
+        }
+    }
+    
+    func alertMessage(msg: String){
+        let alertView = UIAlertController(title: "Notification", message: msg, preferredStyle: .Alert)
+        let cancle = UIAlertAction(title: "확인", style: .Default, handler: {
+            Void in
+            
+        })
+        alertView.addAction(cancle)
+        
+        self.presentViewController(alertView, animated: true, completion: nil)
     }
     
 

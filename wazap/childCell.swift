@@ -14,6 +14,7 @@ class childCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var acceptButton: AcceptButton!
+    @IBOutlet weak var centerYconstraint: NSLayoutConstraint!
     
     
     

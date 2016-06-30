@@ -5,3 +5,4 @@ github "alexkrzyzanowski/SidebarOverlay" "2.1.2"
 github "SwiftyJSON/SwiftyJSON" "2.3.3"
 github "onevcat/Kingfisher" ~> 2.4
 github "Alamofire/AlamofireImage" ~> 2.0
+github "gavinbunney/Toucan"

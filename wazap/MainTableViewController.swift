@@ -19,68 +19,98 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     /**
      @ Outlet, Variables
     */
+    
     @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var sideBarButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tabBar: UITabBar!
-    @IBOutlet weak var categoryButton: UIButton!
     @IBOutlet weak var recruitTab: UITabBarItem!
     @IBOutlet weak var contestsListTab: UITabBarItem!
-    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var accordianButton: UIButton!
+    @IBOutlet weak var categoryButton: UIButton!
+    @IBOutlet weak var categoryBtn: UIButton!
+    @IBOutlet var thisView: UIView!
+    @IBOutlet var innerView: UIView!
     
 
     var contestList:JSON = [] //API에서 불러온 공모전 리스트
     var firstCategoryList:[String] = []
     var secondCategoryList:[String] = []
     var dueDays:[String]? = [] //D-Day 계산을 위한 배열
-    let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    var header :[String:String] = [:]
     let dropper = Dropper(width: 150, height: 300)
     
     
     var writeButton:UIButton?
     var alphaSubview:UIView?
+    var navigationAlphaSubview:UIView?
     
     /**
      @ 뷰 로드
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /**
+         @ 타이틀에 와잡 이미지 추가
+         */
+        
+        
+        
+        
         var titleView : UIImageView
-        // set the dimensions you want here
         titleView = UIImageView(frame:CGRectMake(0, 0, 50, 50))
-        // Set how do you want to maintain the aspect
         titleView.contentMode = .ScaleAspectFit
-        titleView.image = UIImage(named: "detail_title_banner-1")
+        titleView.image = UIImage(named: "detail_title_banner-4")
         self.navigationItem.titleView = titleView
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         
-        print(self.pixelToPoint(52))
-        
-        
-        //categoryButton.layer.borderColor = UIColorFromRGB(0xf2f2f2).CGColor
-        //categoryLabel.layer.borderColor = UIColorFromRGB(0xf2f2f2).CGColor
-        
-        categoryButton.layer.borderColor = UIColor(red: 184.0/255.0, green: 184.0/255.0, blue: 184.0/255.0, alpha: 1.0).CGColor
+        //self.navigationItem.titleView?.contentMode = .ScaleAspectFit
+        //self.navigationItem.titleView = UIImageView(image: UIImage(named: "detail_title_banner-4"))
         
         
-        categoryLabel.layer.borderColor = UIColor(red: 184.0/255.0, green: 184.0/255.0, blue: 184.0/255.0, alpha: 1.0).CGColor
-        
+        /**
+         @ 아코디언 버튼에 이벤트 추가
+         */
         accordianButton.addTarget(self, action: #selector(self.dropdownAction(_:)), forControlEvents: .TouchUpInside)
         
-        //Dropper
-        dropper.items = ["전체","광고·아이디어·마케팅", "디자인", "사진·UCC", "게임·소프트웨어", "해외", "ETC"]
+        /**
+         @ Dropper Setting
+         */
+        dropper.items = ["전체 모집글","광고·아이디어·마케팅", "디자인", "사진·UCC", "게임·소프트웨어", "해외", "ETC"]
         dropper.theme = Dropper.Themes.White
         dropper.delegate = self
         dropper.cornerRadius = 3
         dropper.refresh()
         
-        //라인 숨기기
-        //탭바 아이템
-        //let barbuttonFont = UIFont.systemFontOfSize(30)
-        //UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: barbuttonFont, NSForegroundColorAttributeName:UIColor.whiteColor()], forState: UIControlState.Normal)
-        //print(FBSDKAccessToken.currentAccessToken().tokenString)
-        //margin
-        //self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+        print(self.so_containerViewController)
+        
+        
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        
+        self.categoryBtn.layer.addBorder(UIRectEdge.Bottom, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        self.categoryBtn.layer.addBorder(UIRectEdge.Top, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        self.categoryBtn.layer.addBorder(UIRectEdge.Left, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        
+       
+        self.categoryButton.layer.addBorder(UIRectEdge.Top, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        self.categoryButton.layer.addBorder(UIRectEdge.Bottom, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        self.categoryButton.layer.addBorder(UIRectEdge.Right, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        
+        
+        
+        //self.categoryButton.layer.addBorder(UIRectEdge.Right, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        
+        //self.categoryButton.layer.addBorder(UIRectEdge.Left, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        
+        //self.accordianButton.layer.addBorder(UIRectEdge.Left, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        
+        
     }
     
     /**
@@ -88,13 +118,22 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
      */
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        
+        
+        guard (FBSDKAccessToken.currentAccessToken() != nil) else {
+            let mainStoryboard: UIStoryboard = self.storyboard!
+            let viewController = mainStoryboard.instantiateViewControllerWithIdentifier("loginViewController")
+            UIApplication.sharedApplication().keyWindow?.rootViewController = viewController;
+            return
+        }
+        
+        self.header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+        
+        
         //Contest ReLoad
         self.reloadData()
         
         //글쓰기 버튼 추가
-        
-        
-        
         writeButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
         writeButton!.layer.zPosition = 1
         writeButton!.layer.cornerRadius = 0.5 * writeButton!.bounds.size.width
@@ -110,6 +149,8 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         writeButton!.layer.shadowOpacity = 0.3
         writeButton!.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.navigationController?.view.addSubview(writeButton!)
+        
+        
     }
     
     
@@ -125,7 +166,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 subview.removeFromSuperview()
             }
         }
-        //print("뷰 disappear")
     }
     
     override func didReceiveMemoryWarning() {
@@ -143,7 +183,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.contestList.count
+        return self.contestList.count - 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -153,6 +193,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             as! MainTableViewCell
    
         let row = indexPath.row
+        
         
         //날짜 String으로 변환
         if let dayString:String = self.contestList[row]["period"].stringValue{
@@ -166,14 +207,28 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 //D-day 표시
                 let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
                 if (toDate > 0){
-                    cell.dueDay.text = "D-" + String(Int(toDate))
+                    cell.dueDay.text = "D  -  " + String(Int(toDate)) + "    "
                 }
                 else{
-                    cell.dueDay.text = "마감"
+                    cell.dueDay.text = "마감      "
                 }
                 
             }
         }
+        
+        //D-day Border 둥글게 추가
+        //let backImage = UIImage(named: "box_icon.9")
+        //let resizablebackImage = backImage?.resizableImageWithCapInsets(UIEdgeInsets(top:0,left:50,bottom:0,right:50))
+        //cell.contTitle.backgroundColor = UIColor(patternImage:resizablebackImage!)
+        
+        
+        //조금 이상한 모양
+        cell.dueDay.layer.borderColor = UIColorFromRGB(0x0057FF).CGColor
+        cell.dueDay.layer.borderWidth = 0.5
+        cell.dueDay.layer.cornerRadius = 12
+        cell.dueDay.layer.masksToBounds = true
+        
+        
         
         cell.nowNumber.text = self.contestList[row]["appliers"].stringValue
         cell.maxNumber.text = self.contestList[row]["recruitment"].stringValue
@@ -209,7 +264,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         case "디자인":
             cell.secondCategoryLabel.hidden = false
             cell.secondCategoryIcon.image = UIImage(named: "detail_icon_design")
-            print("디자인 아이콘 쓸꺼")
         case "사진/UCC":
             cell.secondCategoryLabel.hidden = false
             cell.secondCategoryIcon.image = UIImage(named: "detail_icon_video")
@@ -261,11 +315,11 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         switch index{
         case 1:
-            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
         case 2:
-            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("contestsListScreen")
+            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("contestsListScreen")
         default:
-            self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+            self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
             break
         }
     }
@@ -279,138 +333,141 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             let detailViewController = segue.destinationViewController as! ArticleDetailViewController
             let myIndexPath = self.tableView.indexPathForSelectedRow
             let row:Int = myIndexPath!.row
-            detailViewController.contests_id = self.contestList[row]["contests_id"].intValue
+            let contest = self.contestList[row]
+            let content_writer = contest["cont_writer"].intValue
+            detailViewController.contests_id = contest["contests_id"].intValue
+            detailViewController.contests = contest
             
-            //print("prepare for segue: applies_id: \(detailViewController.applies_id)")
-            //상세정보 받아옴
             
-            var content_writer: Int?
+            //카테고리 변환 로직
+            let stringcontest:JSON = contest["categories"]
+            if let wordsInclude = stringcontest.string?.characters.dropFirst().dropLast().split(",").map(String.init){
+                for words in wordsInclude{
+                    detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
+                }
+            }
             
-            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header, encoding: .JSON).responseJSON{
+            
+            let button = UIButton(type: UIButtonType.System) as UIButton
+            button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
+            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+            //!! 글쓴이가 아니면 신청하기,스크랩 버튼 추가, 글쓴이이면 마감버튼 추가
+            if (content_writer != Int(FBSDKAccessToken.currentAccessToken().userID)){
+                //신청하기 버튼 추가
+                button.setTitle("신청하기", forState: .Normal)
+                button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                button.addTarget(detailViewController, action: #selector(detailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+                button.tag = 1004
+                detailViewController.view.addSubview(button)
+                
+                print("신청하기 버튼 추가")
+                
+                //스크랩버튼 추가
+                let scrapButton: UIButton = UIButton()
+                var ui_image:UIImage;
+                if (contest["is_clip"].boolValue == false)
+                {
+                    ui_image = UIImage(named: "heart1")!
+                }
+                else{
+                    ui_image = UIImage(named: "heart2")!
+                }
+                scrapButton.setImage(ui_image, forState: .Normal)
+                scrapButton.frame = CGRectMake(0, 0, 25, 25)
+                scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
+                detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
+            }
+            else{
+                button.setTitle("마감하기", forState: .Normal)
+                button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+                button.addTarget(detailViewController, action: #selector(detailViewController.closeTouch(_:)), forControlEvents: .TouchUpInside)
+                detailViewController.view.addSubview(button)
+                
+                let moreButton = UIBarButtonItem(title: "···", style: .Plain, target: detailViewController, action: #selector(detailViewController.moreTouch(_:)))
+                detailViewController.navigationItem.setRightBarButtonItem(moreButton, animated: true)
+            }
+            
+            //프로필 사진 적용
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(contest["contests_id"].intValue)",parameters:[:] ,headers: header).responseJSON{
+                response in
+                switch response.result {
+                case .Success:
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        
+                        let contests = json["data"]
+                        let profileString = contests["profile_img"].stringValue
+                        let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+                        
+                        detailViewController.kakaoLabel.text = contests["kakao_id"].stringValue
+                        detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{
+                            (image, error, cacheType, imageURL) -> () in
+                            detailViewController.profileImage.image = detailViewController.profileImage.image?.af_imageRoundedIntoCircle()
+                        })
+                    }
+                case .Failure(let error):
+                    print(error)
+                    detailViewController.profileImage.image = UIImage(named: "default-user2")!.af_imageRoundedIntoCircle()
+                }
+            }
+            
+            
+            
+            
+            /*
+            
+            
+            
+            //D-day 변환 로직
+            if let dayString:String = contest["period"].stringValue{
+                //String을 NSDate로 변환
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+                if let formattedDate = formatter.dateFromString(dayString){
+                    //앞의 자리수로 자르고 day라벨에 집어넣기
+                    formatter.dateFormat = "yyyy-MM-dd"
+                    
+                    //D-day 표시
+                    let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
+                    if (toDate > 0){
+                        detailViewController.dueDayLabel.text = "D - " + String(Int(toDate))
+                    }
+                    else{
+                        detailViewController.dueDayLabel.text = "마감"
+                    }
+                    
+                }
+            }
+            
+            
+            /*
+            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(contests_id)", headers: header, encoding: .JSON).responseJSON{
                 response in
                 if let responseVal = response.result.value{
                     
+                    print(responseVal)
                     //받아온 정보 contests에 할당
                     let json = JSON(responseVal)
                     
-                    detailViewController.contests = json["data"]
-                    
-                    //print(json["data"])
-                    let stringJSON:JSON = json["data"]["categories"]
-                    if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-                        for words in wordsInclude{
-                            detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
-                        }
-                        
-                        print("클릭한 글의 카테고리는 \(detailViewController.categoryArr)")
-                    }
-                    
-                    // 받아온 상세정보 라벨에 집어넣음
-                    //사진 집어넣음
-                    detailViewController.titleLabel.text = json["data"]["title"].stringValue
-                    detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
-                    detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
-                    detailViewController.recruitmentLabel.text = json["data"]["recruitment"].stringValue
-                    detailViewController.writerLabel.text = json["data"]["cont_writer"].stringValue
-                    detailViewController.coverLabel.text = json["data"]["cover"].stringValue
-                    detailViewController.appliersLabel.text = json["data"]["appliers"].stringValue
-                    detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
-                    
-                    let profileString = json["data"]["profile_img"].stringValue
-                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-
-                    detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
-                        if let profileImage = image{
-                            detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
-                        }
-                    })
-
-                    
-                    
-                    //content_writer 값 할당
-                    content_writer = json["data"]["cont_writer"].intValue
-                    
-                    let button = UIButton(type: UIButtonType.System) as UIButton
-                    button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
-                    button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                    //!! 글쓴이가 아니면 신청하기,스크랩 버튼 추가, 글쓴이이면 마감버튼 추가
-                    if (content_writer! != Int(FBSDKAccessToken.currentAccessToken().userID)){
-                        //신청하기 버튼 추가
-                        button.setTitle("신청하기", forState: .Normal)
-                        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                        button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                        button.addTarget(detailViewController, action: #selector(detailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
-                        button.tag = 1004
-                        detailViewController.view.addSubview(button)
-                        
-                        //스크랩버튼 추가
-                        let scrapButton: UIButton = UIButton()
-                        var ui_image:UIImage;
-                        if (json["data"]["is_clip"].boolValue == false)
-                        {
-                            ui_image = UIImage(named: "heart1")!
-                        }
-                        else{
-                            ui_image = UIImage(named: "heart2")!
-                        }
-                        scrapButton.setImage(ui_image, forState: .Normal)
-                        scrapButton.frame = CGRectMake(0, 0, 25, 25)
-                        scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
-                        detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
-                    }
-                    else{
-                        button.setTitle("마감하기", forState: .Normal)
-                        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                        button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                        button.addTarget(detailViewController, action: #selector(detailViewController.closeTouch(_:)), forControlEvents: .TouchUpInside)
-                        detailViewController.view.addSubview(button)
-                        
-                        let moreButton = UIBarButtonItem(title: "···", style: .Plain, target: detailViewController, action: #selector(detailViewController.moreTouch(_:)))
-                        detailViewController.navigationItem.setRightBarButtonItem(moreButton, animated: true)
-                    }
-                    
-                    //D-day 변환 로직
-                    print(json["data"]["period"])
-                    if let dayString:String = json["data"]["period"].stringValue{
-                        //String을 NSDate로 변환
-                        let formatter = NSDateFormatter()
-                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-                        if let formattedDate = formatter.dateFromString(dayString){
-                            //앞의 자리수로 자르고 day라벨에 집어넣기
-                            formatter.dateFormat = "yyyy-MM-dd"
-                            
-                            //D-day 표시
-                            let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                            if (toDate > 0){
-                                detailViewController.dueDayLabel.text = "D-" + String(Int(toDate))
-                            }
-                            else{
-                                detailViewController.dueDayLabel.text = "마감"
-                            }
-                            
-                        }
+                    guard json["result"].boolValue else{
+                        print("에러발생" + json["msg"].stringValue)
+                        return
                     }
                 }
             }
-            /*
-            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id)/applies", parameters: ["access_token": access_token]).responseJSON{
-            response in
-            if let responseValue = response.result.value{
-            print(responseValue["msg"])
-            }
-            }
+            */
             */
         }
-        
+ 
     }
     
     /**
      @ SideButton Action
     */
     @IBAction func showMeMyMenu () {
-        if let container = self.so_containerViewController {
-            container.isLeftViewControllerPresented = true
-        }
+        self.so_containerViewController?.isSideViewControllerPresented = true
     }
     
     /**
@@ -472,12 +529,12 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     
     @IBAction func recruitButton(sender: AnyObject) {
-        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
+        self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("mainScreen")
     }
     
     
     @IBAction func contestsButton(sender: AnyObject) {
-        self.so_containerViewController!.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("contestsListScreen")
+        self.so_containerViewController?.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("contestsListScreen")
     }
     
     /**
@@ -500,37 +557,68 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         self.so_containerViewController?.topViewController = self.storyboard!.instantiateViewControllerWithIdentifier("contestsWeekly")
     }
     
+    
     /**
      @ 드랍다운
     */
     @IBAction func dropdownAction(sender: AnyObject) {
         if dropper.status == .Hidden { //dropper가 안 보일때
-            dropper.showWithAnimation(0.15, options: Dropper.Alignment.Center, button: categoryButton)
-            self.alphaSubview = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)))
+            //view에 subView추가
+            self.alphaSubview = UIView(frame: (UIApplication.sharedApplication().keyWindow?.frame)!)
             self.alphaSubview!.backgroundColor = UIColor.blackColor()
             self.alphaSubview!.alpha = 0.0
-            self.view.addSubview(self.alphaSubview!)
-            self.view.bringSubviewToFront(dropper)
+            self.innerView.addSubview(self.alphaSubview!)
+            
+            
+            self.dropper.showWithAnimation(0.1, options: .Center, button: self.categoryButton)
+            
+            self.view.bringSubviewToFront(self.innerView)
+            self.innerView.bringSubviewToFront(self.dropper)
+            
+            print("tag is \(self.dropper.superview!.tag)")
+
+            //navigationView에 subView 추가
+            
+            let nav = self.navigationController!.navigationBar.frame
+            let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+            let rect = CGRect(x: nav.origin.x, y: 0, width: nav.width, height: nav.height+0.5 + statusBarHeight)
+            self.navigationAlphaSubview = UIView(frame: rect)
+            self.navigationAlphaSubview!.backgroundColor = UIColor.blackColor()
+            self.navigationAlphaSubview!.alpha = 0.0
+            self.navigationController!.view.addSubview(self.navigationAlphaSubview!)
             UIView.animateWithDuration(0.2, animations: {
                 self.alphaSubview?.alpha = 0.5
+                self.navigationAlphaSubview!.alpha = 0.5
                 self.writeButton?.alpha = 0
             })
+            
         } else { //dropper가 숨겨질때
             dropper.hideWithAnimation(0.1)
             UIView.animateWithDuration(0.2, animations: {
                 self.alphaSubview?.alpha = 0.0
                 self.writeButton?.alpha = 1
+                self.navigationAlphaSubview?.alpha = 0.0
+                }, completion: { Void in
+                    self.alphaSubview!.removeFromSuperview()
+                    self.navigationAlphaSubview!.removeFromSuperview()
             })
             //이 경우가 있음?
         }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (dropper.hidden == false) { // Checks if Dropper is visible
-            dropper.hideWithAnimation(0.1) // Hides Dropper
-            UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0
-                self.writeButton?.alpha = 1}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
+        if (dropper.status == .Displayed) { // Checks if Dropper is visible
+            dropper.hideWithAnimation(0.1)
+            UIView.animateWithDuration(0.2, animations: {
+                self.alphaSubview?.alpha = 0.0
+                self.writeButton?.alpha = 1
+                self.navigationAlphaSubview?.alpha = 0.0
+                }, completion: { Void in
+                    self.alphaSubview!.removeFromSuperview()
+                    self.navigationAlphaSubview!.removeFromSuperview()
+            })
         }
+        print("터치")
     }
     
     func reloadData(){
@@ -635,6 +723,14 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
 extension MainTableViewController: DropperDelegate {
     func DropperSelectedRow(path: NSIndexPath, contents: String) {
         
+        UIView.animateWithDuration(0.2, animations: {
+            self.navigationAlphaSubview!.alpha = 0.0
+            }, completion: {Void in
+                self.navigationAlphaSubview!.removeFromSuperview()
+        })
+        
+        self.writeButton?.alpha = 1
+        
         categoryButton.setTitle("\(contents)", forState: .Normal)
         let content = "\(contents)"
         var category = ""
@@ -657,10 +753,9 @@ extension MainTableViewController: DropperDelegate {
             category = "all"
         }
         
-        //print(category)
         UIView.animateWithDuration(0.2, animations: {self.alphaSubview?.alpha = 0.0}, completion:{ _ in self.alphaSubview?.removeFromSuperview()} )
         
-        if category == "전체"{
+        if category == "전체 모집글"{
             self.reloadData()
         }
         else{
@@ -669,7 +764,6 @@ extension MainTableViewController: DropperDelegate {
         
         
         /*
-        print(header)
         Alamofire.request(.GET, "http://come.n.get.us.to/contests",headers: header ,parameters: ["amount": 30]).responseJSON{
             response in
             if let responseVal = response.result.value{
