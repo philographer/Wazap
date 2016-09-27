@@ -682,9 +682,10 @@ extension RecruitViewController {
                     // 받아온 상세정보 라벨에 집어넣음
                     let profileString = json["data"]["profile_img"].stringValue
                     let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                    detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
+                    detailViewController.profileImageView.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
                         if let profileImage = image{
-                            detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
+                            detailViewController.profileImageView.image = profileImage.af_imageRoundedIntoCircle()
+                            detailViewController.profileImage = image! as UIImage
                         }
                     })
                     detailViewController.titleLabel.text = json["data"]["title"].stringValue

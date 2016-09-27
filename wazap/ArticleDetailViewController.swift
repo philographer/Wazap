@@ -27,11 +27,15 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var coverLabel: UITextView!
     @IBOutlet weak var kakaoLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var positionLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var contTitleLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var innerView3: UIView!
+    @IBOutlet weak var coverConstraint: NSLayoutConstraint!
+    @IBOutlet weak var innerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var innerViewBottomConstraint: NSLayoutConstraint!
     
     /** Variables
      
@@ -57,6 +61,18 @@ class ArticleDetailViewController: UIViewController {
     var categoryArr: [String] = []
     var applies_id: String?
     let header = ["access-token": FBSDKAccessToken.currentAccessToken().tokenString as String]
+    var dueDay: String?
+    var category: String?
+    
+    //이전 뷰에서 PrepareForSegue에서 받아오겠지만, 혹시 못 받아왔을 경우에 image set
+    var profileImage : UIImage?{
+        didSet {
+            if self.profileImageView.image == nil{
+                self.profileImageView.image = profileImage?.af_imageRoundedIntoCircle()
+                print("nil")
+            }
+        }
+    }
     
     
     
@@ -77,19 +93,31 @@ class ArticleDetailViewController: UIViewController {
             self.contests["members"].stringValue + " / " + self.contests["recruitment"].stringValue
         self.writerLabel.text = self.contests["username"].stringValue
         self.hostsLabel.text = self.contests["hosts"].stringValue
-        self.categoryLabel.text = String(self.categoryArr)
+        //self.categoryLabel.text = String(self.categoryArr)
         self.coverLabel.text = self.contests["cover"].stringValue
         self.appliersLabel.text = self.contests["appliers"].stringValue
         self.locationLabel.text = self.contests["cont_locate"].stringValue
         self.positionLabel.text = self.contests["positions"].stringValue
+        self.dueDayLabel.text = self.dueDay
+        self.dueDayLabel.layer.borderColor = UIColorFromRGB(0xFF0000).CGColor
+        self.dueDayLabel.layer.borderWidth = 0.5
+        self.dueDayLabel.layer.cornerRadius = 10
+        self.dueDayLabel.layer.masksToBounds = true
         
+        self.categoryLabel.text = self.category
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //스크롤뷰 최소 높이 지정
         
+        let screenHeight = UIScreen.mainScreen().bounds.height
+        let statusBarHeight:CGFloat = UIApplication.sharedApplication().statusBarFrame.size.height
+        let navigtionBarHeight:CGFloat = 44
+        //네비게이션바 사이즈(self.navigationController?.navigationBar.frame.height)!
+        innerViewConstraint.constant = screenHeight - innerView3.frame.origin.y - statusBarHeight - navigtionBarHeight - self.view.frame.size.height / 12 - 5
+        innerViewBottomConstraint.constant = self.view.frame.size.height / 12
         
-        //유저 프로필 이미지 셋팅
-        
-        
-        
-        
+        print(innerViewConstraint.constant)
     }
     
     override func viewWillAppear(animated: Bool) {

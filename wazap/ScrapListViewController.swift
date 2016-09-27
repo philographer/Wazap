@@ -52,153 +52,139 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
         let detailViewController = segue.destinationViewController as! ArticleDetailViewController
         let myIndexPath = self.tableView.indexPathForSelectedRow
         let row:Int = myIndexPath!.row
+        let cell = self.tableView.cellForRowAtIndexPath(myIndexPath!) as! ScrapTableViewCell
+        var contest:JSON = JSON.null
+        var category = ""
+        
         
         switch myIndexPath!.section{
             case 0:
                 detailViewController.contests_id = self.scrapListNow[row]["contests_id"].intValue
+                contest = self.scrapListNow[row]
             case 1:
                 detailViewController.contests_id = self.scrapListEnd[row]["contests_id"].intValue
+                contest = self.scrapListEnd[row]
             default:
                 break
         }
         self.navigationController!.navigationBar.barTintColor = UIColor.whiteColor()
         
-        //var content_writer: Int?
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(detailViewController.contests_id!)", headers: header).responseJSON{
-            response in
-            if let responseVal = response.result.value{
-                //print(responseVal["data"])
-                //받아온 정보 contests에 할당
-                let json = JSON(responseVal)
+        let content_writer = contest["cont_writer"].intValue
+        
+        print(contest)
+        
+        
+        
+        
+        //D - Day 변환 로직
+        if let dayString:String = contest["period"].stringValue{
+            //String을 NSDate로 변환
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+            if let formattedDate = formatter.dateFromString(dayString){
+                //앞의 자리수로 자르고 day라벨에 집어넣기
+                formatter.dateFormat = "yyyy-MM-dd"
                 
-                detailViewController.contests = json["data"]
-                let stringJSON:JSON = json["data"]["categories"]
-                if let wordsInclude = stringJSON.string?.characters.dropFirst().dropLast().split(",").map(String.init){
-                    for words in wordsInclude{
-                        detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
-                    }
+                //D-day 표시
+                let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
+                if (toDate > 0){
+                    detailViewController.dueDay = "D - " + String(Int(toDate))
+                }
+                else{
+                    detailViewController.dueDay = "마감"
                 }
                 
-                // 받아온 상세정보 라벨에 집어넣음
-                let profileString = json["data"]["profile_img"].stringValue
-                let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
-                detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{ (image, error, cacheType, imageURL) -> () in
-                    if let profileImage = image{
-                        detailViewController.profileImage.image = profileImage.af_imageRoundedIntoCircle()
-                    }
-                })
-                
-                detailViewController.titleLabel.text = json["data"]["title"].stringValue
-                detailViewController.hostsLabel.text = json["data"]["hosts"].stringValue
-                detailViewController.categoryLabel.text = String(detailViewController.categoryArr)
-                detailViewController.recruitmentLabel.text = json["data"]["recruitment"].stringValue
-                detailViewController.writerLabel.text = json["data"]["cont_writer"].stringValue
-                detailViewController.coverLabel.text = json["data"]["cover"].stringValue
-                detailViewController.appliersLabel.text = json["data"]["appliers"].stringValue
-                detailViewController.kakaoLabel.text = json["data"]["kakao_id"].stringValue
-                
-                //content_writer 값 할당
-                //content_writer = json["data"]["cont_writer"].intValue
-                
-                //!! 신청자인지 검사 !!
-                var isApllier = false
-                request(.GET, "http://come.n.get.us.to/contests/applications", headers: self.header).responseJSON{
-                    response in
-                    if let responseValue = response.result.value{
-                        let json = JSON(responseValue)
-                        let jsonData = json["data"]
-                        for i in 0 ..< jsonData.count {
-                            //신청자이면
-                            if(jsonData[i]["contests_id"].intValue == detailViewController.contests_id!){
-                                isApllier = true
-                                detailViewController.applies_id = jsonData[i]["applies_id"].stringValue
-                            }
-                        }
-                        /*
-                         if(isApllier){
-                         print("신청자입니다")
-                         }else{
-                         print("신청자가 아닙니다")
-                         }
-                         */
-                        
-                        //스크랩 버튼 추가
-                        let scrapButton: UIButton = UIButton()
-                        var ui_image:UIImage;
-                        if (detailViewController.contests["is_clip"] == 0)
-                        {
-                            ui_image = UIImage(named: "heart1")!
-                        }
-                        else{
-                            ui_image = UIImage(named: "heart2")!
-                        }
-                        scrapButton.setImage(ui_image, forState: .Normal)
-                        scrapButton.frame = CGRectMake(0, 0, 25, 25)
-                        scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
-                        detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
-                        
-                        //!! 글쓴이가 아니고 신청릉 안 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청하기버튼 추가
-                        if (!isApllier){
-                            //신청하기 버튼 추가
-                            print("신청버튼 추가할래요")
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청하기", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
-                            button.layer.zPosition = 100
-                            detailViewController.view.addSubview(button)
-                        }//!! 글쓴이가 아니고 신청을 했으면 More버튼을 숨기고 마감하기 버튼도 숨기고 신청 취소버튼을 추가 !!
-                        else if(isApllier)
-                        {
-                            print("신청취소버튼 추가할래요")
-                            print("제 아이디는 \(FBSDKAccessToken.currentAccessToken().userID)")
-                            //신청 취소버튼 추가
-                            let button = UIButton(type: UIButtonType.System) as UIButton
-                            button.frame = CGRect(x: 0, y: self.view.frame.size.height / 12 * 11, width: self.view.frame.size.width, height: self.view.frame.size.height / 12)
-                            button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
-                            button.setTitle("신청 취소", forState: .Normal)
-                            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-                            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-                            button.addTarget(detailViewController, action: #selector(ArticleDetailViewController.cancelTouch(_:)), forControlEvents: .TouchUpInside)
-                            button.layer.zPosition = 100
-                            detailViewController.view.addSubview(button)
-                        }
-                    }
-                }
-                
-                //D-day 변환 로직
-                if let dayString:String = json["data"]["period"].stringValue{
-                    //String을 NSDate로 변환
-                    let formatter = NSDateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
-                    if let formattedDate = formatter.dateFromString(dayString){
-                        //앞의 자리수로 자르고 day라벨에 집어넣기
-                        formatter.dateFormat = "yyyy-MM-dd"
-                        
-                        //D-day 표시
-                        let toDate = floor(formattedDate.timeIntervalSinceNow / 3600 / 24)
-                        if (toDate > 0){
-                            detailViewController.dueDayLabel.text = "D-" + String(Int(toDate))
-                        }
-                        else{
-                            detailViewController.dueDayLabel.text = "마감"
-                        }
-                        
-                    }
-                }
             }
         }
-        /*
-        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(self.contests_id)/applies", parameters: ["access_token": access_token]).responseJSON{
-        response in
-        if let responseValue = response.result.value{
-        print(responseValue["msg"])
+        
+        detailViewController.contests_id = contest["contests_id"].intValue
+        detailViewController.contests = contest
+        
+        
+        if let firstCategory = cell.firstCategoryLabel.text{
+            category += firstCategory
         }
+        
+        if cell.secondCategoryLabel.text! != "없음" {
+            category += ("\n" + cell.secondCategoryLabel.text!)
         }
-        */
+        
+        detailViewController.category = category
+        
+        //카테고리 변환 로직
+        let stringcontest:JSON = contest["categories"]
+        if let wordsInclude = stringcontest.string?.characters.dropFirst().dropLast().split(",").map(String.init){
+            for words in wordsInclude{
+                detailViewController.categoryArr.append(String(words.characters.dropFirst().dropLast()))
+            }
+        }
+        
+        
+        let button = UIButton(type: UIButtonType.System) as UIButton
+        button.frame = CGRect(x: 0, y: detailViewController.view.frame.size.height / 12 * 11, width: detailViewController.view.frame.size.width, height: detailViewController.view.frame.size.height / 12)
+        button.backgroundColor = UIColor(colorLiteralRed: 127/255, green: 127/255, blue: 127/255, alpha: 0.5)
+        //!! 글쓴이가 아니면 신청하기,스크랩 버튼 추가, 글쓴이이면 마감버튼 추가
+        if (content_writer != Int(FBSDKAccessToken.currentAccessToken().userID)){
+            //신청하기 버튼 추가
+            button.setTitle("신청하기", forState: .Normal)
+            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+            button.addTarget(detailViewController, action: #selector(detailViewController.applyTouch(_:)), forControlEvents: .TouchUpInside)
+            button.tag = 1004
+            detailViewController.view.addSubview(button)
+            
+            print("신청하기 버튼 추가")
+            
+            //스크랩버튼 추가
+            let scrapButton: UIButton = UIButton()
+            var ui_image:UIImage;
+            if (contest["is_clip"].boolValue == false)
+            {
+                ui_image = UIImage(named: "heart1")!
+            }
+            else{
+                ui_image = UIImage(named: "heart2")!
+            }
+            scrapButton.setImage(ui_image, forState: .Normal)
+            scrapButton.frame = CGRectMake(0, 0, 25, 25)
+            scrapButton.addTarget(detailViewController, action: #selector(ArticleDetailViewController.scrapAction(_:)), forControlEvents: .TouchUpInside)
+            detailViewController.navigationItem.setRightBarButtonItem(UIBarButtonItem(customView: scrapButton), animated: true)
+        }
+        else{
+            button.setTitle("마감하기", forState: .Normal)
+            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            button.titleLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+            button.addTarget(detailViewController, action: #selector(detailViewController.closeTouch(_:)), forControlEvents: .TouchUpInside)
+            detailViewController.view.addSubview(button)
+            
+            let moreButton = UIBarButtonItem(title: "···", style: .Plain, target: detailViewController, action: #selector(detailViewController.moreTouch(_:)))
+            detailViewController.navigationItem.setRightBarButtonItem(moreButton, animated: true)
+        }
+        
+        //프로필 사진 적용
+        Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(contest["contests_id"].intValue)",parameters:[:] ,headers: header).responseJSON{
+            response in
+            switch response.result {
+            case .Success:
+                if let value = response.result.value {
+                    let json = JSON(value)
+                    
+                    let contests = json["data"]
+                    let profileString = contests["profile_img"].stringValue
+                    let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
+                    
+                    detailViewController.kakaoLabel.text = contests["kakao_id"].stringValue
+                    detailViewController.profileImageView.kf_setImageWithURL(profileURL, completionHandler:{
+                        (image, error, cacheType, imageURL) -> () in
+                        detailViewController.profileImageView.image = detailViewController.profileImageView.image?.af_imageRoundedIntoCircle()
+                        detailViewController.profileImage = image! as UIImage
+                    })
+                }
+            case .Failure(let error):
+                print(error)
+                detailViewController.profileImageView.image = UIImage(named: "default-user2")!.af_imageRoundedIntoCircle()
+            }
+        }
         
         
     }
@@ -287,7 +273,9 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.titleLabel.textColor = UIColor.blackColor()
             cell.recruitLabel.textColor = UIColor.scrapCategory()
             cell.firstCategoryLabel.textColor = UIColor.scrapCategory()
+            cell.secondCategoryLabel.textColor = UIColor.scrapCategory()
             cell.recruitNumberLabel.textColor = UIColor.scrapCategory()
+            cell.applyButton.enabled = true
             
             //D-Day 변환 로직
             if let dayString:String = self.scrapListNow[row]["period"].stringValue {
@@ -316,17 +304,17 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.firstCategoryLabel.text = firstCategoryNow[row]
             switch self.firstCategoryNow[row] {
             case "광고/아이디어/마케팅":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_idea")
+                cell.firstCategoryIcon.image = UIImage(named: "category_idea_icon")
             case "디자인":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_design")
+                cell.firstCategoryIcon.image = UIImage(named: "category_design_icon")
             case "사진/UCC":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_video")
+                cell.firstCategoryIcon.image = UIImage(named: "category_photo_icon")
             case "게임/소프트웨어":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_it")
+                cell.firstCategoryIcon.image = UIImage(named: "category_game_icon")
             case "해외":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+                cell.firstCategoryIcon.image = UIImage(named: "category_global_icon")
             case "기타":
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+                cell.firstCategoryIcon.image = UIImage(named: "category_etc_icon")
             default:
                 print("default section 0 first")
             }
@@ -335,40 +323,27 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             switch self.secondCategoryNow[row] {
             case "광고/아이디어/마케팅":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_idea")
+                cell.secondCategoryIcon.image = UIImage(named: "category_idea_icon")
             case "디자인":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_design")
+                cell.secondCategoryIcon.image = UIImage(named: "category_design_icon")
             case "사진/UCC":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_video")
+                cell.secondCategoryIcon.image = UIImage(named: "category_photo_icon")
             case "게임/소프트웨어":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_it")
+                cell.secondCategoryIcon.image = UIImage(named: "category_game_icon")
             case "해외":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+                cell.secondCategoryIcon.image = UIImage(named: "category_global_icon")
             case "기타":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+                cell.secondCategoryIcon.image = UIImage(named: "category_etc_icon")
             default:
                 print("default section 0 second")
                 cell.secondCategoryIcon.image = UIImage()
                 cell.secondCategoryLabel.hidden = true
-                cell.separatorLeft.active = false
             }
             
             print("section 0")
@@ -391,23 +366,17 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             switch self.firstCategoryEnd[row] {
             case "광고/아이디어/마케팅":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_idea")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_idea_icon")
             case "디자인":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_design")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_design_icon")
             case "사진/UCC":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_video")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_photo_icon")
             case "게임/소프트웨어":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_it")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_game_icon")
             case "해외":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_global_icon")
             case "기타":
-                cell.separatorLeftSecond.active = true
-                cell.firstCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+                cell.firstCategoryIcon.image = UIImage(named: "disable_category_etc_icon")
             default:
                 print("default  section 1 first")
             }
@@ -415,45 +384,31 @@ class ScrapListViewController: UIViewController, UITableViewDelegate, UITableVie
             if(secondCategoryEnd[row] != "없음"){
                 cell.secondCategoryLabel.text = secondCategoryEnd[row]
                 cell.secondCategoryLabel.textColor = UIColor(red: 183/255, green: 183/255, blue: 183/255, alpha: 1.0)
-                cell.separatorLeftSecond.active = true
             }
             switch self.secondCategoryEnd[row] {
             case "광고/아이디어/마케팅":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_idea")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_idea_icon")
             case "디자인":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_design")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_design_icon")
             case "사진/UCC":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_video")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_photo_icon")
             case "게임/소프트웨어":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_it")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_game_icon")
             case "해외":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_marketing")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_global_icon")
             case "기타":
-                cell.separatorLeft.active = true
-                cell.separatorLeftSecond.active = false
                 cell.secondCategoryLabel.hidden = false
-                cell.secondCategoryIcon.image = UIImage(named: "detail_icon_scenario")
+                cell.secondCategoryIcon.image = UIImage(named: "disable_category_etc_icon")
             default:
                 cell.secondCategoryIcon.image = UIImage()
                 cell.secondCategoryIcon.frame = CGRectMake(0, 0, 0, 0)
                 cell.secondCategoryLabel.hidden = true
                 cell.secondCategoryLabel.frame = CGRectMake(0, 0, 0, 0)
-                cell.separatorLeft.active = false
             }
             
         default:

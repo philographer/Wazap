@@ -31,6 +31,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var categoryBtn: UIButton!
     @IBOutlet var thisView: UIView!
     @IBOutlet var innerView: UIView!
+    @IBOutlet weak var writeButton: UIButton!
     
 
     var contestList:JSON = [] //API에서 불러온 공모전 리스트
@@ -40,8 +41,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     var header :[String:String] = [:]
     let dropper = Dropper(width: 150, height: 300)
     
-    
-    var writeButton:UIButton?
     var alphaSubview:UIView?
     var navigationAlphaSubview:UIView?
     
@@ -54,7 +53,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         /**
          @ 타이틀에 와잡 이미지 추가
          */
-        
         
         
         
@@ -86,21 +84,58 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         print(self.so_containerViewController)
         
+        writeButton.layer.shadowColor = UIColor.blackColor().CGColor
+        writeButton.layer.shadowOffset = CGSizeMake(0, 7)
+        writeButton.layer.shadowRadius = 3.5
+        writeButton.layer.shadowOpacity = 0.3
+        
+        let screenSize = UIScreen.mainScreen().bounds.size
+        
+        if screenSize.height < 568 {
+            //Set font size for 4
+            print("ios 4")
+        } else if screenSize.height < 568 {
+            //Set font size for 5
+            print("ios 5")
+        } else if screenSize.height < 568 {
+            //Set font size for 6
+            print("ios 6")
+        } else {
+            //Set font size for 6+
+            print("ios 6+")
+        }
+        
+        let bounds = UIScreen.mainScreen().bounds
+        let height = bounds.size.height
+        print(height)
         
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+    }
+    
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.categoryBtn.setNeedsLayout()
+        self.categoryBtn.layoutIfNeeded()
+        
+        self.categoryButton.setNeedsLayout()
+        self.categoryButton.layoutIfNeeded()
+        
         
         
         self.categoryBtn.layer.addBorder(UIRectEdge.Bottom, color: UIColorFromRGB(0x727272), thickness: 0.5)
         self.categoryBtn.layer.addBorder(UIRectEdge.Top, color: UIColorFromRGB(0x727272), thickness: 0.5)
         self.categoryBtn.layer.addBorder(UIRectEdge.Left, color: UIColorFromRGB(0x727272), thickness: 0.5)
-        
+        //self.categoryBtn.layer.addBorder(UIRectEdge.Right, color: UIColorFromRGB(0x727272), thickness: 0.5)
        
         self.categoryButton.layer.addBorder(UIRectEdge.Top, color: UIColorFromRGB(0x727272), thickness: 0.5)
         self.categoryButton.layer.addBorder(UIRectEdge.Bottom, color: UIColorFromRGB(0x727272), thickness: 0.5)
         self.categoryButton.layer.addBorder(UIRectEdge.Right, color: UIColorFromRGB(0x727272), thickness: 0.5)
+        //self.categoryButton.layer.addBorder(UIRectEdge.Left, color: UIColorFromRGB(0x727272), thickness: 0.5)
         
         
         
@@ -134,21 +169,19 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         self.reloadData()
         
         //글쓰기 버튼 추가
-        writeButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
-        writeButton!.layer.zPosition = 1
-        writeButton!.layer.cornerRadius = 0.5 * writeButton!.bounds.size.width
-        writeButton!.backgroundColor = UIColor.whiteColor()
-        writeButton!.setImage(UIImage(named: "write_button_2"), forState: UIControlState.Normal)
-        writeButton!.tag = 1000
-        writeButton!.layer.shadowColor = UIColor.blackColor().CGColor
-        //writeButton!.layer.shadowOffset = CGSize(width: 2.0, height: 0.5)
-        //writeButton!.layer.shadowOpacity = 1;
-        //writeButton!.layer.shadowRadius = 10;
-        writeButton!.layer.shadowOffset = CGSizeMake(0, 7)
-        writeButton!.layer.shadowRadius = 3.5
-        writeButton!.layer.shadowOpacity = 0.3
-        writeButton!.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        self.navigationController?.view.addSubview(writeButton!)
+        //writeButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.size.height - 100), size: CGSize(width: 80, height: 80)))
+        //writeButton!.layer.zPosition = 1
+        //writeButton!.layer.cornerRadius = 0.5 * writeButton!.bounds.size.width
+        //writeButton!.backgroundColor = UIColor.whiteColor()
+        //writeButton!.setImage(UIImage(named: "write_button_2"), forState: UIControlState.Normal)
+        //writeButton!.tag = 1000
+        //writeButton!.layer.shadowColor = UIColor.blackColor().CGColor
+        //writeButton!.layer.shadowOffset = CGSizeMake(0, 7)
+        //writeButton!.layer.shadowRadius = 3.5
+        //writeButton!.layer.shadowOpacity = 0.3
+        
+        //writeButton!.addTarget(self, action: #selector(MainTableViewController.writeButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        //self.navigationController?.view.addSubview(writeButton!)
         
         
     }
@@ -183,7 +216,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.contestList.count - 1
+        return self.contestList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -225,7 +258,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         //조금 이상한 모양
         cell.dueDay.layer.borderColor = UIColorFromRGB(0x0057FF).CGColor
         cell.dueDay.layer.borderWidth = 0.5
-        cell.dueDay.layer.cornerRadius = 12
+        cell.dueDay.layer.cornerRadius = 8
         cell.dueDay.layer.masksToBounds = true
         
         
@@ -251,7 +284,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             cell.firstCategoryIcon.image = UIImage(named: "detail_icon_it")
         case "해외":
             cell.firstCategoryIcon.image = UIImage(named: "detail_icon_marketing")
-        case "ETC":
+        case "기타":
             cell.firstCategoryIcon.image = UIImage(named: "detail_icon_scenario")
         default:
             break
@@ -273,7 +306,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
         case "해외":
             cell.secondCategoryLabel.hidden = false
             cell.secondCategoryIcon.image = UIImage(named: "detail_icon_marketing")
-        case "ETC":
+        case "기타":
             cell.secondCategoryLabel.hidden = false
             cell.secondCategoryIcon.image = UIImage(named: "detail_icon_scenario")
         default:
@@ -335,9 +368,26 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
             let row:Int = myIndexPath!.row
             let contest = self.contestList[row]
             let content_writer = contest["cont_writer"].intValue
+            
+            //D - Day 적용
+            let cell = self.tableView.cellForRowAtIndexPath(myIndexPath!) as! MainTableViewCell
+            let dueDay = cell.dueDay.text
+            var category = ""
+            
             detailViewController.contests_id = contest["contests_id"].intValue
             detailViewController.contests = contest
+            detailViewController.dueDay = dueDay
             
+            
+            if let firstCategory = cell.firstCategoryLabel.text{
+                category += firstCategory
+            }
+            
+            if cell.secondCategoryLabel.text! != "없음" {
+                category += ("\n" + cell.secondCategoryLabel.text!)
+            }
+            
+            detailViewController.category = category
             
             //카테고리 변환 로직
             let stringcontest:JSON = contest["categories"]
@@ -402,24 +452,23 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                         let profileURL = NSURL(string: profileString.stringByRemovingPercentEncoding!)!
                         
                         detailViewController.kakaoLabel.text = contests["kakao_id"].stringValue
-                        detailViewController.profileImage.kf_setImageWithURL(profileURL, completionHandler:{
+                        detailViewController.profileImageView.kf_setImageWithURL(profileURL, completionHandler:{
                             (image, error, cacheType, imageURL) -> () in
-                            detailViewController.profileImage.image = detailViewController.profileImage.image?.af_imageRoundedIntoCircle()
+                            detailViewController.profileImageView.image = detailViewController.profileImageView.image?.af_imageRoundedIntoCircle()
+                            
+                            if let unwrapImage = image{
+                                detailViewController.profileImage = unwrapImage
+                            }
                         })
                     }
                 case .Failure(let error):
                     print(error)
-                    detailViewController.profileImage.image = UIImage(named: "default-user2")!.af_imageRoundedIntoCircle()
+                    detailViewController.profileImageView.image = UIImage(named: "default-user2")!.af_imageRoundedIntoCircle()
                 }
             }
             
             
-            
-            
             /*
-            
-            
-            
             //D-day 변환 로직
             if let dayString:String = contest["period"].stringValue{
                 //String을 NSDate로 변환
@@ -440,24 +489,6 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     
                 }
             }
-            
-            
-            /*
-            Alamofire.request(.GET, "http://come.n.get.us.to/contests/\(contests_id)", headers: header, encoding: .JSON).responseJSON{
-                response in
-                if let responseVal = response.result.value{
-                    
-                    print(responseVal)
-                    //받아온 정보 contests에 할당
-                    let json = JSON(responseVal)
-                    
-                    guard json["result"].boolValue else{
-                        print("에러발생" + json["msg"].stringValue)
-                        return
-                    }
-                }
-            }
-            */
             */
         }
  
@@ -540,10 +571,11 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
     /**
      @ 글쓰기 버튼 Function
      */
-    func writeButton(sender:UIButton){
+    @IBAction func writeButtonAction(sender: AnyObject) {
         let writeController = self.storyboard?.instantiateViewControllerWithIdentifier("writeViewController")
         self.presentViewController(writeController!, animated: true, completion: nil)
     }
+    
     
     /**
      @ 검색 버튼 Functionf
@@ -628,6 +660,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                 
                 let jsonList:JSON = JSON(responseVal)
                 self.contestList = jsonList["data"]
+                print(self.contestList)
                 self.firstCategoryList.removeAll()
                 self.secondCategoryList.removeAll()
                 //cell for row에 파싱해서 넣으면 버그때문에 여기서!
@@ -635,8 +668,7 @@ class MainTableViewController: UIViewController, UITableViewDataSource, UITableV
                     if let wordsInclude = contest.1["categories"].string?.characters.dropFirst().dropLast().split(",").map(String.init){
                         for (index,words) in wordsInclude.enumerate(){
                             switch index{
-                            case 0:
-                                self.firstCategoryList.append(String(words.characters.dropFirst().dropLast()))
+                            case 0:self.firstCategoryList.append(String(words.characters.dropFirst().dropLast()))
                             case 1:
                                 self.secondCategoryList.append(String(words.characters.dropFirst().dropLast()))
                             default:

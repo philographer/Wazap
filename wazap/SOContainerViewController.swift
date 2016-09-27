@@ -22,7 +22,7 @@ public class SOContainerViewController: UIViewController, UIGestureRecognizerDel
     /// Specifies the indent from trailing side. This means that
     /// if the sidebar comes from left, `SideViewControllerTrailingIndent` is the space
     /// on the right side of this sidebar. Otherwise it's the left side.
-    internal let SideViewControllerTrailingIndent: CGFloat = 56.0
+    internal let SideViewControllerTrailingIndent: CGFloat = UIScreen.mainScreen().bounds.width / 3
     
     /// Specifies the leading offset for the sidebar.
     /// If `menuSide` is set to *Left*, this means the space

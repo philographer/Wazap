@@ -30,6 +30,7 @@
 		BC47EEAD1D20207400BF1DA8 /* LocationTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC47EEAC1D20207400BF1DA8 /* LocationTableViewHeaderCell.swift */; };
 		BC47EEAF1D20332800BF1DA8 /* StringParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC47EEAE1D20332800BF1DA8 /* StringParent.swift */; };
 		BC5438D01CA7FA2900F8A1DA /* AcceptButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */; };
+		BC563DEC1D26A61100D505FF /* UILabelDeviceClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC563DEB1D26A61100D505FF /* UILabelDeviceClass.swift */; };
 		BC6A314F1C9ECFF9001F87D4 /* Dropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */; };
 		BC6A31511C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */; };
 		BC731EAA1D0DAC5000015064 /* RecruitTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */; };
@@ -116,6 +117,7 @@
 		BC47EEAC1D20207400BF1DA8 /* LocationTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		BC47EEAE1D20332800BF1DA8 /* StringParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringParent.swift; sourceTree = "<group>"; };
 		BC5438CF1CA7FA2900F8A1DA /* AcceptButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptButton.swift; sourceTree = "<group>"; };
+		BC563DEB1D26A61100D505FF /* UILabelDeviceClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelDeviceClass.swift; sourceTree = "<group>"; };
 		BC6A314E1C9ECFF9001F87D4 /* Dropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Dropper.framework; path = Carthage/Build/iOS/Dropper.framework; sourceTree = "<group>"; };
 		BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplyTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruitTableViewHeaderCell.swift; sourceTree = "<group>"; };
@@ -282,8 +284,8 @@
 				BCE420A61C783468005B5DCE /* ScrapListViewController.swift */,
 				BC75030C1CA0B41B0051022C /* ScrapTableViewHeaderCell.swift */,
 				BC877BF61C7EE69700F85994 /* ScrapTableViewCell.swift */,
-				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
 				BCE420A41C783426005B5DCE /* ApplyViewController.swift */,
+				BC446C431C7FF02900B40641 /* ApplyTableViewCell.swift */,
 				BC6A31501C9EF26C001F87D4 /* ApplyTableViewHeaderCell.swift */,
 				BCBFF50A1CA4D72900ACC9F5 /* RecruitViewController.swift */,
 				BC731EA91D0DAC5000015064 /* RecruitTableViewHeaderCell.swift */,
@@ -346,6 +348,7 @@
 				BCF70BD41D0A473C00060F62 /* MyColor.swift */,
 				BC92B7541D1263AA007E0E71 /* Border.swift */,
 				BC4038AB1D24D55A00ECF46D /* UIViewController.swift */,
+				BC563DEB1D26A61100D505FF /* UILabelDeviceClass.swift */,
 			);
 			name = extension;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				BCA7AE131C7886D000555376 /* WriteViewController.swift in Sources */,
 				BC877BF71C7EE69700F85994 /* ScrapTableViewCell.swift in Sources */,
 				BCB071B71C76CC490011B201 /* ViewController.swift in Sources */,
+				BC563DEC1D26A61100D505FF /* UILabelDeviceClass.swift in Sources */,
 				BCBFF50D1CA4D88500ACC9F5 /* parentCell.swift in Sources */,
 				BCF70BD81D0A476B00060F62 /* Utils.swift in Sources */,
 				BCC17B3B1D23C0CA0099C55F /* NotificationTableViewHeaderCell.swift in Sources */,

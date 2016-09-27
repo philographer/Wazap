@@ -59,12 +59,18 @@ class ContestsListViewController: UIViewController, UITabBarDelegate, UITableVie
     override func viewWillAppear(animated: Bool) {
         Alamofire.request(.GET, "http://come.n.get.us.to/weekly_list", parameters: ["amount" : 10], headers: header).responseJSON{
             response in
+            
+            print(response)
             if let responseVal = response.result.value{
                 let data = JSON(responseVal)
+                
+                print(data["msg"])
                 let json = data["data"]
                 self.contestList = json
                 //print(self.contestList)
                 self.tableView.reloadData()
+                
+                print(responseVal)
             }
         }
         

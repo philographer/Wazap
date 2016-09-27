@@ -402,8 +402,8 @@ class WriteViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         }else if(positions == ""){
             alertMessage("모집 직군를 입력해 주세요")
             return false
-        }else if(categories.count > 3){
-            alertMessage("카테고리는 3개 이하만 가능합니다.")
+        }else if(categories.count > 2){
+            alertMessage("카테고리는 2개 이하만 가능합니다.")
             return false
         }else if(categories.count == 0){
             alertMessage("카테고리는 하나 이상 선택해야 합니다.")

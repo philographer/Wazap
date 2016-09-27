@@ -20,8 +20,6 @@ class ScrapTableViewCell: UITableViewCell {
     @IBOutlet weak var secondCategoryLabel: UILabel!
     @IBOutlet weak var secondCategoryIconLeft: NSLayoutConstraint!
     @IBOutlet weak var secondCategoryLabelLeft: NSLayoutConstraint!
-    @IBOutlet weak var separatorLeft: NSLayoutConstraint!
-    @IBOutlet weak var separatorLeftSecond: NSLayoutConstraint!
     @IBOutlet weak var separator: UIView!
     @IBOutlet weak var endImage: UIImageView!
     @IBOutlet weak var recruitNumberLabel: UILabel!

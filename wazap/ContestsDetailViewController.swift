@@ -42,7 +42,7 @@ class ContestsDetailViewController: UIViewController {
         self.dateLabel.text = self.date
         self.benefitLabel.text = self.benefit
         self.prizeLabel.text = self.prize
-        self.homepageLabel.text = self.homepage
+        self.homepageLabel.text = "자세히 보기"
         self.imageView.kf_setImageWithURL(NSURL(string: self.image!)!)
         self.dueDayLabel.text = self.dueDay
         self.targetLabel.text = self.target
